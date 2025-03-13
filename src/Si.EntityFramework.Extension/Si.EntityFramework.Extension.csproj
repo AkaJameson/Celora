@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<Version>8.4.0</Version>
+		<Authors>Simon Jameson</Authors>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<PackageProjectUrl>https://github.com/AkaJameson/Si.EntityFramework.Extension.git</PackageProjectUrl>
+		<Copyright>
+			Copyright © 2022
+			<NAME>. All rights reserved.</NAME>
+		</Copyright>
+		<Description>A set of extension methods for Microsoft.EntityFrameworkCore. Project URL: https://github.com/AkaJameson/Si.EntityFramework.Extension.git</Description>
+	</PropertyGroup>
+	<ItemGroup>
+	  <Compile Remove="Si.EntityFramework.AutoMigration\**" />
+	  <EmbeddedResource Remove="Si.EntityFramework.AutoMigration\**" />
+	  <None Remove="Si.EntityFramework.AutoMigration\**" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.0" />
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+
+</Project>
