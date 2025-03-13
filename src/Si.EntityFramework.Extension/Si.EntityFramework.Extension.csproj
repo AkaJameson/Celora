@@ -15,14 +15,14 @@
 		<Description>A set of extension methods for Microsoft.EntityFrameworkCore. Project URL: https://github.com/AkaJameson/Si.EntityFramework.Extension.git</Description>
 	</PropertyGroup>
 	<ItemGroup>
-	  <Compile Remove="Si.EntityFramework.AutoMigration\**" />
-	  <EmbeddedResource Remove="Si.EntityFramework.AutoMigration\**" />
-	  <None Remove="Si.EntityFramework.AutoMigration\**" />
+		<Compile Remove="Si.EntityFramework.AutoMigration\**" />
+		<EmbeddedResource Remove="Si.EntityFramework.AutoMigration\**" />
+		<None Remove="Si.EntityFramework.AutoMigration\**" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.0" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore"/>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
 

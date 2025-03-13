@@ -1,3 +1,4 @@
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
@@ -7,6 +8,18 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.EntityFramework.Extension", "src\Si.EntityFramework.Extension\Si.EntityFramework.Extension.csproj", "{CFA36821-C797-5CF6-A4C7-16C1E43EC739}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.EntityFramework.IdentityServer", "src\Si.EntityFramework.IdentityServer\Si.EntityFramework.IdentityServer.csproj", "{35991715-D510-4907-B12A-7320EE28CA56}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.CoreHub", "src\Si.CoreHub\Si.CoreHub.csproj", "{A37D414A-257C-816C-3472-1B2117029E59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.Dapper.Sharding", "src\Si.Dapper.Sharding\Si.Dapper.Sharding.csproj", "{CBC468FC-0EFE-47DE-A435-623106C55E6E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Builder", "Builder", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.Utilites", "src\Si.Utilites\Si.Utilites.csproj", "{C8D1C28B-27F5-491D-8887-8FEC2E5E3718}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +39,18 @@ Global
 		{35991715-D510-4907-B12A-7320EE28CA56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35991715-D510-4907-B12A-7320EE28CA56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35991715-D510-4907-B12A-7320EE28CA56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A37D414A-257C-816C-3472-1B2117029E59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A37D414A-257C-816C-3472-1B2117029E59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A37D414A-257C-816C-3472-1B2117029E59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A37D414A-257C-816C-3472-1B2117029E59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBC468FC-0EFE-47DE-A435-623106C55E6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBC468FC-0EFE-47DE-A435-623106C55E6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBC468FC-0EFE-47DE-A435-623106C55E6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBC468FC-0EFE-47DE-A435-623106C55E6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8D1C28B-27F5-491D-8887-8FEC2E5E3718}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8D1C28B-27F5-491D-8887-8FEC2E5E3718}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8D1C28B-27F5-491D-8887-8FEC2E5E3718}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8D1C28B-27F5-491D-8887-8FEC2E5E3718}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

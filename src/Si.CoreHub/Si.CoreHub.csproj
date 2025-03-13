@@ -4,7 +4,6 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<BaseOutputPath>..\release</BaseOutputPath>
 		<PackageReadmeFile>Readme.md</PackageReadmeFile>
 		<PackageLicenseFile>License</PackageLicenseFile>
 		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
@@ -19,9 +18,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Logs\**" />
-	  <EmbeddedResource Remove="Logs\**" />
-	  <None Remove="Logs\**" />
+		<Compile Remove="Logs\**" />
+		<EmbeddedResource Remove="Logs\**" />
+		<None Remove="Logs\**" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -36,25 +35,25 @@
 		</EmbeddedResource>
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.DependencyModel" Version="8.0.0" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-		<PackageReference Include="Quartz" Version="3.13.1" />
-		<PackageReference Include="RabbitMQ.Client" Version="6.0.0" />
-		<PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
-		<PackageReference Include="Serilog.Settings.Configuration" Version="8.0.0" />
-		<PackageReference Include="Serilog.Sinks.Async" Version="2.1.0" />
-		<PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
-		<PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
-		<PackageReference Include="Serilog.Sinks.Seq" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyModel"  />
+		<PackageReference Include="Newtonsoft.Json" />
+		<PackageReference Include="Quartz"  />
+		<PackageReference Include="RabbitMQ.Client" />
+		<PackageReference Include="Serilog.AspNetCore"  />
+		<PackageReference Include="Serilog.Settings.Configuration"  />
+		<PackageReference Include="Serilog.Sinks.Async"  />
+		<PackageReference Include="Serilog.Sinks.Console"  />
+		<PackageReference Include="Serilog.Sinks.File"  />
+		<PackageReference Include="Serilog.Sinks.Seq"  />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Update="License">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
-	  <None Update="Readme.md">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
+		<None Update="License">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+		<None Update="Readme.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
 	</ItemGroup>
 </Project>
