@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.EntityFramework.AutoMigration", "src\Si.EntityFramework.AutoMigration\Si.EntityFramework.AutoMigration.csproj", "{790879FD-BE77-65C6-FF53-171FCF871A60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.EntityFramework.AutoMigration", "Si.EntityFramework.AutoMigration\Si.EntityFramework.AutoMigration.csproj", "{790879FD-BE77-65C6-FF53-171FCF871A60}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.EntityFramework.Extension", "src\Si.EntityFramework.Extension\Si.EntityFramework.Extension.csproj", "{CFA36821-C797-5CF6-A4C7-16C1E43EC739}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.EntityFramework.Extension", "Si.EntityFramework.Extension\Si.EntityFramework.Extension.csproj", "{CFA36821-C797-5CF6-A4C7-16C1E43EC739}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.EntityFramework.IdentityServer", "src\Si.EntityFramework.IdentityServer\Si.EntityFramework.IdentityServer.csproj", "{35991715-D510-4907-B12A-7320EE28CA56}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.EntityFramework.IdentityServer", "Si.EntityFramework.IdentityServer\Si.EntityFramework.IdentityServer.csproj", "{35991715-D510-4907-B12A-7320EE28CA56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.CoreHub", "src\Si.CoreHub\Si.CoreHub.csproj", "{A37D414A-257C-816C-3472-1B2117029E59}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.CoreHub", "Si.CoreHub\Si.CoreHub.csproj", "{A37D414A-257C-816C-3472-1B2117029E59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.Dapper.Sharding", "src\Si.Dapper.Sharding\Si.Dapper.Sharding.csproj", "{CBC468FC-0EFE-47DE-A435-623106C55E6E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.Dapper.Sharding", "Si.Dapper.Sharding\Si.Dapper.Sharding.csproj", "{CBC468FC-0EFE-47DE-A435-623106C55E6E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Builder", "Builder", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Builder", "Builder", "{02EA
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.Utilites", "src\Si.Utilites\Si.Utilites.csproj", "{C8D1C28B-27F5-491D-8887-8FEC2E5E3718}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.Utilites", "Si.Utilites\Si.Utilites.csproj", "{C8D1C28B-27F5-491D-8887-8FEC2E5E3718}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
