@@ -7,14 +7,14 @@ namespace Si.EntityFramework.IdentityServer.ServicesImpl
     /// <summary>
     /// 角色权限服务实现
     /// </summary>
-    public class RolePermissionService : IRolePermissionService
+    public class RolePermissionService<T> : IRolePermissionService<T> where T : DbContext, new()
     {
-        private readonly DbContext _dbContext;
+        private readonly T _dbContext;
 
         /// <summary>
         /// 构造函数
         /// </summary>
-        public RolePermissionService(DbContext dbContext)
+        public RolePermissionService(T dbContext)
         {
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }

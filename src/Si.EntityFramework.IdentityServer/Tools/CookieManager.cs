@@ -45,8 +45,10 @@ namespace Si.EntityFrame.IdentityServer.Tools
             // 创建认证数据
             var authData = new Dictionary<string, object>
             {
-                { "sub", user.Id.ToString() },
-                { "name", user.Account },
+                { "UserId", user.Id.ToString() },
+                { "Account",user.Account},
+                { "name", user.PersonnelInfo.Name??string.Empty },
+                { "Phone", user.PersonnelInfo.Phone??string.Empty },
                 { "security_stamp", user.SecurityStamp ?? Guid.NewGuid().ToString() },
                 { "exp", DateTimeOffset.UtcNow.Add(TimeSpan.FromMinutes(_settings.ExpirationMinutes)).ToUnixTimeSeconds() }
             };

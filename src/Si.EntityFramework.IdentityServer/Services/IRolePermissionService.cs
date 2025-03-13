@@ -1,11 +1,12 @@
-﻿using Si.EntityFrame.IdentityServer.Entitys;
+﻿using Microsoft.EntityFrameworkCore;
+using Si.EntityFrame.IdentityServer.Entitys;
 
 namespace Si.EntityFramework.IdentityServer.Services
 {
     /// <summary>
     /// 角色权限服务接口
     /// </summary>
-    public interface IRolePermissionService
+    public interface IRolePermissionService<T> where T : DbContext, new()
     {
         #region 角色管理
 

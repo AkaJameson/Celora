@@ -1,43 +1,40 @@
-﻿using Si.EntityFramework.IdentityServer.Entitys;
+﻿using Microsoft.EntityFrameworkCore;
+using Si.EntityFramework.IdentityServer.Entitys;
 using Si.EntityFramework.IdentityServer.Models;
 
-namespace Si.EntityFramework.IdentityServer.Services
+namespace Si.EntityFramework.IdentityServer.ServicesImpl
 {
-    public interface IUserRefreshTokenService
+    public interface IUserRefreshTokenService<T> where T :DbContext, new()
     {
+        /// <summary>
+        /// 清除所有过期Token
+        /// </summary>
+        /// <returns></returns>
+        Task<int> CleanupExpiredTokensAsync();
         /// <summary>
         /// 创建令牌
         /// </summary>
-        Task<UserRefreshTokens> CreateTokenAsync(int userId,string accessToken,string refreshToken);
-
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<TokenInfo> CreateTokenAsync(int userId);
         /// <summary>
-        /// 验证刷新令牌
+        /// 获取用户的Token凭证信息
         /// </summary>
-        Task<RefreshTokenValidationResult> ValidateRefreshTokenAsync(string token, string device = null, string ipAddress = null);
-
-        /// <summary>
-        /// 使用刷新令牌并生成新的刷新令牌
-        /// </summary>
-        Task<UserRefreshTokens> UseRefreshTokenAsync(string token, string newJwtId, string device = null, string ipAddress = null);
-
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<UserRefreshTokens> GetUserActiveTokensAsync(int userId);
         /// <summary>
         /// 撤销令牌
         /// </summary>
-        Task<bool> RevokeTokenAsync(string token, string reason = null);
-
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<bool> RevokeTokenAsync(int userId);
         /// <summary>
-        /// 撤销用户的所有令牌
+        /// 刷新令牌
         /// </summary>
-        Task<int> RevokeUserTokensAsync(int userId);
-
-        /// <summary>
-        /// 清理过期的令牌
-        /// </summary>
-        Task<int> CleanupExpiredTokensAsync();
-
-        /// <summary>
-        /// 获取用户的所有有效令牌
-        /// </summary>
-        Task<IEnumerable<UserRefreshTokens>> GetUserActiveTokensAsync(Guid userId);
+        /// <param name="userId"></param>
+        /// <param name="refreshToken"></param>
+        /// <returns></returns>
+        Task<TokenInfo> UseRefreshTokenAsync(int userId, string refreshToken);
     }
 }

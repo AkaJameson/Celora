@@ -66,13 +66,13 @@ namespace Si.EntityFrame.IdentityServer.Tools
         {
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
-
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString()),
-                new Claim("name", user.Account),
-                new Claim("security_stamp", user.SecurityStamp ?? Guid.NewGuid().ToString())
+                new Claim("UserId", user.Id.ToString()),
+                new Claim("Account", user.Account),
+                new Claim("Name",user.PersonnelInfo.Name??string.Empty),
+                new Claim("Phone",user.PersonnelInfo.Phone??string.Empty),
+                new Claim("security_stamp", user.SecurityStamp ?? Guid.NewGuid().ToString()),
             };
 
             // 添加角色声明
@@ -184,41 +184,13 @@ namespace Si.EntityFrame.IdentityServer.Tools
             }
         }
         /// <summary>
-        /// 刷新JWT令牌
+        /// 获取token过期时间
         /// </summary>
-        /// <param name="token">原JWT令牌</param>
-        /// <returns>新的JWT令牌，原令牌失效则返回null</returns>
-        public string RefreshToken(string token)
+        /// <returns></returns>
+        public TimeSpan GetExpireTime()
         {
-            // 验证原令牌
-            var principal = ValidateToken(token);
-            if (principal == null)
-                return null;
-
-            // 获取原令牌的声明
-            var userId = principal.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
-            var username = principal.FindFirst("name")?.Value;
-            var securityStamp = principal.FindFirst("security_stamp")?.Value;
-
-            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(username))
-                return null;
-
-            // 创建用户对象
-            var user = new User
-            {
-                Id = int.Parse(userId),
-                Account = username,
-                SecurityStamp = securityStamp
-            };
-
-            // 获取角色和权限
-            var roles = principal.FindAll(ClaimTypes.Role).Select(c => c.Value);
-            var permissions = principal.FindAll("permission").Select(c => c.Value);
-
-            // 生成新令牌
-            return GenerateToken(user, roles, permissions);
+            return new TimeSpan(0, _settings.ExpirationMinutes, 0);
         }
-
         /// <summary>
         /// 生成刷新令牌
         /// </summary>

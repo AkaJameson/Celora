@@ -10,5 +10,10 @@
         /// 刷新令牌
         /// </summary>
         public string RefreshToken { get; set; }
+
+        /// <summary>
+        /// 过期时间
+        /// </summary>
+        public long ExpireTime { get; set; }
     }
 }

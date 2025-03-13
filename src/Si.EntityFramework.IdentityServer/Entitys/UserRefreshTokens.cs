@@ -9,10 +9,6 @@ namespace Si.EntityFramework.IdentityServer.Entitys
         /// </summary>
         public int Id { get; set; }
         /// <summary>
-        /// Token
-        /// </summary>
-        public string AssessToken { get; set; }
-        /// <summary>
         /// 刷新Token
         /// </summary>
         public string RefreshToken { get; set; }
@@ -28,9 +24,5 @@ namespace Si.EntityFramework.IdentityServer.Entitys
         /// 过期时间
         /// </summary>
         public DateTime ExpiryTime { get; set; }
-        /// <summary>
-        /// ip地址
-        /// </summary>
-        public string IpAddress { get; set; }
     }
 }
