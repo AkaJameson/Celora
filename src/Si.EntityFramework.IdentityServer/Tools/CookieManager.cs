@@ -153,17 +153,25 @@ namespace Si.EntityFrame.IdentityServer.Tools
                 // 创建声明
                 var claims = new List<Claim>();
 
-                // 添加基本声明
-                if (authData.TryGetValue("sub", out var subElement) &&
-                    subElement.ValueKind == JsonValueKind.String)
+                if (authData.TryGetValue("UserId", out var UserId) &&
+                   UserId.ValueKind == JsonValueKind.String)
                 {
-                    claims.Add(new Claim(ClaimTypes.NameIdentifier, subElement.GetString()));
+                    claims.Add(new Claim("UserId", UserId.GetString()));
                 }
-
-                if (authData.TryGetValue("name", out var nameElement) &&
-                    nameElement.ValueKind == JsonValueKind.String)
+                if (authData.TryGetValue("Account", out var Account) &&
+                 Account.ValueKind == JsonValueKind.String)
                 {
-                    claims.Add(new Claim(ClaimTypes.Name, nameElement.GetString()));
+                    claims.Add(new Claim("Account", Account.GetString()));
+                }
+                if (authData.TryGetValue("name", out var name) &&
+                 name.ValueKind == JsonValueKind.String)
+                {
+                    claims.Add(new Claim("name", UserId.GetString()));
+                }
+                if (authData.TryGetValue("Phone", out var Phone) &&
+                    Phone.ValueKind == JsonValueKind.String)
+                {
+                    claims.Add(new Claim("Phone", Phone.GetString()));
                 }
 
                 if (authData.TryGetValue("security_stamp", out var stampElement) &&
@@ -184,7 +192,6 @@ namespace Si.EntityFrame.IdentityServer.Tools
                         }
                     }
                 }
-
                 // 添加权限声明
                 if (authData.TryGetValue("permissions", out var permsElement) &&
                     permsElement.ValueKind == JsonValueKind.Array)

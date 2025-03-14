@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
 using Si.EntityFrame.IdentityServer.Entitys;
 using Si.EntityFramework.IdentityServer.Configuration;
@@ -70,7 +71,7 @@ namespace Si.EntityFrame.IdentityServer.Tools
             {
                 new Claim("UserId", user.Id.ToString()),
                 new Claim("Account", user.Account),
-                new Claim("Name",user.PersonnelInfo.Name??string.Empty),
+                new Claim("name",user.PersonnelInfo.Name??string.Empty),
                 new Claim("Phone",user.PersonnelInfo.Phone??string.Empty),
                 new Claim("security_stamp", user.SecurityStamp ?? Guid.NewGuid().ToString()),
             };
@@ -204,5 +205,6 @@ namespace Si.EntityFrame.IdentityServer.Tools
                 return Convert.ToBase64String(randomBytes);
             }
         }
+        
     }
 }

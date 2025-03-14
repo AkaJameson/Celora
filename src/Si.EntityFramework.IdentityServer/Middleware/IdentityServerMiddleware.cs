@@ -2,6 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using Si.EntityFrame.IdentityServer.Tools;
 using Si.EntityFramework.IdentityServer.Configuration;
+using Si.EntityFramework.IdentityServer.Extensions;
+using Si.EntityFramework.IdentityServer.Models;
+using System.Security.Claims;
 
 namespace Si.EntityFramework.IdentityServer.Middleware
 {
@@ -23,6 +26,7 @@ namespace Si.EntityFramework.IdentityServer.Middleware
             }
             else
             {
+                var session = context.RequestServices.GetRequiredService<Session>();
                 switch (options.AuthorizationType)
                 {
                     case AuthorizationType.Jwt:
@@ -34,12 +38,31 @@ namespace Si.EntityFramework.IdentityServer.Middleware
                                 await context.Response.WriteAsync("401 UnAuthorize");
                                 return;
                             }
-                            
+                            var principals = context.GetPrincipalFromAuthorizationHeader(jwtManager);
+                            session.userId = int.TryParse(principals.FindFirst("UserId").Value, out var userId) ? userId : 0;
+                            session.Account = principals.FindFirst("Account").Value ?? string.Empty;
+                            session.Name = principals.FindFirst("name").Value?? string.Empty;
+                            session.Phone = principals.FindFirst("Phone").Value ?? string.Empty;
+                            session.Roles = principals.FindAll(ClaimTypes.Role).Select(p => p.Value).AsEnumerable();
+                            session.Permissions = principals.FindAll("permission").Select(p=> p.Value).AsEnumerable();
                             break;
                         }
                     case AuthorizationType.Cookies:
                         {
-
+                            var cookiesManage = context.RequestServices.GetRequiredService<CookieManager>();
+                            if (cookiesManage == null)
+                            {
+                                context.Response.StatusCode = 401;
+                                await context.Response.WriteAsync("401 UnAuthorize");
+                                return;
+                            }
+                            var principals = cookiesManage.GetPrincipalFromCookie(context);
+                            session.userId = int.TryParse(principals.FindFirst("UserId").Value, out var userId) ? userId : 0;
+                            session.Account = principals.FindFirst("Account").Value ?? string.Empty;
+                            session.Name = principals.FindFirst("name").Value ?? string.Empty;
+                            session.Phone = principals.FindFirst("Phone").Value ?? string.Empty;
+                            session.Roles = principals.FindAll(ClaimTypes.Role).Select(p => p.Value).AsEnumerable();
+                            session.Permissions = principals.FindAll("permission").Select(p => p.Value).AsEnumerable();
                             break;
                         }
                 }

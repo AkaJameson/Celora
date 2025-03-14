@@ -21,10 +21,10 @@
         /// <summary>
         /// 用户角色
         /// </summary>
-        public List<string> Roles { get; set; }
+        public IEnumerable<string> Roles { get; set; }
         /// <summary>
         /// 用户权限
         /// </summary>
-        public List<string> Permissions { get; set; }
+        public IEnumerable<string> Permissions { get; set; }
     }
 }
