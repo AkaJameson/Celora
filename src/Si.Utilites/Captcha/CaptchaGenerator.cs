@@ -1,4 +1,4 @@
-﻿using PaperTrail.Utilities.Captcha.Entitys;
+﻿using Si.Utilites.Captcha.Entitys;
 using SkiaSharp;
 
 public class CaptchaGenerator

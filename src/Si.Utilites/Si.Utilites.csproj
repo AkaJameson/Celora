@@ -8,7 +8,7 @@
 
 	<ItemGroup>
 		<Folder Include="Captcha\" />
-		<PackageReference Include="iTextSharp"/>
+		<PackageReference Include="iTextSharp" />
 		<PackageReference Include="Microsoft.Extensions.Caching.Abstractions" />
 		<PackageReference Include="SkiaSharp" />
 		<PackageReference Include="SkiaSharp.NativeAssets.Linux" />

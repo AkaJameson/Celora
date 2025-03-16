@@ -1,4 +1,4 @@
-﻿namespace PaperTrail.Utilities.Captcha.Entitys
+﻿namespace Si.Utilites.Captcha.Entitys
 {
     public class CaptchaResult
     {

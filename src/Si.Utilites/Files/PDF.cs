@@ -1,7 +1,7 @@
 ﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
 
-namespace Si.Utilites.File
+namespace Si.Utilites.Files
 {
     // <summary>
     /// PDF文档操作类

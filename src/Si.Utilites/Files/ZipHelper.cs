@@ -1,7 +1,7 @@
 using Ionic.Zip;
 using System.Text;
 
-namespace Si.Utilites.File;
+namespace Si.Utilites.Files;
 
 public static class ZipHelper
 {
@@ -13,11 +13,11 @@ public static class ZipHelper
     /// <param name="password">密码（可选）</param>
     public static void Compress(string sourcePath, string zipPath, string? password = null)
     {
-        if (System.IO.Directory.Exists(sourcePath))
+        if (Directory.Exists(sourcePath))
         {
             CompressDirectory(sourcePath, zipPath, password);
         }
-        else if (System.IO.File.Exists(sourcePath))
+        else if (File.Exists(sourcePath))
         {
             CompressFile(sourcePath, zipPath, password);
         }
@@ -35,13 +35,13 @@ public static class ZipHelper
     /// <param name="password">密码（可选）</param>
     public static void Decompress(string zipPath, string extractPath, string? password = null)
     {
-        if (!System.IO.File.Exists(zipPath))
+        if (!File.Exists(zipPath))
         {
             throw new FileNotFoundException("ZIP文件不存在", zipPath);
         }
 
         // 确保目标目录存在
-        System.IO.Directory.CreateDirectory(extractPath);
+        Directory.CreateDirectory(extractPath);
 
         using var zip = new ZipFile(zipPath);
         if (!string.IsNullOrEmpty(password))
@@ -62,7 +62,7 @@ public static class ZipHelper
             zip.Password = password;
         }
 
-        var files = System.IO.Directory.GetFiles(sourceDir, "*.*", SearchOption.AllDirectories);
+        var files = Directory.GetFiles(sourceDir, "*.*", SearchOption.AllDirectories);
         foreach (var file in files)
         {
             var relativePath = Path.GetRelativePath(sourceDir, file);

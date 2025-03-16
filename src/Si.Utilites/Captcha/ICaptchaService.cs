@@ -1,6 +1,6 @@
-﻿using PaperTrail.Utilities.Captcha.Entitys;
+﻿using Si.Utilites.Captcha.Entitys;
 
-namespace PaperTrail.Utilities.Captcha
+namespace Si.Utilites.Captcha
 {
     public interface ICaptchaService
     {

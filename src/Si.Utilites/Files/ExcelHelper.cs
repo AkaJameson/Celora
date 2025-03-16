@@ -3,7 +3,7 @@ using NPOI.XSSF.UserModel;
 using NPOI.HSSF.UserModel;
 using System.Data;
 
-namespace Si.Utilites.File;
+namespace Si.Utilites.Files;
 
 public static class ExcelHelper
 {

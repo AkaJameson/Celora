@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace PaperTrail.Utilities.Captcha
+namespace Si.Utilites.Captcha
 {
     public static class CaptchaExtension
     {

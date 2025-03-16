@@ -3,7 +3,7 @@ using CsvHelper.Configuration;
 using System.Data;
 using System.Globalization;
 
-namespace Si.Utilites.File;
+namespace Si.Utilites.Files;
 
 public static class CsvHelper
 {

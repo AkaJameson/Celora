@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Si.Utilites.File
+namespace Si.Utilites.Files
 {
     public class INIFile
     {
@@ -20,7 +20,7 @@ namespace Si.Utilites.File
 
 
         [DllImport("kernel32")]
-        private static extern int GetPrivateProfileString(string section, string key, string defVal, Byte[] retVal, int size, string filePath);
+        private static extern int GetPrivateProfileString(string section, string key, string defVal, byte[] retVal, int size, string filePath);
 
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Si.Utilites.File
         /// <param name="Value"></param>
         public void IniWriteValue(string Section, string Key, string Value)
         {
-            WritePrivateProfileString(Section, Key, Value, this.path);
+            WritePrivateProfileString(Section, Key, Value, path);
         }
 
         /// <summary>
@@ -43,13 +43,13 @@ namespace Si.Utilites.File
         public string IniReadValue(string Section, string Key)
         {
             StringBuilder temp = new StringBuilder(255);
-            int i = GetPrivateProfileString(Section, Key, "", temp, 255, this.path);
+            int i = GetPrivateProfileString(Section, Key, "", temp, 255, path);
             return temp.ToString();
         }
         public byte[] IniReadValues(string section, string key)
         {
             byte[] temp = new byte[255];
-            int i = GetPrivateProfileString(section, key, "", temp, 255, this.path);
+            int i = GetPrivateProfileString(section, key, "", temp, 255, path);
             return temp;
 
         }
