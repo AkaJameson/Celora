@@ -8,12 +8,12 @@
 
 	<ItemGroup>
 		<Folder Include="Captcha\" />
-		<PackageReference Include="iTextSharp" />
 		<PackageReference Include="Microsoft.Extensions.Caching.Abstractions" />
+		<PackageReference Include="Newtonsoft.Json" />
+		<PackageReference Include="ProDotNetZip" />
 		<PackageReference Include="SkiaSharp" />
 		<PackageReference Include="SkiaSharp.NativeAssets.Linux" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
-		<PackageReference Include="DotNetZip" />
 		<PackageReference Include="NPOI" />
 		<PackageReference Include="CsvHelper" />
 	</ItemGroup>

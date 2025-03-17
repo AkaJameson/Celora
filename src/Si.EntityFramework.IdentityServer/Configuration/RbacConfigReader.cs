@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Si.EntityFrame.IdentityServer.Entitys;
+using Si.EntityFramework.IdentityServer.Extensions;
 using System.Xml.Linq;
 
 namespace Si.EntityFramework.IdentityServer.Configuration
@@ -21,7 +22,7 @@ namespace Si.EntityFramework.IdentityServer.Configuration
         /// </summary>
         /// <param name="xmlFilePath">XML文件路径</param>
         /// <returns>初始化是否成功</returns>
-        public async Task<bool> InitializeFromXmlAsync(string xmlFilePath)
+        public async Task<bool> InitializeFromXmlAsync(string xmlFilePath, InitMode mode)
         {
             if (!File.Exists(xmlFilePath))
             {
@@ -38,8 +39,19 @@ namespace Si.EntityFramework.IdentityServer.Configuration
                     throw new InvalidOperationException("XML文件格式不正确，缺少Rbac根元素");
                 }
 
-                // 清空现有权限和角色
-                await ClearExistingDataAsync();
+                if (mode == InitMode.R)
+                {
+                    // 清空现有权限和角色
+                    await ClearExistingDataAsync();
+
+                }
+                else if (mode == InitMode.F)
+                {
+                    if (!await ExistRolePermission())
+                    {
+                        return true;
+                    }
+                }
 
                 // 读取并创建权限
                 var permissionsDict = await CreatePermissionsAsync(rbacElement);
@@ -48,12 +60,22 @@ namespace Si.EntityFramework.IdentityServer.Configuration
                 await CreateRolesAsync(rbacElement, permissionsDict);
 
                 await _dbContext.SaveChangesAsync();
+
+
                 return true;
             }
             catch (Exception ex)
             {
                 throw new Exception($"初始化RBAC配置失败: {ex.Message}", ex);
             }
+        }
+
+
+        public async Task<bool> ExistRolePermission()
+        {
+            var count = await _dbContext.Set<Role>().CountAsync();
+            return count > 0;
+
         }
 
         /// <summary>

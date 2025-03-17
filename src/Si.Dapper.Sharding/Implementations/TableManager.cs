@@ -25,7 +25,7 @@ namespace Si.Dapper.Sharding.Implementations
         /// <param name="databaseConfigs">数据库配置</param>
         /// <param name="logger">日志记录器</param>
         public TableManager(
-            IDbConnectionFactory connectionFactory, 
+            IDbConnectionFactory connectionFactory,
             Dictionary<string, DatabaseConfig> databaseConfigs,
             ILogger<TableManager> logger = null)
         {
@@ -108,7 +108,7 @@ namespace Si.Dapper.Sharding.Implementations
                 await Task.Run(() => connection.Open());
 
                 var sql = tableDefinition.GenerateCreateTableSql(tableName, dbConfig.DbType);
-                await connection.ExecuteAsync(sql);
+                connection.Execute(sql);
 
                 InvalidateTableCache(dbName);
                 return true;
@@ -168,10 +168,10 @@ namespace Si.Dapper.Sharding.Implementations
                 connection.Open();
 
                 var result = QueryAllTables(connection, dbConfig.DbType);
-                
+
                 // 缓存表名
                 _tableCache[dbName] = new HashSet<string>(result);
-                
+
                 return result;
             }
             catch (Exception ex)
@@ -203,10 +203,10 @@ namespace Si.Dapper.Sharding.Implementations
                 await Task.Run(() => connection.Open());
 
                 var result = await QueryAllTablesAsync(connection, dbConfig.DbType);
-                
+
                 // 缓存表名
                 _tableCache[dbName] = new HashSet<string>(result);
-                
+
                 return result;
             }
             catch (Exception ex)
@@ -215,7 +215,7 @@ namespace Si.Dapper.Sharding.Implementations
                 return Enumerable.Empty<string>();
             }
         }
-        
+
         /// <summary>
         /// 使表缓存失效
         /// </summary>
@@ -280,4 +280,4 @@ namespace Si.Dapper.Sharding.Implementations
             }
         }
     }
-} 
+}

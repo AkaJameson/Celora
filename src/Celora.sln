@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.Utilites", "Si.Utilites\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.DataAcquisition", "Si.DataAcquisition\Si.DataAcquisition.csproj", "{824EB42F-5B12-44FF-8ECA-BA26771EE317}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.DomainToolkit", "Si.DomainToolkit\Si.DomainToolkit.csproj", "{224E5986-680A-4EA9-B4B0-70080C8DF142}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{824EB42F-5B12-44FF-8ECA-BA26771EE317}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{824EB42F-5B12-44FF-8ECA-BA26771EE317}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{824EB42F-5B12-44FF-8ECA-BA26771EE317}.Release|Any CPU.Build.0 = Release|Any CPU
+		{224E5986-680A-4EA9-B4B0-70080C8DF142}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{224E5986-680A-4EA9-B4B0-70080C8DF142}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{224E5986-680A-4EA9-B4B0-70080C8DF142}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{224E5986-680A-4EA9-B4B0-70080C8DF142}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

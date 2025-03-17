@@ -45,5 +45,33 @@ namespace Si.EntityFramework.IdentityServer.Extensions
         {
             app.UseMiddleware<IdentityServerMiddleware>();
         }
+        /// <summary>
+        /// 初始化权限
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        /// <param name="configPath"></param>
+        /// <param name="mode"></param>
+        /// <returns></returns>
+        public static async Task InitIdentityServer(this IServiceProvider serviceProvider, string configPath, InitMode mode)
+        {
+            var configReader = serviceProvider.GetRequiredService<RbacConfigReader>();
+
+            await configReader.InitializeFromXmlAsync(configPath, mode);
+        }
+    }
+    /// <summary>
+    /// 权限初始化
+    /// </summary>
+    public enum InitMode
+    {
+        /// <summary>
+        /// 首次启动配置
+        /// </summary>
+        F,
+        /// <summary>
+        /// 重置
+        /// </summary>
+        R
+
     }
 }

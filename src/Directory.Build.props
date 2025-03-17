@@ -39,9 +39,8 @@
 		<PackageVersion Include="Npgsql" Version="8.0.3" />
 		<PackageVersion Include="SkiaSharp.NativeAssets.Linux" Version="3.116.0" />
 		<PackageVersion Include="SkiaSharp" Version="3.116.0" />
-		<PackageVersion Include="DotNetZip" Version="1.16.0" />
+		<PackageVersion Include="ProDotNetZip" Version="1.20.0" />
 		<PackageVersion Include="NPOI" Version="2.6.2" />
 		<PackageVersion Include="CsvHelper" Version="31.0.0" />
-		<PackageVersion Include="iTextSharp" Version="5.5.13.4" />
 	</ItemGroup>
 </Project>
