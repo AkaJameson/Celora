@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.DataAcquisition", "Si.Da
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.DomainToolkit", "Si.DomainToolkit\Si.DomainToolkit.csproj", "{224E5986-680A-4EA9-B4B0-70080C8DF142}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.AspNetCore.Consul.Extension", "Si.AspNetCore.Consul.Extension\Si.AspNetCore.Consul.Extension.csproj", "{18B4755E-DCC0-4255-B825-C7716D0916D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{224E5986-680A-4EA9-B4B0-70080C8DF142}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{224E5986-680A-4EA9-B4B0-70080C8DF142}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{224E5986-680A-4EA9-B4B0-70080C8DF142}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18B4755E-DCC0-4255-B825-C7716D0916D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18B4755E-DCC0-4255-B825-C7716D0916D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18B4755E-DCC0-4255-B825-C7716D0916D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18B4755E-DCC0-4255-B825-C7716D0916D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
