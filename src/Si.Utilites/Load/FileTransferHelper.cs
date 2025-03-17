@@ -2,7 +2,7 @@ using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography;
 
-namespace Si.Utilites.Files;
+namespace Si.Utilites.Load;
 
 /// <summary>
 /// 文件传输进度事件参数

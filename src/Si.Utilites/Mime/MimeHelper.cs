@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 
-namespace Si.Utilites.Files;
+namespace Si.Utilites.Mime;
 
 /// <summary>
 /// MIME类型工具类
