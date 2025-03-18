@@ -73,10 +73,8 @@ namespace Si.CoreHub.Package.Core
                 // 调用模块的服务配置方法
                 packInstance.ConfigurationServices(builder, builder.Services);
 
-                /*// 预加载模块的本地化资源
-                LocalizerManager.LoadModuleResources(moduleInfo);*/
-
                 LogCenter.Write2Log(Loglevel.Info, $"成功加载模块 {moduleInfo.AssemblyName}");
+
                 moduleInfo.IsLoaded = true;
             }
             catch (Exception ex)
@@ -115,7 +113,7 @@ namespace Si.CoreHub.Package.Core
             }
             catch (Exception ex)
             {
-                LogCenter.Write2Log(Loglevel.Error, $"加载模块 {moduleInfo.AssemblyName} 的配置文件失败: {ex.Message}");
+                LogCenter.Write2Log(Loglevel.Error, $"加载模块 {moduleInfo.AssemblyName} 的配置文件失败: {ex.ToString()}");
                 throw;
             }
         }
@@ -138,7 +136,7 @@ namespace Si.CoreHub.Package.Core
                 }
                 catch (Exception ex)
                 {
-                    LogCenter.Write2Log(Loglevel.Error, $"配置模块 {packInstance.Name} 失败: {ex.Message}");
+                    LogCenter.Write2Log(Loglevel.Error, $"配置模块 {packInstance.Name} 失败: {ex.ToString()}");
                 }
             }
 
@@ -152,7 +150,7 @@ namespace Si.CoreHub.Package.Core
                 }
                 catch (Exception ex)
                 {
-                    LogCenter.Write2Log(Loglevel.Error, $"启动模块 {packInstance.Name} 失败: {ex.Message}");
+                    LogCenter.Write2Log(Loglevel.Error, $"启动模块 {packInstance.Name} 失败: {ex.ToString()}");
                 }
             }
         }
@@ -227,7 +225,7 @@ namespace Si.CoreHub.Package.Core
                 }
                 catch (Exception ex)
                 {
-                    LogCenter.Write2Log(Loglevel.Error, $"关闭模块 {packInstance.Name} 失败: {ex.Message}");
+                    LogCenter.Write2Log(Loglevel.Error, $"关闭模块 {packInstance.Name} 失败: {ex.ToString()}");
                 }
             }
 

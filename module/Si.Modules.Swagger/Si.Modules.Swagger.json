@@ -1,0 +1,8 @@
+{
+  "RoutePrefix": "swagger",
+  "DocumentTitle": "API½Ó¿ÚÎÄµµ",
+  "OpenApiLicense": {
+    "Name": "MIT License",
+    "Url": "https://opensource.org/licenses/MIT"
+  }
+}

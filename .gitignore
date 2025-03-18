@@ -2,16 +2,8 @@
 .vs/
 */**/.vs/
 */.vs/
-# 递归忽略 src 目录下所有解决方案的 bin 文件夹
-src/**/bin/
+# 递归忽略 * 目录下所有解决方案的 bin 文件夹
+*/**/bin/
 
-# 递归忽略 src 目录下所有解决方案的 obj 文件夹
-src/**/obj/
-
-# 递归忽略 Modules 目录下所有解决方案的 bin 文件夹
-Modules/**/bin/
-
-# 递归忽略 Modules 目录下所有解决方案的 obj 文件夹
-Modules/**/obj/
-
-# 忽略 Visual Studio 生成的临时文件夹
+# 递归忽略 * 目录下所有解决方案的 obj 文件夹
+*/**/obj/

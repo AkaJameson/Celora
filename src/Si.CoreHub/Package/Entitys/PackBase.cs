@@ -30,7 +30,10 @@ namespace Si.CoreHub.Package.Entitys
         /// 模块作者
         /// </summary>
         public virtual string Author => "";
-
+        /// <summary>
+        /// 联系方式
+        /// </summary>
+        public virtual string Contact => "";
         /// <summary>
         /// 模块初始化，此时模块正在准备加载
         /// </summary>

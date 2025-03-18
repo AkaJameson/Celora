@@ -11,7 +11,7 @@
 		<RepositoryType>git</RepositoryType>
 		<PackageProjectUrl>https://github.com/AkaJameson/Si.CoreHub</PackageProjectUrl>
 		<Authors>xinjingjue</Authors>
-		<Version>1.0.9</Version>
+		<Version>1.1.0</Version>
 		<Description>A component for Si.WebAPI</Description>
 		<Copyright>Copyright © xinjingjue 2022</Copyright>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
