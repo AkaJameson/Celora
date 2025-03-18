@@ -1,12 +1,13 @@
 using System.Security.Cryptography;
 using System.Text;
+using Si.EntityFramework.IdentityServer.Services;
 
-namespace Si.EntityFrame.IdentityServer.Tools
+namespace Si.EntityFramework.IdentityServer.ServicesImpl
 {
     /// <summary>
     /// 密码哈希工具
     /// </summary>
-    public class StringHasher
+    public class StringHasher : IStringHasher
     {
         private const int SaltSize = 16; // 128 bits
         private const int KeySize = 32; // 256 bits
@@ -26,7 +27,7 @@ namespace Si.EntityFrame.IdentityServer.Tools
 
             // 生成随机盐值
             var salt = RandomNumberGenerator.GetBytes(SaltSize);
-            
+
             // 使用PBKDF2算法生成哈希
             var hash = Rfc2898DeriveBytes.Pbkdf2(
                 Encoding.UTF8.GetBytes(msg),
@@ -54,7 +55,7 @@ namespace Si.EntityFrame.IdentityServer.Tools
         {
             if (string.IsNullOrEmpty(hashString))
                 throw new ArgumentException("哈希密码不能为空", nameof(hashString));
-            
+
             if (string.IsNullOrEmpty(@string))
                 throw new ArgumentException("密码不能为空", nameof(@string));
 
@@ -144,4 +145,4 @@ namespace Si.EntityFrame.IdentityServer.Tools
             return string.Join(';', historyItems);
         }
     }
-} 
+}

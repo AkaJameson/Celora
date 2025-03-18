@@ -22,9 +22,5 @@
         /// 用户角色
         /// </summary>
         public IEnumerable<string> Roles { get; set; }
-        /// <summary>
-        /// 用户权限
-        /// </summary>
-        public IEnumerable<string> Permissions { get; set; }
     }
 }

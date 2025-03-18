@@ -1,6 +1,4 @@
-﻿using Si.EntityFramework.IdentityServer.Entitys;
-
-namespace Si.EntityFrame.IdentityServer.Entitys
+﻿namespace Si.EntityFrame.IdentityServer.Entitys
 {
     public class User
     {
@@ -41,10 +39,6 @@ namespace Si.EntityFrame.IdentityServer.Entitys
         /// 用户角色
         /// </summary>
         public virtual IList<Role> Roles { get; set; }
-        /// <summary>
-        /// 令牌
-        /// </summary>
-        public virtual IList<UserRefreshTokens> UserRefreshTokens { get; set; }
         /// <summary>
         /// 用户信息
         /// </summary>

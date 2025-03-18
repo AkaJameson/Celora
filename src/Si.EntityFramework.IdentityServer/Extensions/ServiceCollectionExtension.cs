@@ -1,49 +1,44 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Si.EntityFrame.IdentityServer.Tools;
+using Microsoft.IdentityModel.Tokens;
 using Si.EntityFramework.IdentityServer.Configuration;
 using Si.EntityFramework.IdentityServer.Middleware;
 using Si.EntityFramework.IdentityServer.Models;
 using Si.EntityFramework.IdentityServer.Services;
 using Si.EntityFramework.IdentityServer.ServicesImpl;
+using System.Text;
 
 namespace Si.EntityFramework.IdentityServer.Extensions
 {
     public static class ServiceCollectionExtension
     {
-        public static void AddSiIdentityServer(this IServiceCollection services
-            , Action<IdentityOptions> configure = null)
+        public static void AddIdentityServer(this IServiceCollection services,Action<JwtSettings> config)
         {
-            var options = new IdentityOptions();
-            configure?.Invoke(options);
+            var jwtSetting = new JwtSettings();
+            config(jwtSetting);
+            services.AddSingleton(jwtSetting);
             services.AddScoped<RbacConfigReader>();
-            services.AddSingleton(options);
             services.AddScoped<Session>();
-            if(options.AuthorizationType == AuthorizationType.Jwt)
-            {
-                services.AddSingleton(provider =>
-                {
-                    return new JwtManager(options.JwtSettings);
-                });
-            }
-            else
-            {
-                // 注册Cookie管理器
-                services.AddSingleton(provider =>
-                {
-                    return new CookieManager(options.CookieSettings);
-                });
-            }
             services.AddScoped(typeof(IRolePermissionService<>), typeof(RolePermissionService<>));
-            services.AddScoped(typeof(IUserRefreshTokenService<>), typeof(UserRefreshTokenService<>));
-        }
-        /// <summary>
-        /// 用户信息查询
-        /// </summary>
-        /// <param name="app"></param>
-        public static void UseSession(this WebApplication app)
-        {
-            app.UseMiddleware<IdentityServerMiddleware>();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.RequireHttpsMetadata = false; // 是否要求使用 https
+                options.SaveToken = false;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+
+                    ValidIssuer = jwtSetting.Issuer,
+                    ValidAudience = jwtSetting.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSetting.SecretKey)),
+                    ClockSkew = TimeSpan.Zero // 可以设置允许的时间误差
+                };
+            });
+            services.AddAuthorization();
         }
         /// <summary>
         /// 初始化权限
@@ -52,11 +47,11 @@ namespace Si.EntityFramework.IdentityServer.Extensions
         /// <param name="configPath"></param>
         /// <param name="mode"></param>
         /// <returns></returns>
-        public static async Task InitIdentityServer(this IServiceProvider serviceProvider, string configPath, InitMode mode)
+        public static async Task UseIdentityServer(this IApplicationBuilder app, string configPath, InitMode mode)
         {
-            var configReader = serviceProvider.GetRequiredService<RbacConfigReader>();
-
-            await configReader.InitializeFromXmlAsync(configPath, mode);
+            app.UseAuthentication();
+            app.UseAuthorization();
+            app.UseMiddleware<SessionsMiddleware>();
         }
     }
     /// <summary>
