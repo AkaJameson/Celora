@@ -11,17 +11,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="README.md" Pack="true" PackagePath="\" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<!-- 核心包 -->
-		<PackageReference Include="Microsoft.EntityFrameworkCore"  />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
 		<!-- 数据库驱动(可选依赖) -->
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
-		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"  />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
 		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" />
 	</ItemGroup>
 </Project>

@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.EntityFramework.Extensio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.EntityFramework.IdentityServer", "Si.EntityFramework.IdentityServer\Si.EntityFramework.IdentityServer.csproj", "{35991715-D510-4907-B12A-7320EE28CA56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.CoreHub", "Si.CoreHub\Si.CoreHub.csproj", "{A37D414A-257C-816C-3472-1B2117029E59}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.Dapper.Sharding", "Si.Dapper.Sharding\Si.Dapper.Sharding.csproj", "{CBC468FC-0EFE-47DE-A435-623106C55E6E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Builder", "Builder", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
@@ -26,6 +24,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.DomainToolkit", "Si.DomainToolkit\Si.DomainToolkit.csproj", "{224E5986-680A-4EA9-B4B0-70080C8DF142}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.AspNetCore.Consul.Extension", "Si.AspNetCore.Consul.Extension\Si.AspNetCore.Consul.Extension.csproj", "{18B4755E-DCC0-4255-B825-C7716D0916D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.BaseCore", "Si.BaseCore\Si.BaseCore.csproj", "{6100D7A1-92E9-6957-819A-0C4BDAE8AD0F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,10 +45,6 @@ Global
 		{35991715-D510-4907-B12A-7320EE28CA56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35991715-D510-4907-B12A-7320EE28CA56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35991715-D510-4907-B12A-7320EE28CA56}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A37D414A-257C-816C-3472-1B2117029E59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A37D414A-257C-816C-3472-1B2117029E59}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A37D414A-257C-816C-3472-1B2117029E59}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A37D414A-257C-816C-3472-1B2117029E59}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CBC468FC-0EFE-47DE-A435-623106C55E6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CBC468FC-0EFE-47DE-A435-623106C55E6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBC468FC-0EFE-47DE-A435-623106C55E6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -69,6 +65,10 @@ Global
 		{18B4755E-DCC0-4255-B825-C7716D0916D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18B4755E-DCC0-4255-B825-C7716D0916D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18B4755E-DCC0-4255-B825-C7716D0916D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6100D7A1-92E9-6957-819A-0C4BDAE8AD0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6100D7A1-92E9-6957-819A-0C4BDAE8AD0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6100D7A1-92E9-6957-819A-0C4BDAE8AD0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6100D7A1-92E9-6957-819A-0C4BDAE8AD0F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
