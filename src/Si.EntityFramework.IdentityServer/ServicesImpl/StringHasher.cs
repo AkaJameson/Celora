@@ -82,7 +82,7 @@ namespace Si.EntityFramework.IdentityServer.ServicesImpl
                 return false;
             }
         }
-
+        
         /// <summary>
         /// 生成随机安全戳
         /// </summary>

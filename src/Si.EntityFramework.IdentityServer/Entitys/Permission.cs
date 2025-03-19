@@ -1,4 +1,4 @@
-﻿namespace Si.EntityFrame.IdentityServer.Entitys
+﻿namespace Si.EntityFramework.IdentityServer.Entitys
 {
     public class Permission
     {

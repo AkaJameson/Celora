@@ -1,18 +1,28 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using Si.EntityFrame.IdentityServer.Entitys;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using Si.EntityFramework.IdentityServer.Configuration;
+using Si.EntityFramework.IdentityServer.Entitys;
+using Si.EntityFramework.IdentityServer.Models;
+using Si.EntityFramework.IdentityServer.Services;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Si.EntityFramework.IdentityServer.ServicesImpl
 {
-    public class TokenService
+    public class TokenService<T> : ITokenService<T> where T : DbContext, new()
     {
         private readonly JwtSettings _jwtSettings;
-        public TokenService(JwtSettings jwtSettings)
+
+        private DbContext Context;
+        private string Key { get; set; } = "QCaZslluwwKv28yXSqBApklhqzgnTG0Et41FZuM4sNE=";
+        private string IV { get; set; } = "Aubw812rCAi/dIPNgw86mA==";
+        public TokenService(JwtSettings jwtSettings, DbContext context)
         {
             _jwtSettings = jwtSettings;
+            Context = context;
         }
         /// <summary>
         /// 生成Token
@@ -53,65 +63,32 @@ namespace Si.EntityFramework.IdentityServer.ServicesImpl
             return tokenHandler.WriteToken(token);
         }
         /// <summary>
-        /// 生成 Refresh Token
+        /// 生成RefreshToken
         /// </summary>
         /// <param name="user"></param>
+        /// <param name="VaildTime">有效时长</param>
         /// <returns></returns>
-        public string GenerateRefreshToken(User user)
+        public string GenerateRefreshToken(User user, TimeSpan VaildTime)
         {
-            var claims = new List<Claim>
-            {
-                new Claim("Id",user.Id.ToString()),
-            };
-            var claimsDictionary = new Dictionary<string, object>();
-            foreach (var claim in claims)
-            {
-                claimsDictionary.Add(claim.Type, claim.Value);
-            }
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Issuer = _jwtSettings.Issuer, // 设置 Token 的颁发者
-                Audience = _jwtSettings.Audience, // 设置 Token 的接收者
-                Expires = DateTime.Now.AddDays(7), // 设置过期时间
-                SigningCredentials = credentials, // 使用签名凭证来签署 Token
-                Claims = claimsDictionary // 设置 Token 中的 claims
-            };
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor); // 生成 Token
-            return tokenHandler.WriteToken(token);
+            var refreshToken = new RefreshTokenModel() { Deadline = DateTime.Now + VaildTime, UserId = user.Id };
+            var refreshTokenStr = AESCrypto.Encrypt(JsonConvert.SerializeObject(refreshToken), Key, IV);
+            return refreshTokenStr;
         }
-        public string RefreshToken(string refreshToken)
+        public async Task<(bool isVaild, string msg, string token, string refreshToken)> RefreshToken(string refreshTokenStr, TimeSpan VaildTime)
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
-            var tokenValidationParameters = new TokenValidationParameters
+            var refreshToken = JsonConvert.DeserializeObject<RefreshTokenModel>(AESCrypto.Decrypt(refreshTokenStr, Key, IV));
+            if (refreshToken.Deadline > DateTime.Now)
             {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-
-                ValidIssuer = _jwtSettings.Issuer,
-                ValidAudience = _jwtSettings.Audience,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey)),
-                ClockSkew = TimeSpan.Zero // 可以设置允许的时间误差
-            };
-            try
-            {
-                var principal = tokenHandler.ValidateToken(refreshToken, validationParameters, out var securityToken);
-                if (securityToken is JwtSecurityToken jwtSecurityToken && jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.OrdinalIgnoreCase))
-                {
-                    var userId = principal.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
-                }
+                return (false, "RefreshToken is expired!", null, null);
             }
-            catch (Exception)
+            var user = await Context.Set<User>().FirstOrDefaultAsync(p => p.Id == refreshToken.UserId);
+            if (user == null)
             {
-                return null;
+                return (false, "User is not exist!", null, null);
             }
-            return null;
+            var token = GenerateToken(user);
+            var refreshTokenNew = GenerateRefreshToken(user, VaildTime);
+            return (true, "RefreshToken is vaild!", token, refreshTokenNew);
         }
     }
 }

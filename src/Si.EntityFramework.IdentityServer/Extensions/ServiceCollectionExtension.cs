@@ -13,14 +13,16 @@ namespace Si.EntityFramework.IdentityServer.Extensions
 {
     public static class ServiceCollectionExtension
     {
-        public static void AddIdentityServer(this IServiceCollection services,Action<JwtSettings> config)
+        public static void AddIdentityServer(this IServiceCollection services, Action<JwtSettings> config)
         {
             var jwtSetting = new JwtSettings();
             config(jwtSetting);
             services.AddSingleton(jwtSetting);
             services.AddScoped<RbacConfigReader>();
             services.AddScoped<Session>();
+            services.AddScoped<IStringHasher, StringHasher>();
             services.AddScoped(typeof(IRolePermissionService<>), typeof(RolePermissionService<>));
+            services.AddScoped(typeof(ITokenService<>), typeof(TokenService<>));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.RequireHttpsMetadata = false; // 是否要求使用 https
@@ -50,8 +52,8 @@ namespace Si.EntityFramework.IdentityServer.Extensions
         public static async Task UseIdentityServer(this IApplicationBuilder app, string configPath, InitMode mode)
         {
             app.UseAuthentication();
-            app.UseAuthorization();
             app.UseMiddleware<SessionsMiddleware>();
+            app.UseAuthorization();
         }
     }
     /// <summary>

@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Si.EntityFrame.IdentityServer.Entitys;
+using Si.EntityFramework.IdentityServer.Entitys;
 
-namespace Si.EntityFrame.IdentityServer.EntitysConfiguration
+namespace Si.EntityFramework.IdentityServer.EntitysConfiguration
 {
     public class RoleConfiguration : IEntityTypeConfiguration<Role>
     {

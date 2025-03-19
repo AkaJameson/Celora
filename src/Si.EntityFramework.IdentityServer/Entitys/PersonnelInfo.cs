@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Si.EntityFrame.IdentityServer.Entitys
+namespace Si.EntityFramework.IdentityServer.Entitys
 {
     public class PersonnelInfo
     {

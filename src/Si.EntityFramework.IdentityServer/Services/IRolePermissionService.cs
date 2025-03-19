@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Si.EntityFrame.IdentityServer.Entitys;
+using Si.EntityFramework.IdentityServer.Entitys;
 
 namespace Si.EntityFramework.IdentityServer.Services
 {

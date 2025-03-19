@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Si.EntityFrame.IdentityServer.Entitys;
+using Si.EntityFramework.IdentityServer.Entitys;
 using Si.EntityFramework.IdentityServer.Services;
 
 namespace Si.EntityFramework.IdentityServer.ServicesImpl
