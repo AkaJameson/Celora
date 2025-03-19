@@ -61,6 +61,7 @@ namespace Si.EntityFramework.IdentityServer.Configuration
 
                 await _dbContext.SaveChangesAsync();
 
+                await CreateOrRefreshRbacDictionary();
 
                 return true;
             }
@@ -212,6 +213,17 @@ namespace Si.EntityFramework.IdentityServer.Configuration
             }
 
             await _dbContext.SaveChangesAsync();
+        }
+        /// <summary>
+        /// 创建或刷新角色权限字典
+        /// </summary>
+        private async Task CreateOrRefreshRbacDictionary()
+        {
+            var roles = await _dbContext.Set<Role>().Include(r => r.Permissions).ToListAsync();
+            foreach (var role in roles)
+            {
+                RoleBasedPermissionDictionary._instance.TryAdd(role.Name, role.Permissions.Select(p => p.PermessionName).ToList());
+            }
         }
     }
 }

@@ -55,21 +55,6 @@ namespace Si.EntityFramework.IdentityServer.Services
         #region 权限管理
 
         /// <summary>
-        /// 创建权限
-        /// </summary>
-        Task<Permission> CreatePermissionAsync(string name, string description = null);
-
-        /// <summary>
-        /// 更新权限
-        /// </summary>
-        Task<bool> UpdatePermissionAsync(int permissionId, string name, string description);
-
-        /// <summary>
-        /// 删除权限
-        /// </summary>
-        Task<bool> DeletePermissionAsync(int permissionId);
-
-        /// <summary>
         /// 获取权限
         /// </summary>
         Task<Permission> GetPermissionAsync(int permissionId);
