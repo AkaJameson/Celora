@@ -7,7 +7,7 @@ namespace Si.EntityFramework.AutoMigration
     /// <summary>
     /// 数据库处理器接口
     /// </summary>
-    internal interface IDatabaseProcessor
+    public interface IDatabaseProcessor
     {
         /// <summary>
         /// 确保迁移历史表存在

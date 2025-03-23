@@ -8,22 +8,22 @@
             {
                 case Loglevel.Info:
                     {
-                        SiLog.Info(message);
+                        SimpleLog.Info(message);
                         break;
                     }
                 case Loglevel.Fatal:
                     {
-                        SiLog.Fatal(message);
+                        SimpleLog.Fatal(message);
                         break;
                     }
                 case Loglevel.Warning:
                     {
-                        SiLog.Warning(message);
+                        SimpleLog.Warning(message);
                         break;
                     }
                 case Loglevel.Error:
                     {
-                        SiLog.Error(message); 
+                        SimpleLog.Error(message); 
                         break;
                     }
 

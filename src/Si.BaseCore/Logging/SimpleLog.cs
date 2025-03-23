@@ -2,7 +2,7 @@
 
 namespace Si.CoreHub.Logging
 {
-    internal class SiLog
+    internal class SimpleLog
     {
         private static ReaderWriterLockSlim LogWriteLock = new ReaderWriterLockSlim();
 

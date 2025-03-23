@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Si.EntityFramework.AutoMigration.Processors;
 
 namespace Si.EntityFramework.AutoMigration
@@ -87,6 +88,24 @@ namespace Si.EntityFramework.AutoMigration
             }
         }
         
+        public static async Task AutoMigrationAsync<T>(this IServiceProvider serviceProvider, AutoMigrationOptions options = null) where T :DbContext
+        {
+            var context = serviceProvider.GetRequiredService<T>();
+            if(context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+            await AutoMigrationAsync(context, options);
+        }
+        public static void AutoMigration<T>(this IServiceProvider serviceProvider, AutoMigrationOptions options = null) where T : DbContext
+        {
+            var context = serviceProvider.GetRequiredService<T>();
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+            AutoMigration(context, options);
+        }
         private static IDatabaseProcessor CreateDatabaseProcessor(
             DbContext context, 
             DatabaseProviderType provider,

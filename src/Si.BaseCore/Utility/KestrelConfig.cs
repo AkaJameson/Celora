@@ -36,7 +36,7 @@ namespace Si.CoreHub.Utility
                 catch (Exception ex)
                 {
                     
-                    SiLog.Error("配置Kestrel服务器失败 "+ ex.ToString());
+                    SimpleLog.Error("配置Kestrel服务器失败 "+ ex.ToString());
 
                     // 回退到默认配置
                     ConfigureDefaultEndpoint(options);
