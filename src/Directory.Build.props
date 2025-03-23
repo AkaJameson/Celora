@@ -52,5 +52,6 @@
 		<PackageVersion Include="Consul" Version="1.7.14.7" />
 		<PackageVersion Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.2" />
 		<PackageVersion Include="RedLock.net" Version="2.3.2" />
+		<PackageVersion Include="StackExchange.Redis" Version="2.8.31" />
 	</ItemGroup>
 </Project>
