@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Si.CoreHub.Logging;
 using System.Net;
 
-namespace Si.CoreHub.Utility
+namespace Si.BaseCore
 {
     public static class KestrelConfig
     {
@@ -28,15 +28,15 @@ namespace Si.CoreHub.Utility
                     ConfigureHttpEndpoint(options, kestrelConfig);
 
                     // 配置HTTPS端点（如果启用）
-                    if (kestrelConfig.GetValue<bool>("Https:Enabled", false))
+                    if (kestrelConfig.GetValue("Https:Enabled", false))
                     {
                         ConfigureHttpsEndpoint(options, kestrelConfig);
                     }
                 }
                 catch (Exception ex)
                 {
-                    
-                    SimpleLog.Error("配置Kestrel服务器失败 "+ ex.ToString());
+
+                    SimpleLog.Error("配置Kestrel服务器失败 " + ex.ToString());
 
                     // 回退到默认配置
                     ConfigureDefaultEndpoint(options);
@@ -52,14 +52,14 @@ namespace Si.CoreHub.Utility
         private static void ConfigureHttpEndpoint(KestrelServerOptions options, IConfigurationSection config)
         {
             // 获取IP地址，默认为"0.0.0.0"
-            var ipString = config.GetValue<string>("Url", "0.0.0.0");
+            var ipString = config.GetValue("Url", "0.0.0.0");
             if (!IPAddress.TryParse(ipString, out var ipAddress))
             {
                 ipAddress = IPAddress.Any;
             }
 
             // 获取HTTP端口，默认为5000
-            var port = config.GetValue<int>("Http:Port", 5000);
+            var port = config.GetValue("Http:Port", 5000);
 
             // 配置HTTP监听
             options.Listen(ipAddress, port);
@@ -71,14 +71,14 @@ namespace Si.CoreHub.Utility
         private static void ConfigureHttpsEndpoint(KestrelServerOptions options, IConfigurationSection config)
         {
             // 获取IP地址，默认与HTTP相同
-            var ipString = config.GetValue<string>("Url", "0.0.0.0");
+            var ipString = config.GetValue("Url", "0.0.0.0");
             if (!IPAddress.TryParse(ipString, out var ipAddress))
             {
                 ipAddress = IPAddress.Any;
             }
 
             // 获取HTTPS端口，默认为5001
-            var port = config.GetValue<int>("Https:Port", 5001);
+            var port = config.GetValue("Https:Port", 5001);
 
             // 获取证书配置
             var certPath = config.GetValue<string>("Https:Certificate:Path");

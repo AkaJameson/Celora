@@ -9,6 +9,7 @@
 	<ItemGroup>
 		<Folder Include="Captcha\" />
 		<PackageReference Include="Microsoft.Extensions.Caching.Abstractions" />
+		<PackageReference Include="Microsoft.Extensions.DependencyModel" />
 		<PackageReference Include="Newtonsoft.Json" />
 		<PackageReference Include="ProDotNetZip" />
 		<PackageReference Include="SkiaSharp" />

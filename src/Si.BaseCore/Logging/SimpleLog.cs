@@ -5,65 +5,36 @@ namespace Si.CoreHub.Logging
     internal class SimpleLog
     {
         private static ReaderWriterLockSlim LogWriteLock = new ReaderWriterLockSlim();
-
-        // 日志路径和文件名
         private static readonly string logDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "Logs");
-        private static string logFileName = "XLog.txt";
-        /// <summary>
-        /// 输出 info 级别日志
-        /// </summary>
-        /// <param name="message">日志内容</param>
-        public static void Info(string message)
-        {
-            Console.WriteLine(message);
-            WriteLog("INFO", message);
-        }
+        private static string logFileNameBase = "XLog";
+        private static string logFileExtension = ".txt";
+        private static string currentLogFile = GetLatestLogFile();
+        private const long MaxFileSize = 50 * 1024 * 1024; // 30MB
+        private const int MaxLogFiles = 30;
 
-        /// <summary>
-        /// 输出 error 级别日志
-        /// </summary>
-        /// <param name="message">日志内容</param>
-        public static void Error(string message)
-        {
-            Console.WriteLine(message);
-            WriteLog("ERROR", message);
-        }
-        public static void Fatal(string message)
-        {
-            Console.WriteLine(message);
-            WriteLog("FATAL", message);
-        }
-        public static void Warning(string message)
-        {
-            Console.WriteLine(message);
-            WriteLog("WARNING", message);
-        }
+        public static void Info(string message) => WriteLog("INFO", message);
+        public static void Error(string message) => WriteLog("ERROR", message);
+        public static void Fatal(string message) => WriteLog("FATAL", message);
+        public static void Warning(string message) => WriteLog("WARNING", message);
 
         private static void WriteLog(string level, string message)
         {
-            string fullFilePath = Path.Combine(logDirectory, logFileName);
-
             try
             {
                 LogWriteLock.EnterWriteLock();
                 DateTime now = DateTime.Now;
-
-                // 创建日志目录
                 if (!Directory.Exists(logDirectory))
                 {
                     Directory.CreateDirectory(logDirectory);
-                    if (IsLinux())
-                    {
-                        SetFilePermissions(logDirectory, "777");
-                    }
+                    if (IsLinux()) SetFilePermissions(logDirectory, "777");
                 }
 
-                if (File.Exists(fullFilePath) && new FileInfo(fullFilePath).Length > 30 * 1024 * 1024)
+                if (new FileInfo(currentLogFile).Length > MaxFileSize)
                 {
-                    File.Delete(fullFilePath);
+                    currentLogFile = GetNextLogFile();
+                    CleanupOldLogs();
                 }
-                // 写入日志
-                using (StreamWriter writer = File.AppendText(fullFilePath))
+                using (StreamWriter writer = File.AppendText(currentLogFile))
                 {
                     writer.WriteLine($"{now:yyyy-MM-dd HH:mm:ss} >> {level} >> {message}");
                 }
@@ -78,13 +49,57 @@ namespace Si.CoreHub.Logging
             }
         }
 
-        /// <summary>
-        /// 设置文件或目录权限（仅在 Linux 下使用）
-        /// </summary>
+        private static string GetLatestLogFile()
+        {
+            if (!Directory.Exists(logDirectory)) return Path.Combine(logDirectory, logFileNameBase + logFileExtension);
+            var logFiles = Directory.GetFiles(logDirectory, logFileNameBase + "_*.txt")
+                                   .Select(f => new FileInfo(f))
+                                   .OrderByDescending(f => f.Name)
+                                   .ToList();
+            return logFiles.Any() ? logFiles.First().FullName : Path.Combine(logDirectory, logFileNameBase + "_1" + logFileExtension);
+        }
+
+        private static string GetNextLogFile()
+        {
+            int newIndex = 1;
+            var existingLogs = Directory.GetFiles(logDirectory, logFileNameBase + "_*.txt");
+            if (existingLogs.Length > 0)
+            {
+                var lastFile = existingLogs.Select(f => new FileInfo(f))
+                                           .OrderByDescending(f => f.Name)
+                                           .First();
+                string lastFileName = Path.GetFileNameWithoutExtension(lastFile.Name);
+                if (int.TryParse(lastFileName.Split('_').Last(), out int lastIndex))
+                {
+                    newIndex = lastIndex + 1;
+                }
+            }
+            return Path.Combine(logDirectory, $"{logFileNameBase}_{newIndex}{logFileExtension}");
+        }
+
+        private static void CleanupOldLogs()
+        {
+            var logFiles = Directory.GetFiles(logDirectory, logFileNameBase + "_*.txt")
+                                     .Select(f => new FileInfo(f))
+                                     .OrderBy(f => f.CreationTime)
+                                     .ToList();
+            while (logFiles.Count > MaxLogFiles)
+            {
+                try
+                {
+                    logFiles.First().Delete();
+                    logFiles.RemoveAt(0);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Failed to delete log file: {ex}");
+                }
+            }
+        }
+
         private static void SetFilePermissions(string filePath, string permissions)
         {
-            if (!IsLinux()) return; // 仅在 Linux 下执行
-
+            if (!IsLinux()) return;
             try
             {
                 Process chmod = new Process
@@ -99,13 +114,11 @@ namespace Si.CoreHub.Logging
                         CreateNoWindow = true
                     }
                 };
-
                 chmod.Start();
                 chmod.WaitForExit();
                 if (chmod.ExitCode != 0)
                 {
-                    string error = chmod.StandardError.ReadToEnd();
-                    Console.WriteLine($"Failed to set permissions: {error}");
+                    Console.WriteLine($"Failed to set permissions: {chmod.StandardError.ReadToEnd()}");
                 }
             }
             catch (Exception ex)
@@ -114,13 +127,7 @@ namespace Si.CoreHub.Logging
             }
         }
 
-        /// <summary>
-        /// 检查当前是否运行在 Linux 环境
-        /// </summary>
-        private static bool IsLinux()
-        {
-            return Environment.OSVersion.Platform == PlatformID.Unix ||
-                   Environment.OSVersion.Platform == PlatformID.MacOSX;
-        }
+        private static bool IsLinux() => Environment.OSVersion.Platform == PlatformID.Unix ||
+                                          Environment.OSVersion.Platform == PlatformID.MacOSX;
     }
 }

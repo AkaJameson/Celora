@@ -7,6 +7,10 @@ namespace Si.CoreHub.Scheduling
     {
         private readonly IScheduler _scheduler = new StdSchedulerFactory().GetScheduler().Result;
 
+        public ScheduleService()
+        {
+            _scheduler.Start(); 
+        }
         public async Task ScheduleJob<TJob>(ScheduleOptions options, SimpleScheduleConfig simpleScheduleConfig = null) where TJob : IJob
         {
             // 创建任务，设置唯一 JobKey 与描述
