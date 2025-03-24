@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Si.Modules.EventBus.Abstractions
+﻿namespace Si.Modules.EventBus.Abstractions
 {
     public interface IEventBus
     {
-        public Task PublishAsync(IEvent @event, bool waitResult = false);
-        public Task SubscribeAsync<T>(Func<T, Task<bool>> handler) where T : IEvent;
+        public void PublishAsync<T>(T @event) where T : EventBase;
+        public Task<bool> PublishAsync<T>(T @event, bool waitResult = false) where T : EventBase;
+        public Task SubscribeAsync<T>(Func<T, Task<bool>> handler) where T : EventBase;
     }
 }

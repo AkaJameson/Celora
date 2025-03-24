@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Si.Modules.EventBus.Abstractions;
 
 namespace Si.Modules.EventBus
 {
-    class ServiceCollectioneExtension
+    public static class ServiceCollectioneExtension
     {
+        public static void AddEventBus(this IServiceCollection services)
+        {
+
+            services.AddSingleton<IEventBus>(sp =>
+            {
+                var eventBus = new EventBus();
+                eventBus.Start();
+                return eventBus;
+            });
+        }
     }
 }
