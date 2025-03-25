@@ -19,8 +19,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Builder", "Builder", "{02EA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.Utilites", "Si.Utilites\Si.Utilites.csproj", "{C8D1C28B-27F5-491D-8887-8FEC2E5E3718}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.DataAcquisition", "Si.DataAcquisition\Si.DataAcquisition.csproj", "{824EB42F-5B12-44FF-8ECA-BA26771EE317}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.DomainToolkit", "Si.DomainToolkit\Si.DomainToolkit.csproj", "{224E5986-680A-4EA9-B4B0-70080C8DF142}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.AspNetCore.Consul.Extension", "Si.AspNetCore.Consul.Extension\Si.AspNetCore.Consul.Extension.csproj", "{18B4755E-DCC0-4255-B825-C7716D0916D5}"
@@ -59,10 +57,6 @@ Global
 		{C8D1C28B-27F5-491D-8887-8FEC2E5E3718}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8D1C28B-27F5-491D-8887-8FEC2E5E3718}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8D1C28B-27F5-491D-8887-8FEC2E5E3718}.Release|Any CPU.Build.0 = Release|Any CPU
-		{824EB42F-5B12-44FF-8ECA-BA26771EE317}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{824EB42F-5B12-44FF-8ECA-BA26771EE317}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{824EB42F-5B12-44FF-8ECA-BA26771EE317}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{824EB42F-5B12-44FF-8ECA-BA26771EE317}.Release|Any CPU.Build.0 = Release|Any CPU
 		{224E5986-680A-4EA9-B4B0-70080C8DF142}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{224E5986-680A-4EA9-B4B0-70080C8DF142}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{224E5986-680A-4EA9-B4B0-70080C8DF142}.Release|Any CPU.ActiveCfg = Release|Any CPU
