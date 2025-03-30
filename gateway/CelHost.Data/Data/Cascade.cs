@@ -1,0 +1,34 @@
+﻿using CelHost.Data.Enums;
+using System.ComponentModel.DataAnnotations;
+
+namespace CelHost.Data.Data
+{
+    /// <summary>
+    /// 下级网关级联信息
+    /// </summary>
+    public class Cascade
+    {
+        [Key]
+        public int Id { get; set; }
+        /// <summary>
+        /// 下级网关名称
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
+        /// 下级网关地址
+        /// </summary>
+        public string Url { get; set; }
+        /// <summary>
+        /// 下级网关端口
+        /// </summary>
+        public string UserName { get; set; }
+        /// <summary>
+        /// 下级网关密码
+        /// </summary>
+        public string Password { get; set; }
+        /// <summary>
+        /// 下级网关状态
+        /// </summary>
+        public NodeStatus Status { get; set; }
+    }
+}

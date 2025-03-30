@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace CelHost.Models.Enums
+namespace CelHost.Data.Enums
 {
     public enum NodeStatus
     {

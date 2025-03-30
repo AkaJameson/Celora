@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CelHost.Data
+namespace CelHost.Data.Data
 {
     [Table("Cluster")]
     public class Cluster
@@ -8,6 +9,7 @@ namespace CelHost.Data
         /// <summary>
         /// Id
         /// </summary>
+        [Key]
         public int Id { get; set; }
         /// <summary>
         /// 微服务名称
@@ -25,5 +27,9 @@ namespace CelHost.Data
         /// 创建时间
         /// </summary>
         public string CreateTime { get; set; }
+        /// <summary>
+        /// 服务节点
+        /// </summary>
+        public virtual IList<ClusterNode> Nodes { get; set; }
     }
 }

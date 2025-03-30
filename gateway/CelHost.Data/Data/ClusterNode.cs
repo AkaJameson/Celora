@@ -1,7 +1,8 @@
-﻿using CelHost.Models.Enums;
+﻿using CelHost.Data.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CelHost.Data
+namespace CelHost.Data.Data
 {
     [Table("ClusterNode")]
     public class ClusterNode
@@ -9,6 +10,7 @@ namespace CelHost.Data
         /// <summary>
         /// 节点ID
         /// </summary>
+        [Key]
         public int Id { get; set; }
         /// <summary>
         /// 集群ID
