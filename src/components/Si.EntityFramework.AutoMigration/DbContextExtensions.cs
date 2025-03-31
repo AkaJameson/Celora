@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Si.EntityFramework.AutoMigration.Processors;
@@ -88,9 +89,9 @@ namespace Si.EntityFramework.AutoMigration
             }
         }
         
-        public static async Task AutoMigrationAsync<T>(this IServiceProvider serviceProvider, AutoMigrationOptions options = null) where T :DbContext
+        public static async Task AutoMigrationAsync<T>(this WebApplication app, AutoMigrationOptions options = null) where T :DbContext
         {
-            using var scope = serviceProvider.CreateScope();
+            using var scope = app.Services.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<T>();
             if (context == null)
             {
@@ -102,9 +103,9 @@ namespace Si.EntityFramework.AutoMigration
             }
             await AutoMigrationAsync(context, options);
         }
-        public static void AutoMigration<T>(this IServiceProvider serviceProvider, AutoMigrationOptions options = null) where T : DbContext
+        public static void AutoMigration<T>(this WebApplication app, AutoMigrationOptions options = null) where T : DbContext
         {
-            using var scope = serviceProvider.CreateScope();
+            using var scope = app.Services.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<T>();
             if (context == null)
             {

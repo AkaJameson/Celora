@@ -5,6 +5,10 @@ namespace CelHost.Data
 {
     public class HostContext : DbContext
     {
+        public HostContext(DbContextOptions options):base(options)
+        {
+            
+        }
         /// <summary>
         /// 管理端页面
         /// </summary>

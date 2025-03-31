@@ -8,10 +8,10 @@
 
     public static class LogCenter
     {
-        private static Lazy<Logger> _logger = new Lazy<Logger>(InitializeDefaultLogger);
+        private static Logger _logger = InitializeDefaultLogger();
         private static LoggerConfiguration _loggerConfiguration;
 
-        public static ILogger Logger => _logger.Value;
+        public static ILogger Logger { get; set; } = _logger;
 
         /// <summary>
         /// 使用自定义配置初始化日志记录器
@@ -21,19 +21,14 @@
             _loggerConfiguration = configuration ?? CreateDefaultConfiguration();
             try
             {
-                // 强制重新创建Logger实例
-                if (_logger.IsValueCreated)
-                {
-                    CloseAndFlush();
-                }
-                _logger = new Lazy<Logger>(() => _loggerConfiguration.CreateLogger());
+                CloseAndFlush();
+                _logger = _loggerConfiguration.CreateLogger();
             }
             catch (Exception ex)
             {
                 throw new InvalidOperationException("Failed to initialize logger", ex);
             }
         }
-
         /// <summary>
         /// 记录调试信息
         /// </summary>
@@ -87,19 +82,11 @@
         /// </summary>
         public static void CloseAndFlush()
         {
-            if (_logger.IsValueCreated)
-            {
-                _logger.Value.Dispose();
-            }
+            _logger.Dispose();
         }
 
         private static void Write(LogEventLevel level, string message, Exception exception, object[] propertyValues)
         {
-            if (!_logger.IsValueCreated)
-            {
-                throw new InvalidOperationException("Logger has not been initialized. Call Initialize() first.");
-            }
-
             if (exception != null)
             {
                 Logger.Write(level, exception, message, propertyValues);
@@ -115,13 +102,20 @@
             return CreateDefaultConfiguration().CreateLogger();
         }
 
+        /// <summary>
+        /// 创建默认配置
+        /// </summary>
+        /// <returns></returns>
         private static LoggerConfiguration CreateDefaultConfiguration()
         {
             return new LoggerConfiguration()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+                .MinimumLevel.Override("System", LogEventLevel.Warning)
                 .Enrich.FromLogContext()
                 .WriteTo.Console(outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level}] {Message}{NewLine}{Exception}")
-                .WriteTo.File("logs/log-.txt",
+                .WriteTo.File("../logs/log-.txt",
                     rollingInterval: RollingInterval.Day,
+                    retainedFileCountLimit: 30,
                     outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level}] {Message}{NewLine}{Exception}");
         }
     }

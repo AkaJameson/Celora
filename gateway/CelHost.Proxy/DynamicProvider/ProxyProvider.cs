@@ -4,7 +4,7 @@ namespace CelHost.Proxy.DynamicProvider
 {
     public class ProxyProvider : IProxyConfigProvider
     {
-        private volatile Config _config;
+        private volatile Config _config = new Config(new List<RouteConfig>(),new List<ClusterConfig>());
         private SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
         public IProxyConfig GetConfig() => _config;
         public void UpdateRouteAndCluster(List<RouteConfig> routes, List<ClusterConfig> clusters)

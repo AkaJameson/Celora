@@ -1,14 +1,10 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
-using System;
-using System.IO;
 
 namespace Si.CoreHub.Logging
 {
-    public static class SerilogSetup
+    public static class Setup
     {
         public static WebApplicationBuilder AddSerilogLogging(this WebApplicationBuilder builder)
         {
@@ -32,7 +28,7 @@ namespace Si.CoreHub.Logging
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                 .MinimumLevel.Override("System", LogEventLevel.Warning)
                 .Enrich.FromLogContext()
-                .Enrich.WithProperty("Application", "Si.CoreHub")
+                .Enrich.WithProperty("Application","Celora")
                 // 配置不同级别的日志输出到不同文件
                 .WriteTo.Logger(lc => lc
                     .Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Information)
@@ -54,19 +50,8 @@ namespace Si.CoreHub.Logging
                     .WriteTo.Async(a => a.File(Path.Combine(datePath, "Fatal-.log"),
                         rollingInterval: RollingInterval.Day,
                         outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} [{Level:u3}] {Message:lj}{NewLine}{Exception}")))
-                // System日志专门记录ASP.NET Core的日志
-                .WriteTo.Logger(lc => lc
-                    .Filter.ByIncludingOnly(e => e.Properties.ContainsKey("SourceContext") &&
-                        (e.Properties["SourceContext"].ToString().Contains("Microsoft") ||
-                         e.Properties["SourceContext"].ToString().Contains("System")))
-                    .WriteTo.Async(a => a.File(Path.Combine(datePath, "System-.log"),
-                        rollingInterval: RollingInterval.Day,
-                        outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} [{Level:u3}] {SourceContext} {Message:lj}{NewLine}{Exception}")))
                 .CreateLogger();
-
-            // 将Serilog添加到ASP.NET Core的日志系统
             builder.Host.UseSerilog();
-            
             return builder;
         }
     }
