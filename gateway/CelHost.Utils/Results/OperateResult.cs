@@ -1,4 +1,4 @@
-﻿namespace Si.CoreHub.OperateResult
+﻿namespace CelHost.Utils.Results
 {
     public class OperateResult<T> : OperateResult
     {
@@ -39,4 +39,5 @@
             };
         }
     }
+
 }

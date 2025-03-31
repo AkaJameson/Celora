@@ -24,6 +24,10 @@ namespace CelHost.Data.Data
         /// </summary>
         public string Route { get; set; }
         /// <summary>
+        /// 微服务地址
+        /// </summary>
+        public string Url { get; set; }
+        /// <summary>
         /// 创建时间
         /// </summary>
         public string CreateTime { get; set; }

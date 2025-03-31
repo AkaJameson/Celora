@@ -1,11 +1,13 @@
 ﻿using CelHost.Data.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CelHost.Data.Data
 {
     /// <summary>
     /// 下级网关级联信息
     /// </summary>
+    [Table("Cascade")]
     public class Cascade
     {
         [Key]
@@ -18,6 +20,10 @@ namespace CelHost.Data.Data
         /// 下级网关地址
         /// </summary>
         public string Url { get; set; }
+        /// <summary>
+        /// 下级网关路由    
+        /// </summary>
+        public string Route { get; set; }
         /// <summary>
         /// 下级网关端口
         /// </summary>

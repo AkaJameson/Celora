@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CelHost", "CelHost.csproj",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CelHost.Proxy", "..\CelHost.Proxy\CelHost.Proxy.csproj", "{653699AE-E6AF-4F17-9EE4-00A7B34F99C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CelHost.Communication", "..\CelHost.Communication\CelHost.Communication.csproj", "{2051B65D-23D5-4D1D-AE8C-B785D4F58318}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CelHost.Utils", "..\CelHost.Utils\CelHost.Utils.csproj", "{F55F69AE-B109-46F4-B065-B7349B8C119C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CelHost.Data", "..\CelHost.Data\CelHost.Data.csproj", "{E6A7A7A1-4AA2-4A1C-A90E-E2CF1CEA7439}"
@@ -27,10 +25,6 @@ Global
 		{653699AE-E6AF-4F17-9EE4-00A7B34F99C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{653699AE-E6AF-4F17-9EE4-00A7B34F99C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{653699AE-E6AF-4F17-9EE4-00A7B34F99C7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2051B65D-23D5-4D1D-AE8C-B785D4F58318}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2051B65D-23D5-4D1D-AE8C-B785D4F58318}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2051B65D-23D5-4D1D-AE8C-B785D4F58318}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2051B65D-23D5-4D1D-AE8C-B785D4F58318}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F55F69AE-B109-46F4-B065-B7349B8C119C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F55F69AE-B109-46F4-B065-B7349B8C119C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F55F69AE-B109-46F4-B065-B7349B8C119C}.Release|Any CPU.ActiveCfg = Release|Any CPU

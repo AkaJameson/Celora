@@ -11,4 +11,8 @@
     <Folder Include="IService\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CelHost.Proxy\CelHost.Proxy.csproj" />
+  </ItemGroup>
+
 </Project>
