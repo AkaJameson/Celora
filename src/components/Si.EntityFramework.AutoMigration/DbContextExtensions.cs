@@ -90,7 +90,12 @@ namespace Si.EntityFramework.AutoMigration
         
         public static async Task AutoMigrationAsync<T>(this IServiceProvider serviceProvider, AutoMigrationOptions options = null) where T :DbContext
         {
-            var context = serviceProvider.GetRequiredService<T>();
+            using var scope = serviceProvider.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<T>();
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
             if(context == null)
             {
                 throw new ArgumentNullException(nameof(context));
@@ -99,7 +104,8 @@ namespace Si.EntityFramework.AutoMigration
         }
         public static void AutoMigration<T>(this IServiceProvider serviceProvider, AutoMigrationOptions options = null) where T : DbContext
         {
-            var context = serviceProvider.GetRequiredService<T>();
+            using var scope = serviceProvider.CreateScope();
+            var context = scope.ServiceProvider.GetRequiredService<T>();
             if (context == null)
             {
                 throw new ArgumentNullException(nameof(context));

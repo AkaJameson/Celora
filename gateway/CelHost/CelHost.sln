@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CelHost.Utils", "..\CelHost
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CelHost.Data", "..\CelHost.Data\CelHost.Data.csproj", "{E6A7A7A1-4AA2-4A1C-A90E-E2CF1CEA7439}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CelHost.Comm.Client", "..\CelHost.Comm.Client\CelHost.Comm.Client.csproj", "{30509283-7383-4836-ACE2-7D12B66A9895}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{E6A7A7A1-4AA2-4A1C-A90E-E2CF1CEA7439}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E6A7A7A1-4AA2-4A1C-A90E-E2CF1CEA7439}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E6A7A7A1-4AA2-4A1C-A90E-E2CF1CEA7439}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30509283-7383-4836-ACE2-7D12B66A9895}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30509283-7383-4836-ACE2-7D12B66A9895}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30509283-7383-4836-ACE2-7D12B66A9895}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30509283-7383-4836-ACE2-7D12B66A9895}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
