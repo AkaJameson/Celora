@@ -1,10 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Quartz.Logging;
 using Si.Modules.EventBus.Abstractions;
-using Si.Package.Log;
 using System.Collections.Concurrent;
 using System.Threading.Channels;
-using System.Threading.Tasks;
 
 namespace Si.Modules.EventBus
 {
@@ -78,7 +76,7 @@ namespace Si.Modules.EventBus
                                 }
                                 catch (Exception ex)
                                 {
-                                    LogCenter.Write2Log(Loglevel.Error, ex.ToString());
+                                    _logger.LogError(ex, ex.Message);
                                     return false;
                                 }
                             }, cancellationToken));

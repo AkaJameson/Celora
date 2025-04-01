@@ -1,6 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Quartz;
-using Quartz.Impl;
 
 namespace Si.QuartzService
 {

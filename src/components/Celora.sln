@@ -30,8 +30,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.Distributed", "Si.Distri
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.Modules.EventBus", "Si.Modules.EventBus\Si.Modules.EventBus.csproj", "{40B24923-6A31-4B37-A566-8D33D42026E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.Crypto", "Si.Crypto\Si.Crypto.csproj", "{422677CB-2A5C-4F46-B6C2-FBEDFFDFBD48}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.Logging", "Si.Logging\Si.Logging.csproj", "{D6771C00-23E5-4091-8934-54123BEEEBF6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.QuartzService", "Si.QuartzService\Si.QuartzService.csproj", "{D6111FBB-2C1B-4F47-8346-1801D7BFF563}"
@@ -82,10 +80,6 @@ Global
 		{40B24923-6A31-4B37-A566-8D33D42026E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40B24923-6A31-4B37-A566-8D33D42026E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40B24923-6A31-4B37-A566-8D33D42026E0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{422677CB-2A5C-4F46-B6C2-FBEDFFDFBD48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{422677CB-2A5C-4F46-B6C2-FBEDFFDFBD48}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{422677CB-2A5C-4F46-B6C2-FBEDFFDFBD48}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{422677CB-2A5C-4F46-B6C2-FBEDFFDFBD48}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D6771C00-23E5-4091-8934-54123BEEEBF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D6771C00-23E5-4091-8934-54123BEEEBF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6771C00-23E5-4091-8934-54123BEEEBF6}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -4,14 +4,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
-using Si.CoreHub.Package.Abstraction;
-using Si.CoreHub.Package.Core;
-using Si.CoreHub.Package.Entitys;
+using Si.Package.Abstraction;
+using Si.Package.Core;
+using Si.Package.Entitys;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Collections.Concurrent;
 using System.Reflection;
-using static System.Net.WebRequestMethods;
 
 namespace Si.Modules.Swagger
 {

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Si.Modules.EventBus.Abstractions;
 
 namespace Si.Modules.EventBus
@@ -10,7 +11,8 @@ namespace Si.Modules.EventBus
 
             services.AddSingleton<IEventBus>(sp =>
             {
-                var eventBus = new EventBus();
+                var log = sp.GetRequiredService<ILogger<EventBus>>();
+                var eventBus = new EventBus(log);
                 eventBus.Start();
                 return eventBus;
             });

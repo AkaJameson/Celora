@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Si.CoreHub.Package.Abstraction;
 using Si.Package.Core;
 
 namespace Si.Package.Entitys
