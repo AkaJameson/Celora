@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Si.CoreHub.Utility
+namespace Si.Utilites
 {
     /// <summary>
     /// 全局服务定位器，提供在非依赖注入上下文中访问服务的能力

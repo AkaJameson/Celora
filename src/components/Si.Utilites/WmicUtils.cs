@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Si.CoreHub.Utility
+namespace Si.Utilites
 {
     // <summary>
     /// Wmic工具 可方便调用查询winodws系统资源信息，相关命令请百度

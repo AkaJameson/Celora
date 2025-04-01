@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
 
-namespace Si.CoreHub.Extension
+namespace Si.Utilites.Extensions
 {
     /// <summary>
     /// 枚举帮助类

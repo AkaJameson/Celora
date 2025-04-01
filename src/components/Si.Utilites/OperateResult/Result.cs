@@ -1,4 +1,4 @@
-﻿namespace Si.CoreHub.OperateResult
+﻿namespace Si.Utilites.OperateResult
 {
     public class OperateResult<T> : OperateResult
     {

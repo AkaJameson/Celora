@@ -15,6 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Builder", "Builder", "{02EA
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
 		Directory.Build.targets = Directory.Build.targets
+		Directory.Packages.props = Directory.Packages.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.Utilites", "Si.Utilites\Si.Utilites.csproj", "{C8D1C28B-27F5-491D-8887-8FEC2E5E3718}"
@@ -23,13 +24,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.DomainToolkit", "Si.Doma
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.AspNetCore.Consul.Extension", "Si.AspNetCore.Consul.Extension\Si.AspNetCore.Consul.Extension.csproj", "{18B4755E-DCC0-4255-B825-C7716D0916D5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.BaseCore", "Si.BaseCore\Si.BaseCore.csproj", "{6100D7A1-92E9-6957-819A-0C4BDAE8AD0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.Package", "Si.Package\Si.Package.csproj", "{6100D7A1-92E9-6957-819A-0C4BDAE8AD0F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.Distributed", "Si.Distributed\Si.Distributed.csproj", "{24292728-0547-84E1-5C4D-E2418EEF2FCA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.Modules.EventBus", "Si.Modules.EventBus\Si.Modules.EventBus.csproj", "{40B24923-6A31-4B37-A566-8D33D42026E0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.Crypto", "Si.Crypto\Si.Crypto.csproj", "{422677CB-2A5C-4F46-B6C2-FBEDFFDFBD48}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.Logging", "Si.Logging\Si.Logging.csproj", "{D6771C00-23E5-4091-8934-54123BEEEBF6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.QuartzService", "Si.QuartzService\Si.QuartzService.csproj", "{D6111FBB-2C1B-4F47-8346-1801D7BFF563}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +86,14 @@ Global
 		{422677CB-2A5C-4F46-B6C2-FBEDFFDFBD48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{422677CB-2A5C-4F46-B6C2-FBEDFFDFBD48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{422677CB-2A5C-4F46-B6C2-FBEDFFDFBD48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6771C00-23E5-4091-8934-54123BEEEBF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6771C00-23E5-4091-8934-54123BEEEBF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6771C00-23E5-4091-8934-54123BEEEBF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6771C00-23E5-4091-8934-54123BEEEBF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6111FBB-2C1B-4F47-8346-1801D7BFF563}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6111FBB-2C1B-4F47-8346-1801D7BFF563}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6111FBB-2C1B-4F47-8346-1801D7BFF563}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6111FBB-2C1B-4F47-8346-1801D7BFF563}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

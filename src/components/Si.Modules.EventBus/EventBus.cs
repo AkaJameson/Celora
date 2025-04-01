@@ -1,6 +1,7 @@
-﻿using Quartz.Logging;
-using Si.CoreHub.Logging;
+﻿using Microsoft.Extensions.Logging;
+using Quartz.Logging;
 using Si.Modules.EventBus.Abstractions;
+using Si.Package.Log;
 using System.Collections.Concurrent;
 using System.Threading.Channels;
 using System.Threading.Tasks;
@@ -14,13 +15,14 @@ namespace Si.Modules.EventBus
         private CancellationTokenSource _cts;
         private ConcurrentDictionary<string, TaskCompletionSource<bool>> _callback;
         private bool disposedValue = false;
-
-        public EventBus()
+        private readonly ILogger<EventBus> _logger;
+        public EventBus(ILogger<EventBus> logger)
         {
             _events = Channel.CreateBounded<EventBase>(1024);
             _subscribers = new ConcurrentDictionary<string, List<Func<EventBase, Task<bool>>>>();
             _cts = new CancellationTokenSource();
             _callback = new ConcurrentDictionary<string, TaskCompletionSource<bool>>();
+            _logger = logger;
         }
         public void Start()
         {
@@ -91,9 +93,9 @@ namespace Si.Modules.EventBus
                     }
                 }
             }
-            catch (OperationCanceledException)
+            catch (Exception ex)
             {
-                LogCenter.Write2Log(Loglevel.Info, "EventBus stopped");
+                _logger.LogError(ex, ex.Message);
             }
         }
 

@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Si.CoreHub.Extension
+namespace Si.Utilites.Extensions
 {
     public static class JsonExtensions
     {
@@ -18,7 +18,7 @@ namespace Si.CoreHub.Extension
                 NullValueHandling = NullValueHandling.Include,
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
-            return Newtonsoft.Json.JsonConvert.SerializeObject(obj, jSetting);
+            return JsonConvert.SerializeObject(obj, jSetting);
         }
         /// <summary>
         /// 提供简单的对象序列化Json字符串方法
@@ -35,7 +35,7 @@ namespace Si.CoreHub.Extension
                 NullValueHandling = NullValueHandling.Ignore,
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
-            return Newtonsoft.Json.JsonConvert.SerializeObject(arr, jSetting);
+            return JsonConvert.SerializeObject(arr, jSetting);
 
         }
 
@@ -57,7 +57,7 @@ namespace Si.CoreHub.Extension
             {
                 try
                 {
-                    return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(obj);
+                    return JsonConvert.DeserializeObject<T>(obj);
                 }
                 catch (Exception ex)
                 {

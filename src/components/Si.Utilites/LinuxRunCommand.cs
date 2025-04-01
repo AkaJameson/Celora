@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 
-namespace Si.CoreHub.Utility
+namespace Si.Utilites
 {
     public class LinuxRunCommand
     {
