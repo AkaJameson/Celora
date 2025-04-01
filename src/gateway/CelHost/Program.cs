@@ -1,11 +1,13 @@
 using CelHost.Data;
-using CelHost.Proxy.DynamicProvider;
+using CelHost.Proxy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Si.EntityFramework.AutoMigration;
+using Si.Logging;
 using Yarp.ReverseProxy.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.AddLogging();
 if (builder.Environment.IsDevelopment())
 {
     builder.Services.AddCors(option =>
@@ -33,13 +35,12 @@ else
         });
     });
 }
-var proxyConfigProvider = new ProxyProvider();
-builder.Services.AddSingleton<IProxyConfigProvider>(proxyConfigProvider);
-builder.Services.AddSingleton(proxyConfigProvider);
-builder.Services.AddReverseProxy();
+builder.Services.AddReverseProxy()
+                .LoadFromMemory(new List<RouteConfig>(), new List<ClusterConfig>());
 builder.Services.AddAuthentication();
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
+builder.Services.AddScoped<ILogService, LogService>();
 var connectionStr = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<HostContext>(options =>
 {
@@ -63,6 +64,7 @@ app.Use(async (context, next) =>
         await next();
     }
 });
+app.InitializeProxy();
 app.MapReverseProxy();
 app.UseAuthentication();
 app.UseAuthorization();

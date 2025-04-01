@@ -7,38 +7,35 @@ namespace CelHost.Data.Data
     [Table("ClusterNode")]
     public class ClusterNode
     {
-        /// <summary>
-        /// 节点ID
-        /// </summary>
         [Key]
         public int Id { get; set; }
-        /// <summary>
-        /// 集群ID
-        /// </summary>
+
+        [Required]
         public int ClusterId { get; set; }
-        /// <summary>
-        /// 集群
-        /// </summary>
+
+        [ForeignKey("ClusterId")]
         public virtual Cluster Cluster { get; set; }
+
         /// <summary>
-        /// 节点URL
+        /// 目标地址（格式：http://host:port）
         /// </summary>
-        public string HostUrl { get; set; }
+        [Required, MaxLength(500)]
+        public string Address { get; set; }
+
         /// <summary>
-        /// 端口
+        /// 健康检查端点（可选）
         /// </summary>
-        public int Port { get; set; }
-        /// <summary>
-        /// 节点状态
-        /// </summary>
-        public NodeStatus Status { get; set; }
-        /// <summary>
-        /// 节点描述
-        /// </summary>
-        public string Description { get; set; }
+        [MaxLength(500)]
+        public string HealthCheck { get; set; }
+
         /// <summary>
         /// 是否启用
         /// </summary>
         public bool IsActive { get; set; }
+
+        /// <summary>
+        /// 最后健康检查时间
+        /// </summary>
+        public DateTime? LastHealthCheck { get; set; }
     }
 }

@@ -7,13 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="IService\**" />
+    <Content Remove="IService\**" />
+    <EmbeddedResource Remove="IService\**" />
+    <None Remove="IService\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="ServiceImpl\" />
-    <Folder Include="IService\" />
-    <Folder Include="Utils\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Si.EntityFramework.AutoMigration" Version="1.0.0" />
+    <PackageReference Include="Si.Logging" Version="1.0.0" />
+    <PackageReference Include="Si.Utilites" Version="1.0.0" />
+    <PackageReference Include="Yarp.ReverseProxy" Version="2.3.0" />
   </ItemGroup>
 
   <ItemGroup>
