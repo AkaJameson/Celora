@@ -1,5 +1,4 @@
-﻿using Si.EntityFramework.Extension.Data.Context;
-using Si.EntityFramework.Extension.UnitofWorks.Abstractions;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Si.EntityFramework.Extension.Routing.Abstractions
 {
@@ -7,7 +6,7 @@ namespace Si.EntityFramework.Extension.Routing.Abstractions
     /// 数据库上下文路由接口
     /// </summary>
     /// <typeparam name="TContext">数据库上下文类型</typeparam>
-    public interface IDbContextRouter<TContext> where TContext : ApplicationDbContext
+    public interface IDbContextRouter<TContext> where TContext : DbContext
     {
         /// <summary>
         /// 获取数据库上下文实例

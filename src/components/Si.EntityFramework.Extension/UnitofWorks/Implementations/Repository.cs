@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Si.EntityFramework.Extension.Data.Context;
 using Si.EntityFramework.Extension.UnitofWorks.Abstractions;
 using System.Linq.Expressions;
 
@@ -7,9 +6,9 @@ namespace Si.EntityFramework.Extension.UnitofWorks.Implementations
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        protected readonly ApplicationDbContext _dbContext;
+        protected readonly DbContext _dbContext;
         protected readonly DbSet<T> DbSet;
-        public Repository(ApplicationDbContext dbContext)
+        public Repository(DbContext dbContext)
         {
             _dbContext = dbContext;
             DbSet = _dbContext.Set<T>();

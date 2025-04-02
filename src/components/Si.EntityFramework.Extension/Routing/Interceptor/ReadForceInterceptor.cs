@@ -1,13 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Diagnostics;
-using Si.EntityFramework.Extension.Core.Exceptions;
-using Si.EntityFramework.Extension.Data.Context;
-using Si.EntityFramework.Extension.Routing.Implementations;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Si.EntityFramework.Extension.Exceptions;
 using System.Data.Common;
 using System.Text;
 
 namespace Si.EntityFramework.Extension.Routing.Interceptor
 {
-    public class ReadForceInterceptor<TContext> : DbCommandInterceptor where TContext : ApplicationDbContext
+    public class ReadForceInterceptor<TContext> : DbCommandInterceptor where TContext : DbContext
     {
         public ReadForceInterceptor() : base()
         {
@@ -16,7 +15,7 @@ namespace Si.EntityFramework.Extension.Routing.Interceptor
         CommandCorrelatedEventData eventData,
         InterceptionResult<DbCommand> result)
         {
-            if (eventData.Context is ApplicationDbContext ctx)
+            if (eventData.Context is DbContext ctx)
             {
                 var initialCommand = result.Result;
                 if (initialCommand != null && !IsReadCommand(initialCommand))

@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using Si.EntityFramework.Extension.Data.Context;
-using Si.EntityFramework.Extension.Data.Extensions;
+using Si.EntityFramework.Extension.Extensions;
 using Si.EntityFramework.Extension.UnitofWorks.Abstractions;
 
 namespace Si.EntityFramework.Extension.UnitofWorks.Implementations
 {
-    public class UnitOfWork<TContext> : IDisposable, IUnitOfWork<TContext> where TContext : ApplicationDbContext
+    public class UnitOfWork<TContext> : IDisposable, IUnitOfWork<TContext> where TContext : DbContext
     {
         private readonly TContext _context;
         private Dictionary<Type, object> _repositories = new();

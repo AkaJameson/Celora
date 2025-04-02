@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Si.EntityFramework.Extension.Core.Exceptions
+namespace Si.EntityFramework.Extension.Exceptions
 {
     public class ReadForceException : Exception
     {

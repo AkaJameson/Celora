@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Si.EntityFramework.Extension.Data.Extensions;
+using Si.EntityFramework.Extension.Extensions;
 using System.Linq.Expressions;
 
-namespace Si.EntityFramework.Extension.Data.Extensions
+namespace Si.EntityFramework.Extension.Extensions
 {
     public static class QueryExtensions
     {

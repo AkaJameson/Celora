@@ -1,8 +1,8 @@
-﻿using Si.EntityFramework.Extension.Data.Context;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Si.EntityFramework.Extension.UnitofWorks.Abstractions
 {
-    public interface IUnitOfWork<TContext> where TContext : ApplicationDbContext
+    public interface IUnitOfWork<TContext> where TContext : DbContext
     {
         void BeginTransaction();
         void ClearChangeTracker();

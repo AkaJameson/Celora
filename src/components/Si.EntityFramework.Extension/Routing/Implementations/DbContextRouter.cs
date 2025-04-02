@@ -1,13 +1,8 @@
-﻿using global::Si.EntityFramework.Extension.Data.Context;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Si.EntityFramework.Extension.Routing.Abstractions;
 using Si.EntityFramework.Extension.Routing.Configuration;
 using Si.EntityFramework.Extension.Routing.Interceptor;
-using Si.EntityFramework.Extension.UnitofWorks.Abstractions;
-using System;
-using System.Data.Common;
 
 namespace Si.EntityFramework.Extension.Routing.Implementations
 {
@@ -15,7 +10,7 @@ namespace Si.EntityFramework.Extension.Routing.Implementations
     /// 数据库上下文路由实现类
     /// </summary>
     /// <typeparam name="TContext">数据库上下文类型</typeparam>
-    public class DbContextRouter<TContext> : IDbContextRouter<TContext> where TContext : ApplicationDbContext
+    public class DbContextRouter<TContext> : IDbContextRouter<TContext> where TContext : DbContext
     {
         private readonly RoutingOptions _options;
     
