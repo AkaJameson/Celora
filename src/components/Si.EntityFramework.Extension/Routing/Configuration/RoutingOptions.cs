@@ -37,8 +37,7 @@ namespace Si.EntityFramework.Extension.Routing.Configuration
         /// <summary>
         /// 连接字符串
         /// </summary>
-        public Action<DbContextOptionsBuilder> optionsBuilder { get; set; }
-
+        public string ConnectionString { get; set; }
         /// <summary>
         /// 权重 (用于权重策略，默认为1)
         /// </summary>

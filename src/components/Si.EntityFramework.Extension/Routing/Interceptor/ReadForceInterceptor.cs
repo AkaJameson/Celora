@@ -9,10 +9,8 @@ namespace Si.EntityFramework.Extension.Routing.Interceptor
 {
     public class ReadForceInterceptor<TContext> : DbCommandInterceptor where TContext : ApplicationDbContext
     {
-        private readonly DbContextRouter<TContext> router;
-        public ReadForceInterceptor(DbContextRouter<TContext> router) : base()
+        public ReadForceInterceptor() : base()
         {
-            router = router;
         }
         public override InterceptionResult<DbCommand> CommandCreating(
         CommandCorrelatedEventData eventData,

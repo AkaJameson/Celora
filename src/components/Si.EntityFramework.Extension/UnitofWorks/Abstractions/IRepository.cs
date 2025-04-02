@@ -55,18 +55,6 @@ namespace Si.EntityFramework.Extension.UnitofWorks.Abstractions
         /// </summary>
         /// <param name="entities">要添加的实体集合</param>
         Task AddRangeAsync(IEnumerable<T> entities);
-
-        /// <summary>
-        /// (强制实体追踪）异步更新实体
-        /// </summary>
-        /// <param name="entity">要更新的实体</param>
-        Task ForceUpdateAsync(T entity);
-
-        /// <summary>
-        /// （强制实体追踪）异步更新多个实体
-        /// </summary>
-        /// <param name="entities">要更新的实体集合</param>
-        Task ForceUpdateRangeAsync(IEnumerable<T> entities);
         /// <summary>
         /// 异步更新实体
         /// </summary>

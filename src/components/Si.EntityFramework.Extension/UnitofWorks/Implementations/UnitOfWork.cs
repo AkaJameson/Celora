@@ -11,11 +11,9 @@ namespace Si.EntityFramework.Extension.UnitofWorks.Implementations
         private readonly TContext _context;
         private Dictionary<Type, object> _repositories = new();
         private IDbContextTransaction _currentTransaction;
-        private readonly IServiceProvider _sp;
-        public UnitOfWork(TContext context, IServiceProvider sp)
+        public UnitOfWork(TContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
-            _sp = sp;
         }
 
         /// <summary>
@@ -34,7 +32,7 @@ namespace Si.EntityFramework.Extension.UnitofWorks.Implementations
 
             return (IRepository<T>)_repositories[type];
         }
-       
+
         /// <summary>
         /// 提交所有更改
         /// </summary>

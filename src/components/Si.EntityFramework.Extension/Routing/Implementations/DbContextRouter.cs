@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Si.EntityFramework.Extension.Routing.Abstractions;
 using Si.EntityFramework.Extension.Routing.Configuration;
+using Si.EntityFramework.Extension.Routing.Interceptor;
 using Si.EntityFramework.Extension.UnitofWorks.Abstractions;
 using System;
 using System.Data.Common;
@@ -17,44 +18,41 @@ namespace Si.EntityFramework.Extension.Routing.Implementations
     public class DbContextRouter<TContext> : IDbContextRouter<TContext> where TContext : ApplicationDbContext
     {
         private readonly RoutingOptions _options;
-        private readonly ILoadBalanceSelector _loadBalanceSelector;
-        private TContext context;
+    
+        private TContext writeContext;
+        private TContext readContext;
         private readonly IServiceProvider serviceProvider;
+        //private readonly DbModel
         /// <summary>
         /// 构造函数
         /// </summary>
         /// <param name="serviceProvider">服务提供者</param>
         /// <param name="options">路由配置选项</param>
-        public DbContextRouter(IServiceProvider serviceProvider, RoutingOptionsProvider routingOptionsProvider, TContext context)
+        public DbContextRouter(IServiceProvider serviceProvider, TContext context)
         {
-            var options = routingOptionsProvider[typeof(TContext).Name];
-            if (options == null)
-            {
-                throw new ArgumentNullException(nameof(options));
-            }
-            _options = options;
-            // 创建负载均衡选择器
-            var factory = new LoadBalanceSelectorFactory(_options);
-            _loadBalanceSelector = factory.CreateSelector();
-            this.context = context;
+            this.writeContext = context;
             this.serviceProvider = serviceProvider;
         }
-        public TContext GetContext() => context;
-
-        public void ForceSlave()
+        /// <summary>
+        /// 获取写入数据库上下文
+        /// </summary>
+        /// <returns></returns>
+        public TContext GetWriteContext() => writeContext;
+        /// <summary>
+        /// 获取读数据库上下文
+        /// </summary>
+        /// <returns></returns>
+        public TContext GetReadContext()
         {
-            var slaveConfig = _loadBalanceSelector.Select();
-            var optionsBuilder = new DbContextOptionsBuilder<TContext>();
-            slaveConfig.optionsBuilder?.Invoke(optionsBuilder);
-            context = ActivatorUtilities.CreateInstance<TContext>(
-            serviceProvider,
-            optionsBuilder.Options,
-            serviceProvider.GetRequiredService<RoutingOptionsProvider>());
-        }
-
-        public IUnitOfWork<TContext> GetUnitOfWork()
-        {
-            return ActivatorUtilities.CreateInstance<IUnitOfWork<TContext>>(serviceProvider, context, serviceProvider);
+            if(readContext == null)
+            {
+                var originalOptionsBuilder = serviceProvider.GetRequiredService<DbContextOptionsBuilder<TContext>>();
+                var newOptionsBuilder = new DbContextOptionsBuilder<TContext>(originalOptionsBuilder.Options);
+                newOptionsBuilder.AddInterceptors(new ReadForceInterceptor<TContext>());
+                newOptionsBuilder.AddInterceptors(new ConnectionInterceptor<TContext>(serviceProvider));
+                readContext = ActivatorUtilities.CreateInstance<TContext>(serviceProvider,newOptionsBuilder.Options);
+            }
+            return readContext;
         }
     }
 }

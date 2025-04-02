@@ -10,8 +10,8 @@ namespace Si.EntityFramework.Extension
 {
     public static class ServiceCollectionExtension
     {
-        public static DbOptionsProvider DbOptionsProvider { get; set; } = new DbOptionsProvider();
-        public static RoutingOptionsProvider RoutingOptionsProvider { get; set; } = new RoutingOptionsProvider();
+        public static DbOptionsProvider DbOptionsProvider { get; set; }
+        public static RoutingOptionsProvider RoutingOptionsProvider { get; set; }
         /// <summary>
         /// 添加数据库上下文
         /// </summary>
@@ -23,7 +23,17 @@ namespace Si.EntityFramework.Extension
             , Action<DbContextOptionsBuilder> optionsAction
             , Action<DbOptions> exOptionAction) where TContext : ApplicationDbContext
         {
-            services.AddSingleton(DbOptionsProvider);
+            if (DbOptionsProvider == null)
+            {
+                DbOptionsProvider = new DbOptionsProvider();
+                services.AddSingleton(DbOptionsProvider);
+            }
+            services.AddSingleton<DbContextOptionsBuilder<TContext>>(sp =>
+            {
+                var builder = new DbContextOptionsBuilder<TContext>();
+                optionsAction.Invoke(builder);
+                return builder;
+            });
             var dbOptions = new DbOptions();
             exOptionAction?.Invoke(dbOptions);
             DbOptionsProvider[typeof(TContext).Name] = dbOptions;

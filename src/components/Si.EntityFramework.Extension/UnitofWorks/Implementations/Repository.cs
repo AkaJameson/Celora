@@ -18,12 +18,10 @@ namespace Si.EntityFramework.Extension.UnitofWorks.Implementations
         {
             return await DbSet.ToListAsync();
         }
-
         public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
         {
             return await DbSet.Where(predicate).ToListAsync();
         }
-
         public async Task<T> SingleOrDefaultAsync(Expression<Func<T, bool>> predicate)
         {
             return await DbSet.SingleOrDefaultAsync(predicate);
@@ -41,6 +39,10 @@ namespace Si.EntityFramework.Extension.UnitofWorks.Implementations
         {
             IQueryable<T> query = DbSet;
 
+            if(pageIndex<=0 || pageSize <= 0)
+            {
+                throw new ArgumentException("Page index and page size must be greater than zero.");
+            }
             if (predicate != null)
             {
                 query = query.Where(predicate);
@@ -73,35 +75,6 @@ namespace Si.EntityFramework.Extension.UnitofWorks.Implementations
 
             await DbSet.AddRangeAsync(entities);
         }
-
-        public Task ForceUpdateAsync(T entity)
-        {
-            if (entity == null)
-                throw new ArgumentNullException(nameof(entity));
-            var entry = _dbContext.Entry(entity);
-            if (entry.State == EntityState.Detached)
-                throw new InvalidOperationException("Entity must be attached to the context before it can be updated.");
-            DbSet.Update(entity);
-            return Task.CompletedTask;
-        }
-
-        public Task ForceUpdateRangeAsync(IEnumerable<T> entities)
-        {
-            if (entities == null)
-                throw new ArgumentNullException(nameof(entities));
-            foreach (var entity in entities)
-            {
-                // 检查每个实体是否被追踪
-                var entry = _dbContext.Entry(entity);
-                if (entry.State == EntityState.Detached)
-                {
-                    throw new InvalidOperationException("One or more entities are not being tracked by the context.");
-                }
-            }
-            DbSet.UpdateRange(entities);
-            return Task.CompletedTask;
-        }
-
         public async Task DeleteAsync(int id)
         {
             var entity = await DbSet.FindAsync(id);
@@ -156,7 +129,6 @@ namespace Si.EntityFramework.Extension.UnitofWorks.Implementations
         {
             return DbSet.AsNoTracking();
         }
-
         public IQueryable<T> Where(Expression<Func<T, bool>> predicate)
         {
             return DbSet.Where(predicate);

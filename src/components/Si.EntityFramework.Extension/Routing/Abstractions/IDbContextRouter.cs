@@ -13,18 +13,12 @@ namespace Si.EntityFramework.Extension.Routing.Abstractions
         /// 获取数据库上下文实例
         /// </summary>
         /// <returns>数据库上下文实例</returns>
-        TContext GetContext();
-     
+        TContext GetWriteContext();
         /// <summary>
-        /// 强制使用从数据库
+        /// 获取从数据库上下文实例
         /// </summary>
         /// <returns></returns>
-        void ForceSlave();
+        TContext GetReadContext();
 
-        /// <summary>
-        /// 获取工作单元
-        /// </summary>
-        /// <returns></returns>
-        IUnitOfWork<TContext> GetUnitOfWork();
     }
 }
