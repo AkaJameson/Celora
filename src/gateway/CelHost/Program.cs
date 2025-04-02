@@ -64,7 +64,7 @@ app.Use(async (context, next) =>
         await next();
     }
 });
-app.InitializeProxy();
+app.InitializeServiceProxy();
 app.MapReverseProxy();
 app.UseAuthentication();
 app.UseAuthorization();

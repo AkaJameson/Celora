@@ -6,7 +6,7 @@ namespace CelHost.Proxy
 {
     public static class ProxyExtension
     {
-        public static void InitializeProxy(this WebApplication app)
+        public static void InitializeServiceProxy(this WebApplication app)
         {
             using var scope = app.Services.CreateScope();
             var context = scope.ServiceProvider.GetRequiredService<HostContext>();
@@ -27,8 +27,8 @@ namespace CelHost.Proxy
                     ClusterId = cluster.RouteId,
                     Match = new RouteMatch
                     {
-                        Path = cluster.Path,
-                    }
+                        Path = $"{cluster.Path}/{{**remainder}}"
+                    },
                 };
                 routes.Add(route);
 
@@ -51,6 +51,11 @@ namespace CelHost.Proxy
             }
             //更新配置
             scope.ServiceProvider.GetRequiredService<InMemoryConfigProvider>().Update(routes, clusterConfigs);
+        }
+
+        public static void InitializeHostServiceProxy(this WebApplication app)
+        {
+
         }
     }
 }

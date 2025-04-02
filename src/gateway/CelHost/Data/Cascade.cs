@@ -25,7 +25,7 @@ namespace CelHost.Data.Data
         /// </summary>
         public string Route { get; set; }
         /// <summary>
-        /// 下级网关端口
+        /// 下级网关账号
         /// </summary>
         public string UserName { get; set; }
         /// <summary>
@@ -33,8 +33,8 @@ namespace CelHost.Data.Data
         /// </summary>
         public string Password { get; set; }
         /// <summary>
-        /// 下级网关状态
+        /// 是否启用
         /// </summary>
-        public NodeStatus Status { get; set; }
+        public bool IsActive { get; set; }
     }
 }
