@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CelHost.Data.Data
 {
@@ -8,6 +9,7 @@ namespace CelHost.Data.Data
     public class User
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Account { get; set; }
         public string Password { get; set; }

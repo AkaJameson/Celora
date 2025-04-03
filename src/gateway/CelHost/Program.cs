@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Si.EntityFramework.AutoMigration;
 using Si.Logging;
+using Si.Utilites;
 using Yarp.ReverseProxy.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,8 +36,7 @@ else
         });
     });
 }
-builder.Services.AddReverseProxy()
-                .LoadFromMemory(new List<RouteConfig>(), new List<ClusterConfig>());
+builder.Services.AddReverseProxy();
 builder.Services.AddAuthentication();
 builder.Services.AddAuthorization();
 builder.Services.AddControllers();
@@ -47,6 +47,7 @@ builder.Services.AddDbContext<HostContext>(options =>
     options.UseSqlite(connectionStr);
 });
 var app = builder.Build();
+app.Services.RegisterShellScope(app.Configuration);
 await app.AutoMigrationAsync<HostContext>(new AutoMigrationOptions
 {
     BackupDatabase = false
@@ -64,7 +65,6 @@ app.Use(async (context, next) =>
         await next();
     }
 });
-app.InitializeServiceProxy();
 app.MapReverseProxy();
 app.UseAuthentication();
 app.UseAuthorization();

@@ -1,5 +1,4 @@
-﻿using CelHost.Data.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CelHost.Data.Data
@@ -8,6 +7,7 @@ namespace CelHost.Data.Data
     public class ClusterNode
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]

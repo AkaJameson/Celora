@@ -7,6 +7,7 @@ namespace CelHost.Data.Data
     public class Cluster
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         /// <summary>
@@ -26,6 +27,14 @@ namespace CelHost.Data.Data
         /// </summary>
         [MaxLength(500)]
         public string Hosts { get; set; }
+        /// <summary>
+        /// 限流策略Id
+        /// </summary>
+        public int RateLimitPolicyId { get; set; }
+        /// <summary>
+        /// 限流策略
+        /// </summary>
+        public virtual RateLimitPolicy RateLimitPolicy { get; set; }
 
         /// <summary>
         /// 请求方法（可选，多个用逗号分隔，如 GET,POST）

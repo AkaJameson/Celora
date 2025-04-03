@@ -1,36 +1,36 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CelHost.Data.Data
+namespace CelHost.Data
 {
     /// <summary>
-    /// 下级网关级联信息
+    /// 黑名单记录
     /// </summary>
-    [Table("Cascade")]
-    public class Cascade
+    [Table("BlocklistRecord")]
+    public class BlocklistRecord
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         /// <summary>
-        /// 下级网关名称
+        /// 封禁的ip
         /// </summary>
-        public string Name { get; set; }
+        public string BlockIp { get; set; }
         /// <summary>
-        /// 下级网关地址
+        /// 封禁原因
         /// </summary>
-        public string Url { get; set; }
+        public string BlockReason { get; set; }
         /// <summary>
-        /// 下级网关账号
+        /// 封禁次数
         /// </summary>
-        public string UserName { get; set; }
+        public int BlockCount { get; set; }
         /// <summary>
-        /// 下级网关密码
+        /// 生效时间
         /// </summary>
-        public string Password { get; set; }
+        public DateTime EffectiveTime { get; set; }
         /// <summary>
-        /// 是否启用
+        /// 解封时间
         /// </summary>
-        public bool IsActive { get; set; }
+        public DateTime ExpireTime { get; set; } 
     }
 }
