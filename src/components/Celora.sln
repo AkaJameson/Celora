@@ -34,7 +34,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.Logging", "Si.Logging\Si
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.QuartzService", "Si.QuartzService\Si.QuartzService.csproj", "{D6111FBB-2C1B-4F47-8346-1801D7BFF563}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.DapperToLinq", "Si.DapperToLinq\Si.DapperToLinq.csproj", "{D6554222-A95E-4406-BBBB-4386AFEF0937}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.Linq2Dapper", "Si.Linq2Dapper\Si.Linq2Dapper.csproj", "{A6D64A8C-DA4D-4131-BA5D-25F3DB4FEE40}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -90,10 +90,10 @@ Global
 		{D6111FBB-2C1B-4F47-8346-1801D7BFF563}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6111FBB-2C1B-4F47-8346-1801D7BFF563}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6111FBB-2C1B-4F47-8346-1801D7BFF563}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D6554222-A95E-4406-BBBB-4386AFEF0937}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D6554222-A95E-4406-BBBB-4386AFEF0937}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D6554222-A95E-4406-BBBB-4386AFEF0937}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D6554222-A95E-4406-BBBB-4386AFEF0937}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6D64A8C-DA4D-4131-BA5D-25F3DB4FEE40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6D64A8C-DA4D-4131-BA5D-25F3DB4FEE40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6D64A8C-DA4D-4131-BA5D-25F3DB4FEE40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6D64A8C-DA4D-4131-BA5D-25F3DB4FEE40}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
