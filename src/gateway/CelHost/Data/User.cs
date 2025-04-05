@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CelHost.Data.Data
+namespace CelHost.Data
 {
     /// <summary>
     /// 管理页面用户信息表

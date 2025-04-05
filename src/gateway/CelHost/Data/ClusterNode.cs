@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CelHost.Data.Data
+namespace CelHost.Data
 {
     [Table("ClusterNode")]
     public class ClusterNode
@@ -21,12 +21,6 @@ namespace CelHost.Data.Data
         /// </summary>
         [Required, MaxLength(500)]
         public string Address { get; set; }
-
-        /// <summary>
-        /// 健康检查端点（可选）
-        /// </summary>
-        [MaxLength(500)]
-        public string HealthCheck { get; set; }
 
         /// <summary>
         /// 是否启用

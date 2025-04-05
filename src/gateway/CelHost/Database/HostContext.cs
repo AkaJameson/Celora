@@ -1,7 +1,7 @@
-﻿using CelHost.Data.Data;
+﻿using CelHost.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace CelHost.Data
+namespace CelHost.Database
 {
     public class HostContext : DbContext
     {
@@ -25,15 +25,25 @@ namespace CelHost.Data
         /// 级联信息
         /// </summary>
         public DbSet<Cascade> Cascades { get; set; }
+        /// <summary>
+        /// ip黑名单
+        /// </summary>
         public DbSet<BlocklistRecord> blocklistRecords { get; set; }
+        /// <summary>
+        /// 限流策略
+        /// </summary>
         public DbSet<RateLimitPolicy> RateLimitPolicies { get; set; }
-
+        /// <summary>
+        /// 健康检查策略
+        /// </summary>
+        public DbSet<HealthCheckOption> HealthCheckOptions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Cluster>().HasMany(p => p.Nodes).WithOne(p => p.Cluster).HasForeignKey(p => p.ClusterId);
-            modelBuilder.Entity<Cluster>().HasOne<RateLimitPolicy>().WithMany(p => p.Clusters).HasForeignKey(p => p.RateLimitPolicyId);
+            modelBuilder.Entity<Cluster>().HasOne<HealthCheckOption>().WithMany(p => p.Clusters).HasForeignKey(p => p.HealthCheckId);
+            modelBuilder.Entity<BlocklistRecord>().HasIndex(p => p.BlockIp).IsUnique().HasFilter(null).HasDatabaseName("Host_Block_Ip");
         }
     }
 }

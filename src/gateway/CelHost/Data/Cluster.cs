@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CelHost.Data.Data
+namespace CelHost.Data
 {
     [Table("Cluster")]
     public class Cluster
@@ -28,13 +28,9 @@ namespace CelHost.Data.Data
         [MaxLength(500)]
         public string Hosts { get; set; }
         /// <summary>
-        /// 限流策略Id
+        /// 速率限制策略名称
         /// </summary>
-        public int RateLimitPolicyId { get; set; }
-        /// <summary>
-        /// 限流策略
-        /// </summary>
-        public virtual RateLimitPolicy RateLimitPolicy { get; set; }
+        public string RateLimitPolicyName { get; set; } = "";
 
         /// <summary>
         /// 请求方法（可选，多个用逗号分隔，如 GET,POST）
@@ -56,5 +52,17 @@ namespace CelHost.Data.Data
         /// 集群配置
         /// </summary>
         public virtual IList<ClusterNode> Nodes { get; set; } = new List<ClusterNode>();
+        /// <summary>
+        /// 健康检查端点（可选）
+        /// </summary>
+        public bool HealthCheck { get; set; } = true;
+        /// <summary>
+        /// 健康检查配置Id
+        /// </summary>
+        public int HealthCheckId { get; set; }
+        /// <summary>
+        /// 健康检查政策
+        /// </summary>
+        public virtual HealthCheckOption CheckOption { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CelHost.Data.Data
+namespace CelHost.Data
 {
     /// <summary>
     /// 下级网关级联信息
@@ -28,9 +28,5 @@ namespace CelHost.Data.Data
         /// 下级网关密码
         /// </summary>
         public string Password { get; set; }
-        /// <summary>
-        /// 是否启用
-        /// </summary>
-        public bool IsActive { get; set; }
     }
 }

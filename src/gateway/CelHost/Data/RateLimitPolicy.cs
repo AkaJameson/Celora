@@ -1,6 +1,5 @@
-﻿using CelHost.Data.Data;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
 using System.Threading.RateLimiting;
 
 namespace CelHost.Data
@@ -24,7 +23,7 @@ namespace CelHost.Data
         /// <summary>
         /// 时间窗口
         /// </summary>
-        public TimeSpan Window { get; set; }
+        public int Window { get; set; }
         /// <summary>
         /// 队列处理顺序
         /// </summary>
@@ -33,9 +32,5 @@ namespace CelHost.Data
         /// 队列大小限制
         /// </summary>
         public int QueueLimit { get; set; }
-        /// <summary>
-        /// 集群关联
-        /// </summary>
-        public virtual IList<Cluster> Clusters { get; set; } = new List<Cluster>();
     }
 }

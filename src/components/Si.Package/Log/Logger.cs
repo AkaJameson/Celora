@@ -4,12 +4,12 @@ namespace Si.Package.Log
 {
     internal class Logger
     {
-        private static ReaderWriterLockSlim LogWriteLock = new ReaderWriterLockSlim();
+        private static readonly ReaderWriterLockSlim LogWriteLock = new ReaderWriterLockSlim();
         private static readonly string logDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "Logs");
-        private static string logFileNameBase = "XLog";
-        private static string logFileExtension = ".txt";
-        private static string currentLogFile = GetLatestLogFile();
-        private const long MaxFileSize = 50 * 1024 * 1024; // 30MB
+        private static readonly string logFileNameBase = "XLog";
+        private static readonly string logFileExtension = ".txt";
+        private static string? currentLogFile = null;
+        private const long MaxFileSize = 10 * 1024 * 1024;
         private const int MaxLogFiles = 30;
 
         public static void Info(string message) => WriteLog("INFO", message);
@@ -22,26 +22,24 @@ namespace Si.Package.Log
             try
             {
                 LogWriteLock.EnterWriteLock();
-                DateTime now = DateTime.Now;
-                if (!Directory.Exists(logDirectory))
-                {
-                    Directory.CreateDirectory(logDirectory);
-                    if (IsLinux()) SetFilePermissions(logDirectory, "777");
-                }
 
-                if (new FileInfo(currentLogFile).Length > MaxFileSize)
+                EnsureLogDirectory();
+
+                if (currentLogFile == null || !File.Exists(currentLogFile) || new FileInfo(currentLogFile).Length > MaxFileSize)
                 {
                     currentLogFile = GetNextLogFile();
                     CleanupOldLogs();
                 }
-                using (StreamWriter writer = File.AppendText(currentLogFile))
+
+                using (var stream = new FileStream(currentLogFile, FileMode.Append, FileAccess.Write, FileShare.ReadWrite))
+                using (var writer = new StreamWriter(stream))
                 {
-                    writer.WriteLine($"{now:yyyy-MM-dd HH:mm:ss} >> {level} >> {message}");
+                    writer.WriteLine($"{DateTime.Now:yyyy-MM-dd HH:mm:ss} >> {level} >> {message}");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error writing log: {ex}");
+                Console.WriteLine($"[Logger] Failed to write log: {ex}");
             }
             finally
             {
@@ -49,40 +47,41 @@ namespace Si.Package.Log
             }
         }
 
-        private static string GetLatestLogFile()
+        private static void EnsureLogDirectory()
         {
-            if (!Directory.Exists(logDirectory)) return Path.Combine(logDirectory, logFileNameBase + logFileExtension);
-            var logFiles = Directory.GetFiles(logDirectory, logFileNameBase + "_*.txt")
-                                   .Select(f => new FileInfo(f))
-                                   .OrderByDescending(f => f.Name)
-                                   .ToList();
-            return logFiles.Any() ? logFiles.First().FullName : Path.Combine(logDirectory, logFileNameBase + "_1" + logFileExtension);
+            if (!Directory.Exists(logDirectory))
+            {
+                Directory.CreateDirectory(logDirectory);
+                if (IsLinux()) SetFilePermissions(logDirectory, "777");
+            }
         }
 
         private static string GetNextLogFile()
         {
-            int newIndex = 1;
-            var existingLogs = Directory.GetFiles(logDirectory, logFileNameBase + "_*.txt");
-            if (existingLogs.Length > 0)
-            {
-                var lastFile = existingLogs.Select(f => new FileInfo(f))
-                                           .OrderByDescending(f => f.Name)
-                                           .First();
-                string lastFileName = Path.GetFileNameWithoutExtension(lastFile.Name);
-                if (int.TryParse(lastFileName.Split('_').Last(), out int lastIndex))
-                {
-                    newIndex = lastIndex + 1;
-                }
-            }
-            return Path.Combine(logDirectory, $"{logFileNameBase}_{newIndex}{logFileExtension}");
+            EnsureLogDirectory();
+
+            var logFiles = Directory.GetFiles(logDirectory, $"{logFileNameBase}_*{logFileExtension}")
+                                    .Select(f => new FileInfo(f))
+                                    .OrderByDescending(f =>
+                                    {
+                                        var name = Path.GetFileNameWithoutExtension(f.Name);
+                                        var indexStr = name.Split('_').LastOrDefault();
+                                        return int.TryParse(indexStr, out int idx) ? idx : 0;
+                                    })
+                                    .ToList();
+
+            int nextIndex = logFiles.Any() ? ExtractIndex(logFiles.First().Name) + 1 : 1;
+
+            return Path.Combine(logDirectory, $"{logFileNameBase}_{nextIndex}{logFileExtension}");
         }
 
         private static void CleanupOldLogs()
         {
-            var logFiles = Directory.GetFiles(logDirectory, logFileNameBase + "_*.txt")
-                                     .Select(f => new FileInfo(f))
-                                     .OrderBy(f => f.CreationTime)
-                                     .ToList();
+            var logFiles = Directory.GetFiles(logDirectory, $"{logFileNameBase}_*{logFileExtension}")
+                                    .Select(f => new FileInfo(f))
+                                    .OrderBy(f => f.CreationTime)
+                                    .ToList();
+
             while (logFiles.Count > MaxLogFiles)
             {
                 try
@@ -92,42 +91,51 @@ namespace Si.Package.Log
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Failed to delete log file: {ex}");
+                    Console.WriteLine($"[Logger] Failed to delete old log: {ex}");
                 }
             }
         }
 
-        private static void SetFilePermissions(string filePath, string permissions)
+        private static int ExtractIndex(string fileName)
         {
-            if (!IsLinux()) return;
+            var baseName = Path.GetFileNameWithoutExtension(fileName);
+            var parts = baseName.Split('_');
+            return int.TryParse(parts.LastOrDefault(), out int index) ? index : 0;
+        }
+
+        private static void SetFilePermissions(string path, string permissions)
+        {
             try
             {
-                Process chmod = new Process
+                var process = new Process
                 {
                     StartInfo = new ProcessStartInfo
                     {
                         FileName = "chmod",
-                        Arguments = $"{permissions} {filePath}",
+                        Arguments = $"{permissions} \"{path}\"",
                         RedirectStandardOutput = true,
                         RedirectStandardError = true,
                         UseShellExecute = false,
                         CreateNoWindow = true
                     }
                 };
-                chmod.Start();
-                chmod.WaitForExit();
-                if (chmod.ExitCode != 0)
+
+                process.Start();
+                process.WaitForExit();
+
+                if (process.ExitCode != 0)
                 {
-                    Console.WriteLine($"Failed to set permissions: {chmod.StandardError.ReadToEnd()}");
+                    Console.WriteLine($"[Logger] chmod failed: {process.StandardError.ReadToEnd()}");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error setting file permissions: {ex}");
+                Console.WriteLine($"[Logger] Failed to set permissions: {ex}");
             }
         }
 
-        private static bool IsLinux() => Environment.OSVersion.Platform == PlatformID.Unix ||
-                                          Environment.OSVersion.Platform == PlatformID.MacOSX;
+        private static bool IsLinux() =>
+            Environment.OSVersion.Platform == PlatformID.Unix ||
+            Environment.OSVersion.Platform == PlatformID.MacOSX;
     }
 }
