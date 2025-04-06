@@ -44,6 +44,21 @@ namespace CelHost.Proxy
                         new Dictionary<string, string>
                         {
                             {"PathRemovePrefix",cluster.Path }
+                        },
+                         new Dictionary<string, string>
+                        {
+                            {"RequestHeader", "X-Forwarded-For"},
+                            {"Set", "{ClientIp}"}
+                        },
+                        new Dictionary<string, string>
+                        {
+                            {"RequestHeader", "X-Forwarded-Proto"},
+                            {"Set", "{OriginalScheme}"}
+                        },
+                        new Dictionary<string, string>
+                        {
+                            {"RequestHeader", "X-Forwarded-Host"},
+                            {"Set", "{OriginalHost}"}
                         }
                     },
                     RateLimiterPolicy = cluster.RateLimitPolicyName

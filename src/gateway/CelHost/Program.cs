@@ -1,3 +1,4 @@
+using CelHost.BlockList;
 using CelHost.Database;
 using CelHost.Models;
 using CelHost.Proxy;
@@ -59,6 +60,14 @@ try
             context.HttpContext.Response.StatusCode = 429;
             context.HttpContext.Response.ContentType = "application/json";
             await context.HttpContext.Response.WriteAsJsonAsync(OperateResult.Failed("管理接口请求超限"));
+            // 封禁处理
+            var ip = context.HttpContext.Connection.RemoteIpAddress?.ToString();
+            if (!string.IsNullOrEmpty(ip))
+            {
+                var monitor = context.HttpContext.RequestServices
+                    .GetRequiredService<BlackListMonitor>();
+                await monitor.RecordViolation(ip);
+            }
         };
     });
     builder.AddProxyInjection();
