@@ -5,7 +5,7 @@ namespace CelHost.Database
 {
     public class HostContext : DbContext
     {
-        public HostContext(DbContextOptions options) : base(options)
+        public HostContext(DbContextOptions<HostContext> options) : base(options)
         {
 
         }
