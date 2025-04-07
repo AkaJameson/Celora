@@ -30,11 +30,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.Distributed", "Si.Distri
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.Modules.EventBus", "Si.Modules.EventBus\Si.Modules.EventBus.csproj", "{40B24923-6A31-4B37-A566-8D33D42026E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.Logging", "Si.Logging\Si.Logging.csproj", "{D6771C00-23E5-4091-8934-54123BEEEBF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.Logging", "Si.Logging\Si.Logging.csproj", "{D6771C00-23E5-4091-8934-54123BEEEBF6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.QuartzService", "Si.QuartzService\Si.QuartzService.csproj", "{D6111FBB-2C1B-4F47-8346-1801D7BFF563}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.Linq2Dapper", "Si.Linq2Dapper\Si.Linq2Dapper.csproj", "{A6D64A8C-DA4D-4131-BA5D-25F3DB4FEE40}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.QuartzService", "Si.QuartzService\Si.QuartzService.csproj", "{D6111FBB-2C1B-4F47-8346-1801D7BFF563}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -90,10 +88,6 @@ Global
 		{D6111FBB-2C1B-4F47-8346-1801D7BFF563}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6111FBB-2C1B-4F47-8346-1801D7BFF563}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6111FBB-2C1B-4F47-8346-1801D7BFF563}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A6D64A8C-DA4D-4131-BA5D-25F3DB4FEE40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A6D64A8C-DA4D-4131-BA5D-25F3DB4FEE40}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A6D64A8C-DA4D-4131-BA5D-25F3DB4FEE40}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A6D64A8C-DA4D-4131-BA5D-25F3DB4FEE40}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
