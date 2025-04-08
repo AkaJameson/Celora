@@ -14,6 +14,10 @@
 	<ItemGroup>
 		<!-- 核心包 -->
 		<PackageReference Include="Microsoft.EntityFrameworkCore" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
 		<!-- 数据库驱动(可选依赖) -->
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
