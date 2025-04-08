@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design.Internal;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Scaffolding;
+using Microsoft.EntityFrameworkCore.Scaffolding.Internal;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Si.EntityFramework.AutoMigration.Core
@@ -13,6 +15,7 @@ namespace Si.EntityFramework.AutoMigration.Core
         public MigrationOptions(DbContext dbContext)
         {
             this.dbContext = dbContext;
+            
         }
         private IServiceProvider ServiceProvider
         {
@@ -65,6 +68,12 @@ namespace Si.EntityFramework.AutoMigration.Core
             }
         }
         
-        public
+        public IScaffoldingModelFactory ScaffoldingModelFactory
+        {
+            get
+            {
+                return ServiceProvider.GetRequiredService<IScaffoldingModelFactory>();
+            }
+        }
     }
 }
