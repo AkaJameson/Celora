@@ -4,7 +4,7 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Version>1.0.0</Version>
+		<Version>1.0.1</Version>
 		<Authors>Si</Authors>
 		<Description>一个轻量级的Entity Framework Core自动迁移工具，支持SQL Server、SQLite、MySQL和PostgreSQL数据库</Description>
 		<PackageReadmeFile></PackageReadmeFile>

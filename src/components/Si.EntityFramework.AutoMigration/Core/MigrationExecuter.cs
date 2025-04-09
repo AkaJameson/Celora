@@ -1,43 +1,70 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Scaffolding;
-using Microsoft.EntityFrameworkCore.SqlServer.Infrastructure.Internal;
-using Microsoft.EntityFrameworkCore.SqlServer.Scaffolding.Internal;
 using Microsoft.Extensions.Logging;
 using Si.EntityFramework.AutoMigration.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Si.EntityFramework.AutoMigration.Core
 {
     public class MigrationExecuter
     {
         private static SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
-        
+        private DesignTimeService designTimeService;
         private readonly ILogger<MigrationExecuter> _logger;
-        public MigrationExecuter(ILogger<MigrationExecuter> _logger)
+        private readonly DbContext _context;
+        public MigrationExecuter(ILogger<MigrationExecuter> logger, DbContext context)
         {
-            this._logger = _logger;
+            _logger = logger;
+            _context = context;
+            designTimeService = new DesignTimeService(context);
         }
-
         public async Task Migrate(DbContext context, AutoMigrationOptions options)
         {
             await semaphore.WaitAsync();
             try
             {
                 var database = context.Database;
-                var services = context.GetInfrastructure();
+                var connection = database.GetDbConnection();
+                IRelationalModel databaseModel = null;
+                try
+                {
+                    var databaseModelFactory = designTimeService.DatabaseModelFactory;
+                    var databaseModelOption = new DatabaseModelFactoryOptions();
+                    var dbModel = databaseModelFactory.Create(connection, databaseModelOption);
+                    var scaffoldingModelFactory = designTimeService.ScaffoldingModelFactory;
+                    databaseModel = scaffoldingModelFactory.Create(dbModel, true).GetRelationalModel();
 
-                var differ = services.GetRequiredService<IMigrationsModelDiffer>();
-                var sqlGenerator = services.GetRequiredService<IMigrationsSqlGenerator>();
-                var dbModelFactory = services.GetRequiredService<IDatabaseModelFactory>(); // 关键服务 ✅
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Failed to read database model, assuming empty database");
+                }
+                var codeModel = designTimeService.Model.GetRelationalModel();
+                var modelDiffer = designTimeService.ModelDiffer;
+                var operations = modelDiffer.GetDifferences(databaseModel, codeModel);
+                if (!operations.Any())
+                {
+                    _logger.LogInformation("No pending model changes detected");
+                    return;
+                }
+                var commands = designTimeService.MigrationsSqlGenerator.Generate(operations, designTimeService.Model);
 
-                var dbConnection = context.Database.GetDbConnection();
-
-                // 1️⃣ 获取数据库模型（旧结构）
-                var dbModel = dbModelFactory.Create(dbConnection, new DatabaseModelFactoryOptions());
-
+                using var transaction = await database.BeginTransactionAsync();
+                try
+                {
+                    foreach (var command in commands)
+                    {
+                        await database.ExecuteSqlRawAsync(
+                            command.CommandText);
+                    }
+                    await transaction.CommitAsync();
+                    _logger.LogInformation("Database migration completed successfully. Applied {Count} operations", operations.Count);
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    _logger.LogError(ex, "Migration transaction failed");
+                }
             }
             catch (Exception ex)
             {
@@ -48,41 +75,5 @@ namespace Si.EntityFramework.AutoMigration.Core
                 semaphore.Release();
             }
         }
-        public static void Migrate(DbContext context)
-        {
-            
-
-            // 2️⃣ 构建 IModel 旧模型（模拟 snapshot），用 Scaffolding 工具
-            var scaffolder = services.GetRequiredService<IReverseEngineerScaffolder>();
-            var designTimeServices = new DesignTimeServicesBuilder(services, context.GetType(), context.Database.ProviderName, null)
-                                        .Build(context.Database.ProviderName);
-
-            var scaffoldingFactory = designTimeServices.GetRequiredService<IModelCodeGenerator>();
-
-            var modelFactory = designTimeServices.GetRequiredService<IScaffoldingModelFactory>();
-            var oldModel = modelFactory.Create(dbModel, false).Model;
-
-            // 3️⃣ 当前模型
-            var newModel = context.Model;
-
-            // 4️⃣ 差异比对
-            var operations = differ.GetDifferences(oldModel.GetRelationalModel(), newModel.GetRelationalModel());
-
-            if (!operations.Any())
-            {
-                Console.WriteLine("[AutoMigration] 无变更。");
-                return;
-            }
-
-            // 5️⃣ 生成 SQL 并执行
-            var commands = sqlGenerator.Generate(operations);
-            var sql = string.Join(";\n", commands.Select(c => c.CommandText)) + ";";
-
-            Console.WriteLine("[AutoMigration] 执行迁移 SQL...");
-            context.Database.ExecuteSqlRaw(sql);
-            Console.WriteLine("[AutoMigration] 完成 ✅");
-        }
-
-
     }
 }

@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Si.EntityFramework.AutoMigration.Configuration;
+using Si.EntityFramework.AutoMigration.Core;
 
 namespace Si.EntityFramework.AutoMigration
 {
@@ -10,6 +12,10 @@ namespace Si.EntityFramework.AutoMigration
     /// </summary>
     public static class DbContextExtensions
     {
+        public static void AddAutoMigrationProvider(this IServiceCollection services)
+        {
+            services.AddScoped<MigrationExecuter>();
+        }
         /// <summary>
         /// 同步检查并更新数据库表结构
         /// </summary>
@@ -27,10 +33,9 @@ namespace Si.EntityFramework.AutoMigration
         /// <param name="options">迁移选项</param>
         internal static async Task AutoMigrationAsync(this DbContext context, IServiceProvider sp, AutoMigrationOptions options = null)
         {
-            options ??= new AutoMigrationOptions();
-
-
-
+            options = options ?? new AutoMigrationOptions();
+            var executer = sp.GetRequiredService<MigrationExecuter>();
+            await executer.Migrate(context, options);
         }
 
         public static async Task AutoMigrationAsync<T>(this WebApplication app, AutoMigrationOptions options = null) where T : DbContext
