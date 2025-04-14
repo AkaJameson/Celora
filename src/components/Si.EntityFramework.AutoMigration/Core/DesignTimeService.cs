@@ -6,28 +6,72 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Migrations.Design;
 using Microsoft.EntityFrameworkCore.Scaffolding;
 using Microsoft.EntityFrameworkCore.Scaffolding.Internal;
+using Microsoft.EntityFrameworkCore.Sqlite.Design.Internal;
+using Microsoft.EntityFrameworkCore.SqlServer.Design.Internal;
 using Microsoft.Extensions.DependencyInjection;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Design.Internal;
+using Pomelo.EntityFrameworkCore.MySql.Design.Internal;
 
 namespace Si.EntityFramework.AutoMigration.Core
 {
     public class DesignTimeService
     {
-        private DbContext DbContext { get; set; }
-        private IServiceProvider DesignService { get; set; }
+        private DbContext _dbContext { get; set; }
+        private static IServiceProvider _serviceProvider { get; set; }
+        private IDesignTimeModel _designTimeModel { get; set; }
         public DesignTimeService(DbContext dbContext)
         {
-            DbContext = dbContext;
-            var serviceCollection = new ServiceCollection();
-            serviceCollection.AddEntityFrameworkDesignTimeServices();
-            serviceCollection.AddDbContextDesignTimeServices(DbContext);
-            DesignService = serviceCollection.BuildServiceProvider();
+            _dbContext = dbContext;
+            var originalServices = ((IInfrastructure<IServiceProvider>)dbContext).Instance;
+            _designTimeModel = originalServices.GetRequiredService<IDesignTimeModel>();
+            // 获取数据库提供者名称
+            var providerName = _dbContext.Database.ProviderName;
+
+            // 创建服务集合
+            var services = new ServiceCollection();
+
+            // 注册基础服务
+            services.AddEntityFrameworkDesignTimeServices();
+
+            // 添加数据库特定服务
+            AddDatabaseSpecificServices(services, providerName);
+
+            // 合并原始上下文服务
+            services.AddSingleton(_ => _dbContext.GetService<IDesignTimeModel>());
+            services.AddSingleton(_ => _dbContext.Model);
+
+            _serviceProvider = services.BuildServiceProvider();
+        }
+        private void AddDatabaseSpecificServices(IServiceCollection services, string providerName)
+        {
+            switch (providerName)
+            {
+                case "Microsoft.EntityFrameworkCore.SqlServer":
+                    new SqlServerDesignTimeServices().ConfigureDesignTimeServices(services);
+                    break;
+
+                case "Pomelo.EntityFrameworkCore.MySql":
+                    new MySqlDesignTimeServices().ConfigureDesignTimeServices(services);
+                    break;
+
+                case "Microsoft.EntityFrameworkCore.Sqlite":
+                    new SqliteDesignTimeServices().ConfigureDesignTimeServices(services);
+                    break;
+
+                case "Npgsql.EntityFrameworkCore.PostgreSQL":
+                    new NpgsqlDesignTimeServices().ConfigureDesignTimeServices(services);
+                    break;
+
+                default:
+                    throw new NotSupportedException($"Unsupported database provider: {providerName}");
+            }
         }
 
         public IMigrationsScaffolder MigrationsScaffolder
         {
             get
             {
-                return DesignService.GetRequiredService<IMigrationsScaffolder>();
+                return _serviceProvider.GetRequiredService<IMigrationsScaffolder>();
             }
         }
 
@@ -35,50 +79,32 @@ namespace Si.EntityFramework.AutoMigration.Core
         {
             get
             {
-                return DesignService.GetRequiredService<IDatabaseModelFactory>();
+                return _serviceProvider.GetRequiredService<IDatabaseModelFactory>();
             }
         }
         public IScaffoldingModelFactory ScaffoldingModelFactory
         {
             get
             {
-                return DesignService.GetRequiredService<IScaffoldingModelFactory>();
-            }
-        }
-        public IMigrationsAssembly MigrationsAssembly
-        {
-            get
-            {
-                return DbContext.GetInfrastructure().GetRequiredService<IMigrationsAssembly>();
-            }
-        }
-        public IDesignTimeModel DesignTimeModel
-        {
-            get
-            {
-                return DbContext.GetInfrastructure().GetRequiredService<IDesignTimeModel>();
-            }
-        }
-        public IModel Model
-        {
-            get
-            {
-                return DbContext.GetInfrastructure().GetRequiredService<IModel>();
+                return _serviceProvider.GetRequiredService<IScaffoldingModelFactory>();
             }
         }
         public IMigrationsModelDiffer ModelDiffer
         {
             get
             {
-                return DbContext.GetInfrastructure().GetRequiredService<IMigrationsModelDiffer>();
+                return _dbContext.GetInfrastructure().GetRequiredService<IMigrationsModelDiffer>();
             }
         }
         public IMigrationsSqlGenerator MigrationsSqlGenerator
         {
             get
             {
-                return DbContext.GetInfrastructure().GetRequiredService<IMigrationsSqlGenerator>();
+                return _dbContext.GetInfrastructure().GetRequiredService<IMigrationsSqlGenerator>();
             }
         }
+        public IModel Model => _designTimeModel.Model;
+        public IRelationalModel CodeModel
+           => _designTimeModel.Model.GetRelationalModel();
     }
 }

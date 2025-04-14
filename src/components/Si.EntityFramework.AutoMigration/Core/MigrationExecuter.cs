@@ -32,14 +32,14 @@ namespace Si.EntityFramework.AutoMigration.Core
                     var databaseModelOption = new DatabaseModelFactoryOptions();
                     var dbModel = databaseModelFactory.Create(connection, databaseModelOption);
                     var scaffoldingModelFactory = designTimeService.ScaffoldingModelFactory;
-                    databaseModel = scaffoldingModelFactory.Create(dbModel, true).GetRelationalModel();
+                    databaseModel = scaffoldingModelFactory.Create(dbModel, new ModelReverseEngineerOptions() { UseDatabaseNames = true }).GetRelationalModel();
 
                 }
                 catch (Exception ex)
                 {
                     _logger.LogWarning(ex, "Failed to read database model, assuming empty database");
                 }
-                var codeModel = designTimeService.Model.GetRelationalModel();
+                var codeModel = designTimeService.CodeModel;
                 var modelDiffer = designTimeService.ModelDiffer;
                 var operations = modelDiffer.GetDifferences(databaseModel, codeModel);
                 if (!operations.Any())
