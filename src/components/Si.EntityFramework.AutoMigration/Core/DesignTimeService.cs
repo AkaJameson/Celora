@@ -106,5 +106,7 @@ namespace Si.EntityFramework.AutoMigration.Core
         public IModel Model => _designTimeModel.Model;
         public IRelationalModel CodeModel
            => _designTimeModel.Model.GetRelationalModel();
+
+
     }
 }

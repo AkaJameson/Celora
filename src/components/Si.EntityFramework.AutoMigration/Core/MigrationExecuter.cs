@@ -11,12 +11,12 @@ namespace Si.EntityFramework.AutoMigration.Core
         private static SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
         private DesignTimeService designTimeService;
         private readonly ILogger<MigrationExecuter> _logger;
-        private readonly DbContext _context;
-        public MigrationExecuter(ILogger<MigrationExecuter> logger, DbContext context)
+        private readonly MigrationStepProcessor processor;
+        public MigrationExecuter(ILogger<MigrationExecuter> logger, DbContext context, MigrationStepProcessor processor)
         {
             _logger = logger;
-            _context = context;
             designTimeService = new DesignTimeService(context);
+            this.processor = processor;
         }
         public async Task Migrate(DbContext context, AutoMigrationOptions options)
         {
@@ -42,21 +42,17 @@ namespace Si.EntityFramework.AutoMigration.Core
                 var codeModel = designTimeService.CodeModel;
                 var modelDiffer = designTimeService.ModelDiffer;
                 var operations = modelDiffer.GetDifferences(databaseModel, codeModel);
+                operations = processor.FilterMigrationOperations(operations.ToList());
                 if (!operations.Any())
                 {
                     _logger.LogInformation("No pending model changes detected");
                     return;
                 }
                 var commands = designTimeService.MigrationsSqlGenerator.Generate(operations, designTimeService.Model);
-
                 using var transaction = await database.BeginTransactionAsync();
                 try
                 {
-                    foreach (var command in commands)
-                    {
-                        await database.ExecuteSqlRawAsync(
-                            command.CommandText);
-                    }
+                   var command = processor.JoinCommands(commands.ToList());
                     await transaction.CommitAsync();
                     _logger.LogInformation("Database migration completed successfully. Applied {Count} operations", operations.Count);
                 }

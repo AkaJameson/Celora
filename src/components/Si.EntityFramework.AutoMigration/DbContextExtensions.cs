@@ -15,6 +15,7 @@ namespace Si.EntityFramework.AutoMigration
         public static void AddAutoMigrationProvider(this IServiceCollection services)
         {
             services.AddScoped<MigrationExecuter>();
+            services.AddScoped<MigrationStepProcessor>();
         }
         /// <summary>
         /// 同步检查并更新数据库表结构
