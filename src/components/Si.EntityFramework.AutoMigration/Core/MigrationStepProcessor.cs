@@ -19,16 +19,14 @@ namespace Si.EntityFramework.AutoMigration.Core
         public string JoinCommands(List<MigrationCommand> operations)
         {
             var providerName = dbContext.Database.ProviderName;
+            var sqls = operations.Select(o => o.CommandText);
+
             switch (providerName)
             {
-                case "Microsoft.EntityFrameworkCore.SqlServer":
-                    {
-                        return string.Join("", operations);
-                    }
+                case "Pomelo.EntityFrameworkCore.MySql":
+                    return string.Join("", sqls);
                 default:
-                    {
-                        return string.Join(";", operations);
-                    }
+                    return string.Join(";", sqls);
             }
         }
 

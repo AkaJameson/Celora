@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AspNetCore.AutoMigrationTest
 {
@@ -20,10 +21,11 @@ namespace AspNetCore.AutoMigrationTest
     public class TestEntity
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Name { get; set; }
         public int Age { get; set; }
         public string Descriptions { get; set; }
-        public bool? IsDeleted { get; set; }
+        public string Remarks { get; set; }
     }
 }

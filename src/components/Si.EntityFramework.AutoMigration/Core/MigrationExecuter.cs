@@ -53,6 +53,7 @@ namespace Si.EntityFramework.AutoMigration.Core
                 try
                 {
                    var command = processor.JoinCommands(commands.ToList());
+                    await database.ExecuteSqlRawAsync(command);
                     await transaction.CommitAsync();
                     _logger.LogInformation("Database migration completed successfully. Applied {Count} operations", operations.Count);
                 }

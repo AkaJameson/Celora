@@ -7,3 +7,6 @@
 
 # 递归忽略 * 目录下所有解决方案的 obj 文件夹
 */**/obj/
+/test/efMigrationTest/AspNetCore.AutoMigrationTest/Migrations/20250414135423_Init.cs
+/test/efMigrationTest/AspNetCore.AutoMigrationTest/Migrations/20250414135423_Init.Designer.cs
+/test/efMigrationTest/AspNetCore.AutoMigrationTest/Migrations/TestContextModelSnapshot.cs
