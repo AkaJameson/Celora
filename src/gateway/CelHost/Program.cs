@@ -2,15 +2,20 @@ using CelHost.BlockList;
 using CelHost.Database;
 using CelHost.Models;
 using CelHost.Proxy;
+using CelHost.Services;
+using CelHost.ServicesImpl;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.IdentityModel.Tokens;
 using Serilog.Core;
 using Si.EntityFramework.AutoMigration;
 using Si.Logging;
 using Si.Utilites;
 using Si.Utilites.OperateResult;
+using System.Text;
 try
 {
 
@@ -71,16 +76,53 @@ try
         };
     });
     builder.AddProxyInjection();
-    builder.Services.AddAuthentication();
+    builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidIssuer = jwtSettings["Issuer"],
+            ValidateAudience = true,
+            ValidAudience = jwtSettings["Audience"],
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["SecretKey"])),
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero
+        };
+        options.Events = new JwtBearerEvents()
+        {
+            OnMessageReceived = context =>
+            {
+                var token = context.Request.Cookies["Access-Token"];
+                if (!string.IsNullOrEmpty(token))
+                {
+                    context.Token = token;
+                }
+                return Task.CompletedTask;
+            }
+        };
+    });
+    builder.Services.AddHttpContextAccessor();
     builder.Services.AddAuthorization();
     builder.Services.AddControllers();
     //builder.Services.AddAutoMigrationProvider();
     builder.Services.AddScoped<ILogService, LogService>();
+    builder.Services.AddScoped<IBlocklistService, BlocklistService>();
+    builder.Services.AddScoped<BlackListMonitor>();
     var connectionStr = builder.Configuration.GetConnectionString("DefaultConnection");
     builder.Services.AddDbContext<HostContext>(options =>
     {
         options.UseSqlite(connectionStr);
     });
+    #region ×¢²áÄ£¿é
+    builder.Services.AddScoped<IUserService, UserServiceImpl>();
+    #endregion
     var app = builder.Build();
     app.Services.RegisterShellScope(app.Configuration);
     app.UseExceptionHandler(errorApp =>
@@ -118,6 +160,7 @@ try
         }
     });
     app.UseRateLimiter();
+    app.UseMiddleware<BlockListMiddleware>();
     app.UseAuthentication();
     app.UseAuthorization();
     Directory.CreateDirectory(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "wwwroot"));
