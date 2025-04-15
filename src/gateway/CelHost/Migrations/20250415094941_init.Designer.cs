@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CelHost.Migrations
 {
     [DbContext(typeof(HostContext))]
-    [Migration("20250406162900_Init")]
-    partial class Init
+    [Migration("20250415094941_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

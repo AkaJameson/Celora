@@ -74,6 +74,7 @@ try
     builder.Services.AddAuthentication();
     builder.Services.AddAuthorization();
     builder.Services.AddControllers();
+    //builder.Services.AddAutoMigrationProvider();
     builder.Services.AddScoped<ILogService, LogService>();
     var connectionStr = builder.Configuration.GetConnectionString("DefaultConnection");
     builder.Services.AddDbContext<HostContext>(options =>
@@ -101,10 +102,7 @@ try
             });
         });
     });
-    await app.AutoMigrationAsync<HostContext>(new AutoMigrationOptions
-    {
-        BackupDatabase = false
-    });
+    //await app.AutoMigrationAsync<HostContext>();
     app.UseCors("AllowAll");
     app.UseRouting();
     app.UseProxy();
@@ -131,9 +129,9 @@ try
     app.MapControllers();
     app.Run();
 }
-catch(Exception ex)
+catch (Exception ex)
 {
-   Logger.Error(ex.Message + ex.ToString());
+    Logger.Error(ex.Message + ex.ToString());
 }
 
 

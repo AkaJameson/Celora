@@ -22,7 +22,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Si.EntityFramework.AutoMigration" Version="1.0.0" />
+    <PackageReference Include="Si.EntityFramework.AutoMigration" Version="1.0.2" />
     <PackageReference Include="Si.Logging" Version="1.0.0" />
     <PackageReference Include="Si.Utilites" Version="1.0.0" />
     <PackageReference Include="Yarp.ReverseProxy" Version="2.3.0" />

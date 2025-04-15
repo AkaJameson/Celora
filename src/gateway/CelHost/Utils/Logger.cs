@@ -7,7 +7,7 @@ internal class Logger
     private static readonly string logFileNameBase = "XLog";
     private static readonly string logFileExtension = ".txt";
     private static string? currentLogFile = null;
-    private const long MaxFileSize = 1 * 1024 * 1024;
+    private const long MaxFileSize = 10 * 1024 * 1024;
     private const int MaxLogFiles = 30;
 
     public static void Info(string message) => WriteLog("INFO", message);
@@ -68,9 +68,18 @@ internal class Logger
                                 })
                                 .ToList();
 
-        int nextIndex = logFiles.Any() ? ExtractIndex(logFiles.First().Name) + 1 : 1;
+        if (logFiles.Any())
+        {
+            var latestLog = logFiles.First();
+            if (latestLog.Length < MaxFileSize)
+            {
+                return latestLog.FullName;
+            }
 
-        return Path.Combine(logDirectory, $"{logFileNameBase}_{nextIndex}{logFileExtension}");
+            int nextIndex = ExtractIndex(latestLog.Name) + 1;
+            return Path.Combine(logDirectory, $"{logFileNameBase}_{nextIndex}{logFileExtension}");
+        }
+        return Path.Combine(logDirectory, $"{logFileNameBase}_1{logFileExtension}");
     }
 
     private static void CleanupOldLogs()
