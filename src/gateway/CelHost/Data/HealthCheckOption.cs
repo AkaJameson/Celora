@@ -14,10 +14,8 @@ namespace CelHost.Data
         public string Name { get; set; }
         [Required]
         public int ActiveInterval { get; set; }
-
         [Required]
         public int ActiveTimeout { get; set; } 
-
         [Required, StringLength(255)]
         public string ActivePath { get; set; } = "/health";
         /// <summary>

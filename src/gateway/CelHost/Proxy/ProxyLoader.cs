@@ -30,6 +30,11 @@ namespace CelHost.Proxy
 
             foreach (var cluster in clusters)
             {
+                //跳过未激活集群
+                if (!cluster.IsActive)
+                {
+                    continue;
+                }
                 // 构建RouteConfig
                 var route = new RouteConfig
                 {

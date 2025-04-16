@@ -15,39 +15,23 @@ namespace CelHost.Data
         /// </summary>
         [Required, MaxLength(100)]
         public string RouteId { get; set; }
-
         /// <summary>
-        /// 路由匹配规则（支持通配符，如 /api/{**catchall}）
+        /// 路由前匹配
         /// </summary>
         [Required, MaxLength(500)]
         public string Path { get; set; }
-
-        /// <summary>
-        /// 主机匹配规则（可选，多个用逗号分隔）
-        /// </summary>
-        [MaxLength(500)]
-        public string Hosts { get; set; }
         /// <summary>
         /// 速率限制策略名称
         /// </summary>
-        public string RateLimitPolicyName { get; set; } = "";
-
+        public string RateLimitPolicyName { get; set; }
         /// <summary>
-        /// 请求方法（可选，多个用逗号分隔，如 GET,POST）
+        /// 负载均衡策略
         /// </summary>
-        [MaxLength(100)]
-        public string Methods { get; set; }
-
-        /// <summary>
-        /// 优先级（数值越大优先级越高）
-        /// </summary>
-        public int Priority { get; set; } = 1;
-
+        public string LoadBalancingPolicy { get; set; }
         /// <summary>
         /// 是否启用
         /// </summary>
         public bool IsActive { get; set; } = true;
-
         /// <summary>
         /// 集群配置
         /// </summary>
