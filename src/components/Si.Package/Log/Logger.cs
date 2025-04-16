@@ -70,9 +70,18 @@ namespace Si.Package.Log
                                     })
                                     .ToList();
 
-            int nextIndex = logFiles.Any() ? ExtractIndex(logFiles.First().Name) + 1 : 1;
+            if (logFiles.Any())
+            {
+                var latestLog = logFiles.First();
+                if (latestLog.Length < MaxFileSize)
+                {
+                    return latestLog.FullName;
+                }
 
-            return Path.Combine(logDirectory, $"{logFileNameBase}_{nextIndex}{logFileExtension}");
+                int nextIndex = ExtractIndex(latestLog.Name) + 1;
+                return Path.Combine(logDirectory, $"{logFileNameBase}_{nextIndex}{logFileExtension}");
+            }
+            return Path.Combine(logDirectory, $"{logFileNameBase}_1{logFileExtension}");
         }
 
         private static void CleanupOldLogs()
