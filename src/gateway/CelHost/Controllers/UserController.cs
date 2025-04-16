@@ -1,5 +1,6 @@
 ﻿using CelHost.Models;
 using CelHost.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Si.Utilites;
 using Si.Utilites.OperateResult;
@@ -19,10 +20,23 @@ namespace CelHost.Controllers
         /// </summary>
         /// <param name="loginModel"></param>
         /// <returns></returns>
+       
         [HttpPost]
         public async Task<OperateResult> LoginAsync([FromBody] LoginModel loginModel)
         {
             return await _userService.Login(loginModel);
+        }
+
+        /// <summary>
+        /// 重置密码
+        /// </summary>
+        /// <param name="resetPasswordModel"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Authorize]
+        public async Task<OperateResult> ResetPassword([FromBody] ResetPasswordModel resetPasswordModel)
+        {
+            return await _userService.ResetPassword(resetPasswordModel);
         }
     }
 }

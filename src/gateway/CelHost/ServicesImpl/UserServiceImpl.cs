@@ -33,8 +33,8 @@ namespace CelHost.ServicesImpl
         /// <returns></returns>
         public async Task<OperateResult> Login(LoginModel loginModel)
         {
-            loginModel.Account = Md5Helper.GetMd5Hash(loginModel.Account);
-            loginModel.Password = Md5Helper.GetMd5Hash(loginModel.Password);
+            loginModel.Account = SHA256Helper.Encrypt(loginModel.Account);
+            loginModel.Password = SHA256Helper.Encrypt(loginModel.Password);
             var user = await _dbContext.Set<User>().FirstOrDefaultAsync(u => u.Account == loginModel.Account && u.Password == loginModel.Password);
             if (user == null)
             {
@@ -75,8 +75,8 @@ namespace CelHost.ServicesImpl
         /// <returns></returns>
         public async Task<OperateResult> ResetPassword(ResetPasswordModel resetPasswordModel)
         {
-            resetPasswordModel.Account = Md5Helper.GetMd5Hash(resetPasswordModel.Account);
-            resetPasswordModel.OldPassword = Md5Helper.GetMd5Hash(resetPasswordModel.Password);
+            resetPasswordModel.Account = SHA256Helper.Encrypt(resetPasswordModel.Account);
+            resetPasswordModel.OldPassword = SHA256Helper.Encrypt(resetPasswordModel.Password);
             var user = await _dbContext.Set<User>().FirstOrDefaultAsync(u => u.Account == resetPasswordModel.Account && u.Password == resetPasswordModel.OldPassword);
             if (user == null)
             {
@@ -86,7 +86,7 @@ namespace CelHost.ServicesImpl
             {
                 return OperateResult.Failed("两次输入的密码不一致");
             }
-            user.Password = Md5Helper.GetMd5Hash(resetPasswordModel.Password);
+            user.Password = SHA256Helper.Encrypt(resetPasswordModel.Password);
             _dbContext.Update(user);
             await _dbContext.SaveChangesAsync();
             return OperateResult.Successed();
