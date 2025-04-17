@@ -112,16 +112,17 @@ try
     builder.Services.AddAuthorization();
     builder.Services.AddControllers();
     //builder.Services.AddAutoMigrationProvider();
-    builder.Services.AddScoped<ILogService, LogService>();
-    builder.Services.AddScoped<IBlocklistService, BlocklistService>();
-    builder.Services.AddScoped<BlackListMonitor>();
     var connectionStr = builder.Configuration.GetConnectionString("DefaultConnection");
     builder.Services.AddDbContext<HostContext>(options =>
     {
         options.UseSqlite(connectionStr);
     });
-    #region 注册模块
+    #region 注册服务类
+    builder.Services.AddScoped<ILogService, LogService>();
+    builder.Services.AddScoped<IBlocklistService, BlocklistService>();
+    builder.Services.AddScoped<BlackListMonitor>();
     builder.Services.AddScoped<IUserService, UserServiceImpl>();
+    builder.Services.AddScoped<ISystemDictionaryService, SystemDictionaryServiceImpl>();
     #endregion
     var app = builder.Build();
     app.Services.RegisterShellScope(app.Configuration);

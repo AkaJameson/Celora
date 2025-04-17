@@ -1,11 +1,12 @@
 ﻿using CelHost.Data;
 using CelHost.Database;
 using CelHost.Dto;
+using CelHost.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace CelHost.ServicesImpl
 {
-    public class SystemDictionaryServiceImpl
+    public class SystemDictionaryServiceImpl : ISystemDictionaryService
     {
         private readonly HostContext _dbContext;
 
