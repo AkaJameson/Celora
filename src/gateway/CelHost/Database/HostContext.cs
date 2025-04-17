@@ -38,6 +38,10 @@ namespace CelHost.Database
         /// 健康检查策略
         /// </summary>
         public DbSet<HealthCheckOption> HealthCheckOptions { get; set; }
+        /// <summary>
+        /// 系统字典
+        /// </summary>
+        public DbSet<SystemDict> SystemDict { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -45,6 +49,11 @@ namespace CelHost.Database
             modelBuilder.Entity<Cluster>().HasMany(p => p.Nodes).WithOne(p => p.Cluster).HasForeignKey(p => p.ClusterId);
             modelBuilder.Entity<Cluster>().HasOne<HealthCheckOption>().WithMany(p => p.Clusters).HasForeignKey(p => p.HealthCheckId);
             modelBuilder.Entity<BlocklistRecord>().HasIndex(p => p.BlockIp).IsUnique().HasFilter(null).HasDatabaseName("Host_Block_Ip");
+            modelBuilder.Entity<SystemDict>(entity =>
+            {
+                entity.HasIndex(p => new { p.typeCode, p.itemCode }).IsUnique();
+            });
+
         }
     }
 }
