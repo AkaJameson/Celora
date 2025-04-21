@@ -1,5 +1,7 @@
 using CelHost.BlockList;
 using CelHost.Database;
+using CelHost.Hosts;
+using CelHost.Hubs;
 using CelHost.Models;
 using CelHost.Proxy;
 using CelHost.Services;
@@ -115,14 +117,19 @@ try
     builder.Services.AddScoped<ILogService, LogService>();
     builder.Services.AddScoped<IBlocklistService, BlocklistService>();
     builder.Services.AddScoped<BlackListMonitor>();
+    builder.Services.AddScoped<DestinationHealthCheck>();
     var connectionStr = builder.Configuration.GetConnectionString("DefaultConnection");
     builder.Services.AddDbContext<HostContext>(options =>
     {
         options.UseSqlite(connectionStr);
     });
+    builder.Services.AddSignalR();
+    builder.Services.AddHostedService<HealthMonitorWorker>();
     #region ×¢²áÄ£¿é
     builder.Services.AddScoped<IUserService, UserServiceImpl>();
     #endregion
+
+
     var app = builder.Build();
     app.Services.RegisterShellScope(app.Configuration);
     app.UseExceptionHandler(errorApp =>
@@ -169,6 +176,8 @@ try
         FileProvider = new PhysicalFileProvider(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "wwwroot")),
         RequestPath = ""
     });
+    var healthRoute = app.Configuration.GetValue<string>("HealthStateHubRoute:Route");
+    app.MapHub<HealthHub>(healthRoute);
     app.MapControllers();
     app.Run();
 }
