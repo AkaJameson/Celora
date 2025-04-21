@@ -127,6 +127,7 @@ try
     builder.Services.AddHostedService<HealthMonitorWorker>();
     #region ×¢²áÄ£¿é
     builder.Services.AddScoped<IUserService, UserServiceImpl>();
+    builder.Services.AddScoped<ISystemDictionaryService, SystemDictionaryServiceImpl>();
     #endregion
 
 
