@@ -12,8 +12,6 @@ using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
-using Serilog.Core;
-using Si.EntityFramework.AutoMigration;
 using Si.Logging;
 using Si.Utilites;
 using Si.Utilites.OperateResult;
@@ -113,7 +111,6 @@ try
     builder.Services.AddHttpContextAccessor();
     builder.Services.AddAuthorization();
     builder.Services.AddControllers();
-    //builder.Services.AddAutoMigrationProvider();
     builder.Services.AddScoped<ILogService, LogService>();
     builder.Services.AddScoped<IBlocklistService, BlocklistService>();
     builder.Services.AddScoped<BlackListMonitor>();
@@ -152,7 +149,6 @@ try
             });
         });
     });
-    //await app.AutoMigrationAsync<HostContext>();
     app.UseCors("AllowAll");
     app.UseRouting();
     app.UseProxy();

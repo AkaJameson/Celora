@@ -1,0 +1,33 @@
+﻿using CelHost.BlockList;
+using CelHost.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Si.Utilites;
+using Si.Utilites.OperateResult;
+
+namespace CelHost.Controllers
+{
+    [Authorize]
+    [ApiController]
+    public class BlockController : DefaultController
+    {
+        private readonly IBlocklistService _blocklistService;
+        public BlockController(IBlocklistService blocklistService)
+        {
+            _blocklistService = blocklistService;
+        }
+        [HttpPost("/Block")]
+        public async Task<OperateResult> BlockIpAsync([FromBody] BlockModel blockModel)
+        {
+            await _blocklistService.BlockAsync(blockModel.Ip, blockModel.Reason);
+            return OperateResult.Successed();
+        }
+
+        [HttpPost("/UnBlock")]
+        public async Task<OperateResult> UnBlockIpAsync([FromBody] BlockModel blockModel)
+        {
+            await _blocklistService.UnblockAsync(blockModel.Ip);
+            return OperateResult.Successed();
+        }
+    }
+}

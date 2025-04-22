@@ -46,8 +46,8 @@ namespace CelHost.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Cluster>().HasMany(p => p.Nodes).WithOne(p => p.Cluster).HasForeignKey(p => p.ClusterId);
-            modelBuilder.Entity<Cluster>().HasOne<HealthCheckOption>().WithMany(p => p.Clusters).HasForeignKey(p => p.HealthCheckId);
+            modelBuilder.Entity<Cluster>().HasMany(p => p.Nodes).WithOne(p => p.Cluster).HasForeignKey(p => p.ClusterId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Cluster>().HasOne<HealthCheckOption>().WithMany(p => p.Clusters).HasForeignKey(p => p.HealthCheckId).OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<BlocklistRecord>().HasIndex(p => p.BlockIp).IsUnique().HasFilter(null).HasDatabaseName("Host_Block_Ip");
             modelBuilder.Entity<SystemDict>(entity =>
             {

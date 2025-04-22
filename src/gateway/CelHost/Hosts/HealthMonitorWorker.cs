@@ -1,17 +1,18 @@
 ﻿
 using CelHost.Proxy;
+using Si.Logging;
 
 namespace CelHost.Hosts
 {
     public class HealthMonitorWorker : BackgroundService
     {
-        private readonly DestinationHealthCheck healthCheck;
         private readonly IConfiguration configuration;
+        private IServiceScopeFactory scopeFactory;
 
-        public HealthMonitorWorker(DestinationHealthCheck healthCheck, IConfiguration configuration)
+        public HealthMonitorWorker(IConfiguration configuration, IServiceScopeFactory scopeFactory)
         {
-            this.healthCheck = healthCheck;
             this.configuration = configuration;
+            this.scopeFactory = scopeFactory;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -19,8 +20,24 @@ namespace CelHost.Hosts
             var interval = configuration.GetValue<int>("HealthStateHubRoute:Frequency");
             while (!stoppingToken.IsCancellationRequested)
             {
-                await healthCheck.CheckAndBroadcastChangesAsync();
-                await Task.Delay(TimeSpan.FromSeconds(interval));
+                using (var scope = scopeFactory.CreateScope())
+                {
+                    var logService = scope.ServiceProvider.GetRequiredService<ILogService>();
+                    var healthCheck = scope.ServiceProvider.GetRequiredService<DestinationHealthCheck>();
+                    try
+                    {
+                        await healthCheck.CheckAndBroadcastChangesAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        logService.Error(ex.Message, ex);
+                    }
+                    finally
+                    {
+                        await Task.Delay(TimeSpan.FromSeconds(interval), stoppingToken);
+                    }
+                }
+
             }
         }
     }

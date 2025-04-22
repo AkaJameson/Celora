@@ -10,9 +10,10 @@ namespace CelHost.Proxy
     {
         private readonly IProxyStateLookup proxyStateLookup;
         private readonly IHubContext<HealthHub> _hubContext;
-        public DestinationHealthCheck(IProxyStateLookup proxyStateLookup, IHubContext<HealthHub> hubContext)
+        public DestinationHealthCheck(IProxyStateLookup proxyStateLookup, IConfiguration configuration, IHubContext<HealthHub> hubContext)
         {
             this.proxyStateLookup = proxyStateLookup;
+            this.configuration = configuration;
             _hubContext = hubContext;
         }
         public async Task CheckAndBroadcastChangesAsync()
