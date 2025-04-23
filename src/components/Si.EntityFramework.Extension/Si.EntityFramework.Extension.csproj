@@ -3,11 +3,8 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Version>8.4.0</Version>
-		<Authors>Simon Jameson</Authors>
-		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-		<PackageProjectUrl>https://github.com/AkaJameson/Si.EntityFramework.Extension.git</PackageProjectUrl>
+		<Version>1.0.1</Version>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Copyright>
 			Copyright © 2022
 			<NAME>. All rights reserved.</NAME>

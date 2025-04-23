@@ -1,4 +1,4 @@
-﻿namespace CelHost.Models
+﻿namespace CelHost.Models.ClusterModels
 {
     public class ClusterQueryModel
     {

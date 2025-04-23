@@ -20,7 +20,13 @@ namespace CelHost.ServicesImpl
             _hostContext = hostContext;
             _logger = logger;
         }
-
+      
+        /// <summary>
+        /// 修改集群状态
+        /// </summary>
+        /// <param name="clusterId"></param>
+        /// <param name="isActive"></param>
+        /// <returns></returns>
         #region 状态管理
         public async Task<OperateResult> ToggleClusterStatus(int clusterId, bool isActive)
         {
@@ -33,6 +39,10 @@ namespace CelHost.ServicesImpl
             return OperateResult.Successed("集群状态更新成功");
         }
         #endregion
+        /// <summary>
+        /// 更新配置(Internal)
+        /// </summary>
+        /// <returns></returns>
         private async Task TriggerConfigUpdate()
         {
             try
@@ -44,7 +54,10 @@ namespace CelHost.ServicesImpl
                 _logger.Error("配置更新触发失败", ex);
             }
         }
-
+        /// <summary>
+        /// 更新配置
+        /// </summary>
+        /// <returns></returns>
         public async Task<OperateResult> RefactorClusters()
         {
             return await OperateResult.WrapAsync(async () =>

@@ -12,10 +12,19 @@ namespace CelHost.Data
         /// 限流名称
         /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// 检查间隔
+        /// </summary>
         [Required]
-        public int ActiveInterval { get; set; }
+        public int Interval { get; set; }
+        /// <summary>
+        /// 超时时间
+        /// </summary>
         [Required]
-        public int ActiveTimeout { get; set; } 
+        public int Timeout { get; set; }
+        /// <summary>
+        /// 检查路径
+        /// </summary>
         [Required, StringLength(255)]
         public string ActivePath { get; set; } = "/health";
         /// <summary>

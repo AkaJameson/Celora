@@ -1,4 +1,4 @@
-﻿namespace CelHost.Models
+﻿namespace CelHost.Models.UserInfoModels
 {
     public class ResetPasswordModel
     {

@@ -1,143 +1,176 @@
 ﻿using CelHost.Data;
 using CelHost.Database;
-using CelHost.Dto;
+using CelHost.Models.SystemDictModels;
 using CelHost.Services;
 using Microsoft.EntityFrameworkCore;
+using Si.EntityFramework.Extension.Extensions;
+using Si.EntityFramework.Extension.UnitofWorks.Abstractions;
+using Si.Utilites.OperateResult;
 
 namespace CelHost.ServicesImpl
 {
-    public class SystemDictionaryServiceImpl : ISystemDictionaryService
+    public class SystemDictionaryServiceImpl : ISystemDictionaryServiceImpl
     {
-        private readonly HostContext _dbContext;
-
-        public SystemDictionaryServiceImpl(HostContext dbContext)
+        private readonly HostContext hostContext;
+        private readonly IUnitOfWork<HostContext> unitOfWork;
+        public SystemDictionaryServiceImpl(HostContext hostContext)
         {
-            _dbContext = dbContext;
+            this.hostContext = hostContext;
         }
-
-        // 创建字典项
-        public async Task<SystemDict> CreateDictAsync(SystemDict dict)
+        /// <summary>
+        /// 数据字典查询
+        /// </summary>
+        /// <param name="queryDict"></param>
+        /// <returns></returns>
+        public async Task<OperateResult> QueryDictionary(QueryDictModel queryDict)
         {
-            // 检查唯一性
-            if (await _dbContext.SystemDict.AnyAsync(s =>
-                s.typeCode == dict.typeCode &&
-                s.itemCode == dict.itemCode))
+            var query = hostContext.Set<SystemDict>().AsQueryable();
+            if (queryDict.typeName != null)
             {
-                throw new InvalidOperationException("字典项编码在指定类型下已存在");
+                query.Where(p => EF.Functions.Like(p.typeName, $"%{queryDict.typeName}%"));
             }
-
-            dict.CreateTime = DateTime.Now;
-            _dbContext.SystemDict.Add(dict);
-            await _dbContext.SaveChangesAsync();
-            return dict;
-        }
-
-        // 更新字典项
-        public async Task<SystemDict> UpdateDictAsync(SystemDict dict)
-        {
-            var existing = await _dbContext.SystemDict.FindAsync(dict.PkId);
-            if (existing == null) throw new KeyNotFoundException("字典项不存在");
-
-            // 检查编码是否被修改且冲突
-            if (existing.typeCode != dict.typeCode || existing.itemCode != dict.itemCode)
+            var groupedQuery = query
+            .GroupBy(p => p.typeName)
+            .Select(g => new
             {
-                if (await _dbContext.SystemDict.AnyAsync(s =>
-                    s.PkId != dict.PkId &&
-                    s.typeCode == dict.typeCode &&
-                    s.itemCode == dict.itemCode))
+                TypeName = g.Key,
+                Count = g.Count(),
+                Items = g.ToList()
+            });
+            var pagedQuery = groupedQuery.PageBy(queryDict.PageIndex, queryDict.PageSize);
+            var totalCount = await groupedQuery.CountAsync();
+            var result = await pagedQuery.ToListAsync();
+
+            return OperateResult.Successed(new
+            {
+                Data = result,
+                Total = totalCount,
+                queryDict.PageIndex,
+                queryDict.PageSize
+            });
+        }
+        /// <summary>
+        /// 添加新属性
+        /// </summary>
+        /// <param name="dictAddModel"></param>
+        /// <returns></returns>
+        public async Task<OperateResult> AddNewItem(DictAddNewItemModel dictAddModel)
+        {
+            unitOfWork.BeginTransaction();
+            var typeNameExists = await unitOfWork.GetRepository<SystemDict>().ExistsAsync(p => p.typeName == dictAddModel.typeName);
+            if (typeNameExists)
+                return OperateResult.Failed("字典类型已存在，禁止新增");
+            var typeCode = GenerateItemCode();
+            var systemDictItem = new SystemDict
+            {
+                typeCode = typeCode,
+                typeName = dictAddModel.typeName,
+                itemCode = GenerateItemCode(),
+                itemName = dictAddModel.ItemName,
+                itemValue = dictAddModel.ItemValue,
+                itemDesc = dictAddModel.itemDesc,
+                remark = dictAddModel.remark,
+                order = 1,
+                CreateTime = DateTime.Now
+            };
+            await unitOfWork.GetRepository<SystemDict>().AddAsync(systemDictItem);
+            await unitOfWork.CommitTransactionAsync();
+            return OperateResult.Successed("添加成功");
+        }
+        /// <summary>
+        /// 添加子属性
+        /// </summary>
+        /// <param name="dictAddModel"></param>
+        /// <returns></returns>
+        public async Task<OperateResult> AddItem(DictAddItemModel dictAddModel)
+        {
+            unitOfWork.BeginTransaction();
+            // 检查字典类型是否存在
+            var typeExists = await unitOfWork.GetRepository<SystemDict>()
+                .ExistsAsync(p => p.typeCode == dictAddModel.typeCode && p.typeName == dictAddModel.typeName);
+            if (!typeExists)
+                return OperateResult.Failed("字典中不存在该类型");
+            bool itemExists = await unitOfWork.GetRepository<SystemDict>()
+                .ExistsAsync(p => p.typeCode == dictAddModel.typeCode
+                              && p.itemName == dictAddModel.itemName);
+            if (itemExists)
+                return OperateResult.Failed("当前类型下已存在同名属性");
+            int maxOrder = await unitOfWork.GetRepository<SystemDict>()
+                .Where(p => p.typeCode == dictAddModel.typeCode)
+                .MaxAsync(p => (int?)p.order) ?? 0;
+
+            var newItem = new SystemDict
+            {
+                typeCode = dictAddModel.typeCode,
+                typeName = dictAddModel.typeName,
+                itemCode = GenerateItemCode(),
+                itemName = dictAddModel.itemName,
+                itemValue = dictAddModel.itemValue,
+                order = maxOrder + 1,
+                CreateTime = DateTime.Now
+            };
+            await unitOfWork.GetRepository<SystemDict>().AddAsync(newItem);
+            await unitOfWork.CommitTransactionAsync();
+            return OperateResult.Successed("添加成功");
+        }
+        /// <summary>
+        /// 删除类型
+        /// </summary>
+        /// <param name="deletModel"></param>
+        /// <returns></returns>
+        public async Task<OperateResult> DeleteTypes(DeleteTypeModel deletModel)
+        {
+            var types = unitOfWork.GetRepository<SystemDict>().Where(p => deletModel.Types.Contains(p.typeCode));
+            await unitOfWork.GetRepository<SystemDict>().DeleteRangeAsync(types);
+            await unitOfWork.CommitAsync();
+            return OperateResult.Successed("删除成功");
+        }
+        /// <summary>
+        /// 删除类型下属性
+        /// </summary>
+        /// <param name="itemModels"></param>
+        /// <returns></returns>
+        public async Task<OperateResult> DeleteItem(DeleteItemModel itemModels)
+        {
+            var items = unitOfWork.GetRepository<SystemDict>().Where(p => itemModels.Items.Contains(p.itemCode));
+            await unitOfWork.GetRepository<SystemDict>().DeleteRangeAsync(items);
+            await unitOfWork.CommitAsync();
+            return OperateResult.Successed("删除成功");
+        }
+        /// <summary>
+        /// 更新类型下属性
+        /// </summary>
+        /// <param name="itemModel"></param>
+        /// <returns></returns>
+        public async Task<OperateResult> UpdateItem(UpdateDictItem itemModel)
+        {
+            var item = await unitOfWork.GetRepository<SystemDict>().FirstOrDefaultAsync(p => p.itemCode == itemModel.itemCode);
+
+            if (item == null)
+            {
+                return OperateResult.Failed("字典属性未找到");
+            }
+            if (!string.IsNullOrEmpty(itemModel.itemName))
+            {
+                var items = unitOfWork.GetRepository<SystemDict>().Where(p => p.typeCode == item.typeCode).Select(p => p.itemName).ToList();
+                if (items.Contains(itemModel.itemName))
                 {
-                    throw new InvalidOperationException("修改后的字典项编码在指定类型下已存在");
+                    return OperateResult.Failed("当前类型下已存在同名属性");
                 }
+                item.itemName = itemModel.itemName;
+
             }
-
-            _dbContext.Entry(existing).CurrentValues.SetValues(dict);
-            await _dbContext.SaveChangesAsync();
-            return existing;
-        }
-
-        // 删除字典项
-        public async Task DeleteDictAsync(int pkId)
-        {
-            var dict = await _dbContext.SystemDict.FindAsync(pkId);
-            if (dict == null) return;
-
-            // 检查是否存在子项
-            if (await _dbContext.SystemDict.AnyAsync(s => s.superTypeCode == dict.typeCode))
+            if (!string.IsNullOrEmpty(itemModel.itemValue))
             {
-                throw new InvalidOperationException("该类型存在子项，无法删除");
+                item.itemValue = itemModel.itemValue;
             }
-
-            _dbContext.SystemDict.Remove(dict);
-            await _dbContext.SaveChangesAsync();
+            await unitOfWork.CommitAsync();
+            return OperateResult.Successed("更新成功");
         }
-
-        public async Task<List<SystemDictTree>> GetTypeTreeAsync(string superTypeCode = null)
+        private string GenerateItemCode()
         {
-            var query = _dbContext.SystemDict
-                .Where(s => s.superTypeCode == superTypeCode)
-                .OrderBy(s => s.order);
-
-            var types = await query.Select(s => new SystemDictTree
-            {
-                PkId = s.PkId,
-                TypeCode = s.typeCode,
-                TypeName = s.typeName,
-                ItemCode = s.itemCode,
-                ItemName = s.itemName,
-                ItemValue = s.itemValue,
-                Order = s.order,
-                SuperTypeCode = s.superTypeCode
-            }).ToListAsync();
-
-            foreach (var type in types)
-            {
-                type.Children = await GetTypeTreeAsync(type.TypeCode);
-            }
-            return types;
-        }
-        // 分页查询
-        public async Task<(IEnumerable<SystemDict> Items, int Total)> GetPagedListAsync(
-            string typeCode = null,
-            string itemName = null,
-            string superTypeCode = null,
-            int page = 1,
-            int pageSize = 20)
-        {
-            var query = _dbContext.SystemDict.AsQueryable();
-
-            if (!string.IsNullOrEmpty(typeCode))
-                query = query.Where(s => s.typeCode == typeCode);
-
-            if (!string.IsNullOrEmpty(itemName))
-                query = query.Where(s => s.itemName.Contains(itemName));
-
-            if (!string.IsNullOrEmpty(superTypeCode))
-                query = query.Where(s => s.superTypeCode == superTypeCode);
-
-            int total = await query.CountAsync();
-            var items = await query
-                .OrderBy(s => s.order)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
-
-            return (items, total);
-        }
-
-        // 根据编码获取字典项
-        public async Task<SystemDict> GetByCodeAsync(string typeCode, string itemCode)
-        {
-            return await _dbContext.SystemDict
-                .FirstOrDefaultAsync(s => s.typeCode == typeCode && s.itemCode == itemCode);
-        }
-
-        // 获取类型下所有选项
-        public async Task<List<SystemDict>> GetTypeOptionsAsync(string typeCode)
-        {
-            return await _dbContext.SystemDict
-                .Where(s => s.typeCode == typeCode)
-                .OrderBy(s => s.order)
-                .ToListAsync();
+            // 根据实际业务需求实现编码规则，例如：
+            return $"{DateTime.Now:yyyyMMddHHmmss}-{Guid.NewGuid().ToString("N").Substring(0, 4)}";
         }
     }
 }

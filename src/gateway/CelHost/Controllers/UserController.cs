@@ -1,4 +1,5 @@
-﻿using CelHost.Models;
+﻿using CelHost.Models.UserInfoModel;
+using CelHost.Models.UserInfoModels;
 using CelHost.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

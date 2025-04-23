@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
+using Si.EntityFramework.Extension.Extensions;
+using Si.EntityFramework.Extension.UnitofWorks;
 using Si.Logging;
 using Si.Utilites;
 using Si.Utilites.OperateResult;
@@ -115,6 +117,7 @@ try
     builder.Services.AddScoped<IBlocklistService, BlocklistService>();
     builder.Services.AddScoped<BlackListMonitor>();
     builder.Services.AddScoped<DestinationHealthCheck>();
+    builder.Services.AddUnitofWork();
     var connectionStr = builder.Configuration.GetConnectionString("DefaultConnection");
     builder.Services.AddDbContext<HostContext>(options =>
     {
@@ -124,7 +127,7 @@ try
     builder.Services.AddHostedService<HealthMonitorWorker>();
     #region ×¢²áÄ£¿é
     builder.Services.AddScoped<IUserService, UserServiceImpl>();
-    builder.Services.AddScoped<ISystemDictionaryService, SystemDictionaryServiceImpl>();
+    builder.Services.AddScoped<ISystemDictionaryServiceImpl, SystemDictionaryServiceImpl>();
     #endregion
 
 

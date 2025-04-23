@@ -86,6 +86,12 @@ namespace Si.EntityFramework.Extension.UnitofWorks.Implementations
 
             _currentTransaction = _context.Database.BeginTransaction();
         }
+        public async Task BeginTransactionAsync()
+        {
+            if (_currentTransaction != null)
+                throw new InvalidOperationException("Transaction already started.");
+            _currentTransaction = await _context.Database.BeginTransactionAsync();
+        }
 
         /// <summary>
         /// 提交当前事务

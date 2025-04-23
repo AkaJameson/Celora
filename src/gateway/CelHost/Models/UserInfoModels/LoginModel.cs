@@ -1,4 +1,4 @@
-﻿namespace CelHost.Models
+﻿namespace CelHost.Models.UserInfoModel
 {
     public class LoginModel
     {

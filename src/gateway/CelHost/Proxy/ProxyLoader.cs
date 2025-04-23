@@ -88,8 +88,8 @@ namespace CelHost.Proxy
                         Active = new ActiveHealthCheckConfig
                         {
                             Enabled = cluster.HealthCheck,
-                            Interval = TimeSpan.FromSeconds(cluster.CheckOption.ActiveInterval),
-                            Timeout = TimeSpan.FromSeconds(cluster.CheckOption.ActiveTimeout),
+                            Interval = TimeSpan.FromSeconds(cluster.CheckOption.Interval),
+                            Timeout = TimeSpan.FromSeconds(cluster.CheckOption.Timeout),
                             Policy = HealthCheckConstants.ActivePolicy.ConsecutiveFailures,
                             Path = cluster.CheckOption.ActivePath
                         }

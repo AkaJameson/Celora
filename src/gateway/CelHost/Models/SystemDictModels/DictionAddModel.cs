@@ -1,16 +1,35 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CelHost.Data
+namespace CelHost.Models.SystemDictModels
 {
-    public class SystemDict
+    public class DictAddNewItemModel
     {
         /// <summary>
-        /// 主键
+        /// 类型名称
         /// </summary>
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int PkId { get; set; }
+        [Required]
+        public string typeName { get; set; }
+        /// <summary>
+        /// 属性名称
+        /// </summary>
+        [Required]
+        public string ItemName { get; set; }
+        /// <summary>
+        /// 属性值
+        /// </summary>
+        [Required]
+        public string ItemValue { get; set; }
+        /// <summary>
+        /// 属性描述
+        /// </summary>
+        public string? itemDesc { get; set; }
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string? remark { get; set; }
+    }
+    public class DictAddItemModel
+    {
         /// <summary>
         /// 类型编码
         /// </summary>
@@ -19,10 +38,6 @@ namespace CelHost.Data
         /// 类型名称
         /// </summary>
         public string typeName { get; set; }
-        /// <summary>
-        /// 属性编码
-        /// </summary>
-        public string itemCode { get; set; }
         /// <summary>
         /// 属性名称
         /// </summary>
@@ -39,13 +54,5 @@ namespace CelHost.Data
         /// 备注
         /// </summary>
         public string? remark { get; set; }
-        /// <summary>
-        /// 创建时间
-        /// </summary>
-        public DateTime CreateTime { get; set; }
-        /// <summary>
-        /// 排序
-        /// </summary>
-        public int order { get; set; }
     }
 }
