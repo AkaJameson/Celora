@@ -128,9 +128,9 @@ try
     #region ×¢²áÄ£¿é
     builder.Services.AddScoped<IUserService, UserServiceImpl>();
     builder.Services.AddScoped<ISystemDictionaryServiceImpl, SystemDictionaryServiceImpl>();
+    builder.Services.AddScoped<IHealthCheckServiceImpl, HealthCheckServiceImpl>();
+    builder.Services.AddScoped<IClusterServiceImpl, ClusterServiceImpl>();
     #endregion
-
-
     var app = builder.Build();
     app.Services.RegisterShellScope(app.Configuration);
     app.UseExceptionHandler(errorApp =>

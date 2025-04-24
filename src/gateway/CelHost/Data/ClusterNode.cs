@@ -26,10 +26,5 @@ namespace CelHost.Data
         /// 是否启用
         /// </summary>
         public bool IsActive { get; set; }
-
-        /// <summary>
-        /// 最后健康检查时间
-        /// </summary>
-        public DateTime? LastHealthCheck { get; set; }
     }
 }

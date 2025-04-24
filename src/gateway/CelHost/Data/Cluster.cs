@@ -9,7 +9,11 @@ namespace CelHost.Data
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
+        /// <summary>
+        /// 集群名称
+        /// </summary>
+        [Required, MaxLength(100)]
+        public string ClusterName { get; set; }
         /// <summary>
         /// 路由唯一标识（对应YARP RouteConfig.RouteId）
         /// </summary>
@@ -43,7 +47,7 @@ namespace CelHost.Data
         /// <summary>
         /// 健康检查配置Id
         /// </summary>
-        public int HealthCheckId { get; set; }
+        public int? HealthCheckId { get; set; }
         /// <summary>
         /// 健康检查政策
         /// </summary>
