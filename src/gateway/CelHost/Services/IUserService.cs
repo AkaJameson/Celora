@@ -1,5 +1,4 @@
-﻿using CelHost.Models.UserInfoModel;
-using CelHost.Models.UserInfoModels;
+﻿using CelHost.Models.UserInfoModels;
 using Si.Utilites.OperateResult;
 
 namespace CelHost.Services

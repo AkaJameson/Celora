@@ -1,6 +1,5 @@
 ﻿using CelHost.Data;
 using CelHost.Database;
-using CelHost.Models.UserInfoModel;
 using CelHost.Models.UserInfoModels;
 using CelHost.Services;
 using CelHost.Utils;

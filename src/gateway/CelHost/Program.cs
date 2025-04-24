@@ -50,6 +50,8 @@ try
             });
         });
     }
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
     var rateLimit = builder.Configuration.GetSection("RateLimiter").Get<RateLimit>();
     builder.Services.AddRateLimiter(options =>
     {
@@ -130,8 +132,14 @@ try
     builder.Services.AddScoped<ISystemDictionaryServiceImpl, SystemDictionaryServiceImpl>();
     builder.Services.AddScoped<IHealthCheckServiceImpl, HealthCheckServiceImpl>();
     builder.Services.AddScoped<IClusterServiceImpl, ClusterServiceImpl>();
+    builder.Services.AddScoped<INodeServiceImpl, NodeServiceImpl>();
     #endregion
     var app = builder.Build();
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
     app.Services.RegisterShellScope(app.Configuration);
     app.UseExceptionHandler(errorApp =>
     {

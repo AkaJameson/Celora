@@ -16,8 +16,6 @@ namespace Si.Modules.Swagger
 {
     public class Package : PackBase
     {
-        private readonly ConcurrentDictionary<string, OpenApiInfo> _moduleInfos = new ConcurrentDictionary<string, OpenApiInfo>();
-
         public override string Name => "Swagger文档管理";
         public override string Version => "1.0.0";
         public override string Description => "Swagger文档管理插件";
@@ -47,20 +45,20 @@ namespace Si.Modules.Swagger
                 });
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
                 {
-                    new OpenApiSecurityScheme
                     {
-                        Reference = new OpenApiReference
+                        new OpenApiSecurityScheme
                         {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                        }
-                    },
-                    Array.Empty<string>()
-                }
-            });
-            });
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
+                });
         }
 
         public override void Configuration(IApplicationBuilder app, IEndpointRouteBuilder routes, IServiceProvider serviceProvider)

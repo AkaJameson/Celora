@@ -28,5 +28,13 @@ namespace CelHost.Data
         /// 下级网关密码
         /// </summary>
         public string Password { get; set; }
+        /// <summary>
+        /// 公钥
+        /// </summary>
+        public string Key { get; set; }
+        /// <summary>
+        /// 初始化向量
+        /// </summary>
+        public string IV { get; set; }
     }
 }
