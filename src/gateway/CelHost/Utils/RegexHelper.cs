@@ -17,4 +17,21 @@ namespace CelHost.Utils
             return isMatch;
         }
     }
+    public static class MaskHelper
+    {
+        public static string Mask(this string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return value;
+
+            int visibleStart = 4;
+            int visibleEnd = 2;
+
+            if (value.Length <= visibleStart + visibleEnd)
+                return new string('*', value.Length);
+
+            var masked = new string('*', value.Length - visibleStart - visibleEnd);
+            return $"{value.Substring(0, visibleStart)}{masked}{value.Substring(value.Length - visibleEnd)}";
+        }
+    }
 }

@@ -120,6 +120,7 @@ try
     builder.Services.AddScoped<BlackListMonitor>();
     builder.Services.AddScoped<DestinationHealthCheck>();
     builder.Services.AddUnitofWork();
+    builder.Services.AddHttpContextAccessor();
     var connectionStr = builder.Configuration.GetConnectionString("DefaultConnection");
     builder.Services.AddDbContext<HostContext>(options =>
     {
@@ -133,6 +134,7 @@ try
     builder.Services.AddScoped<IHealthCheckServiceImpl, HealthCheckServiceImpl>();
     builder.Services.AddScoped<IClusterServiceImpl, ClusterServiceImpl>();
     builder.Services.AddScoped<INodeServiceImpl, NodeServiceImpl>();
+    builder.Services.AddScoped<IGatewayServiceImpl, GatewayServiceImpl>();
     #endregion
     var app = builder.Build();
     if (app.Environment.IsDevelopment())

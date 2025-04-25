@@ -11,15 +11,22 @@ namespace CelHost.Data
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        [Required]
         public string Account { get; set; }
-        public string Password { get; set; }
+        [Required]
         public string UserName { get; set; }
-        public string Description { get; set; }
+        [Required]
+        public string Password { get; set; }
+        public string? Description { get; set; }
         /// <summary>
         /// 登录锁定
         /// </summary>
         public bool LockEnable { get; set; } = false;
         public DateTime? LockTime { get; set; }
         public bool IsLock { get; set; } = false;
+        [Required]
+        public string Key { get; set; }
+        [Required]
+        public string IV { get;set; }
     }
 }

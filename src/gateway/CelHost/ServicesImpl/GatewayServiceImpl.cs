@@ -1,18 +1,24 @@
 ﻿using CelHost.Data;
 using CelHost.Database;
 using CelHost.Models.Gateway;
+using CelHost.Services;
 using CelHost.Utils;
+using Microsoft.EntityFrameworkCore;
+using Si.EntityFramework.Extension.Extensions;
 using Si.EntityFramework.Extension.UnitofWorks.Abstractions;
 using Si.Utilites.OperateResult;
+using System.Security.Claims;
 
 namespace CelHost.ServicesImpl
 {
-    public class GatewayServiceImpl
+    public class GatewayServiceImpl : IGatewayServiceImpl
     {
         private readonly IUnitOfWork<HostContext> unitOfWork;
-        public GatewayServiceImpl(IUnitOfWork<HostContext> unitOfWork)
+        private readonly IHttpContextAccessor httpContext;
+        public GatewayServiceImpl(IUnitOfWork<HostContext> unitOfWork, IHttpContextAccessor httpContext)
         {
             this.unitOfWork = unitOfWork;
+            this.httpContext = httpContext;
         }
         /// <summary>
         /// 添加
@@ -81,7 +87,61 @@ namespace CelHost.ServicesImpl
 
                 cascade.Password = cascadeUpdateModel.Password;
             }
+            await unitOfWork.GetRepository<Cascade>().UpdateAsync(cascade);
+            await unitOfWork.CommitAsync();
+
             return OperateResult.Successed("修改成功");
+        }
+
+        public async Task<OperateResult> QueryGateway(CascadeQueryModel cascadeQueryModel)
+        {
+            var query = unitOfWork.GetRepository<Cascade>().Query();
+            if (!string.IsNullOrEmpty(cascadeQueryModel.Name))
+            {
+                query.Where(p => EF.Functions.Like(p.Name, $"%{cascadeQueryModel.Name}%"));
+            }
+            var result = await query.ToPagedListAsync(cascadeQueryModel.PageIndex, cascadeQueryModel.PageSize);
+            return OperateResult.Successed(new
+            {
+                Total = result.Total,
+                Items = result.Items.Select(p => new
+                {
+                    Id = p.Id,
+                    p.Name,
+                    userName = p.UserName.Mask(),
+                    passWord = p.Password.Mask(),
+                    Path = StableAesCrypto.Encrypt(p.Url, p.Key, p.IV).Mask()
+                })
+            });
+        }
+        public async Task<OperateResult> GatewayDeltail(GatewayDetalModel gatewayDetalModel)
+        {
+            var userId = httpContext?.HttpContext?.User.Claims.FirstOrDefault(p => p.Type == ClaimTypes.Sid);
+            if (userId == null || !int.TryParse(userId.Value, out var Id))
+            {
+                return OperateResult.Failed("用户错误");
+            }
+            var user = await unitOfWork.GetRepository<User>().FirstOrDefaultAsync(p => p.Id == Id);
+            if (user == null)
+            {
+                return OperateResult.Failed("用户未找到");
+            }
+            var encryptPassword = StableAesCrypto.Encrypt(gatewayDetalModel.Password, user.Key, user.IV);
+            if (user.Password != encryptPassword)
+            {
+                return OperateResult.Failed("密码错误");
+            }
+            var gateway = await unitOfWork.GetRepository<Cascade>().GetByIdAsync(gatewayDetalModel.GatewayId);
+            if (gateway == null)
+            {
+                return OperateResult.Failed("未找到网关");
+            }
+            return OperateResult.Successed(new
+            {
+                userName = StableAesCrypto.Decrypt(gateway.UserName, gateway.Key, gateway.IV),
+                password = StableAesCrypto.Decrypt(gateway.Password, gateway.Key, gateway.IV),
+                Path = StableAesCrypto.Decrypt(gateway.Url, gateway.Key, gateway.IV)
+            });
         }
     }
 }

@@ -6,6 +6,7 @@ namespace CelHost.Services
     public interface IUserService
     {
         Task<OperateResult> Login(LoginModel loginModel);
-        Task<OperateResult> ResetPassword(ResetPasswordModel resetPasswordModel);
+        Task<OperateResult> ResetPassword(ResetPsdModel resetPasswordModel);
+        Task<OperateResult> InitUser(IFormFile file);
     }
 }

@@ -34,9 +34,20 @@ namespace CelHost.Controllers
         /// <returns></returns>
         [HttpPost]
         [Authorize]
-        public async Task<OperateResult> ResetPassword([FromBody] ResetPasswordModel resetPasswordModel)
+        public async Task<OperateResult> ResetPassword([FromBody] ResetPsdModel resetPasswordModel)
         {
             return await _userService.ResetPassword(resetPasswordModel);
+        }
+        /// <summary>
+        /// 初始化用户（通过文件导入）
+        /// </summary>
+        /// <param name="file">用户数据文件</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Authorize]
+        public async Task<OperateResult> InitUser([FromForm] IFormFile file)
+        {
+            return await _userService.InitUser(file);
         }
     }
 }

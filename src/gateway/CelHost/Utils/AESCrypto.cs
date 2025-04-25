@@ -64,6 +64,12 @@ namespace CelHost.Utils
 
             return Encoding.UTF8.GetString(plainBytes);
         }
+        public static string ComputeHMAC(string data, string key)
+        {
+            using var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(key));
+            var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(data));
+            return Convert.ToBase64String(hash);
+        }
 
         private static Aes CreateAes(string base64Key, string base64IV)
         {
