@@ -51,7 +51,10 @@ try
         });
     }
     builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
+    builder.Services.AddSwaggerGen(c =>
+    {
+        c.SwaggerDoc("v1",new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Gateway", Version = "v1" });
+    });
     var rateLimit = builder.Configuration.GetSection("RateLimiter").Get<RateLimit>();
     builder.Services.AddRateLimiter(options =>
     {
@@ -140,7 +143,10 @@ try
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
-        app.UseSwaggerUI();
+        app.UseSwaggerUI(c =>
+        {
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+        });
     }
     app.Services.RegisterShellScope(app.Configuration);
     app.UseExceptionHandler(errorApp =>

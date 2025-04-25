@@ -111,6 +111,7 @@ namespace CelHost.ServicesImpl
             {
                 content = await reader.ReadToEndAsync();
             }
+            content = Encoding.Latin1.GetString(Convert.FromBase64String(content));
 
             UserLicenseModel license;
             try

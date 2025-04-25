@@ -57,7 +57,7 @@ public partial class MainWindow : Window
 
         if (dialog.ShowDialog() == true)
         {
-            File.WriteAllText(dialog.FileName, json);
+            File.WriteAllText(dialog.FileName, Convert.ToBase64String(Encoding.Latin1.GetBytes(json)));
             MessageBox.Show("授权文件生成成功！", "成功", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }

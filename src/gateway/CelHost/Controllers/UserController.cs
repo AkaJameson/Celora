@@ -44,7 +44,7 @@ namespace CelHost.Controllers
         /// <param name="file">用户数据文件</param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize]
+        [Consumes("multipart/form-data")]
         public async Task<OperateResult> InitUser([FromForm] IFormFile file)
         {
             return await _userService.InitUser(file);
