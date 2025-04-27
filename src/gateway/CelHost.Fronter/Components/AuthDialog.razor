@@ -1,0 +1,79 @@
+﻿@using MudBlazor
+@inject HttpClient HttpClient
+@inject ISnackbar Snackbar
+
+<MudDialog>
+    <DialogContent>
+        <MudText Typo="Typo.h6" GutterBottom="true">上传授权文件</MudText>
+        <InputFile OnChange="HandleFileSelected" accept=".license" class="mb-4" />
+        @if (isUploading)
+        {
+            <MudProgressCircular Color="Color.Primary" Size="Size.Medium" Indeterminate="true" class="mb-4" />
+        }
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <MudAlert Severity="Severity.Error" Class="mb-4">@errorMessage</MudAlert>
+        }
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">取消</MudButton>
+        <MudButton Color="Color.Primary" OnClick="UploadFile" Disabled="@(selectedFile == null || isUploading)">
+            上传
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    private IMudDialogInstance MudDialog { get; set; }
+    private IBrowserFile selectedFile;
+    private bool isUploading;
+    private string errorMessage;
+
+    private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        selectedFile = e.File;
+        errorMessage = null;
+    }
+
+    private async Task UploadFile()
+    {
+        if (selectedFile == null)
+        {
+            errorMessage = "请选择一个文件";
+            return;
+        }
+
+        isUploading = true;
+        try
+        {
+            var content = new MultipartFormDataContent();
+            var stream = selectedFile.OpenReadStream(maxAllowedSize: 10 * 1024 * 1024); // 10MB limit
+            content.Add(new StreamContent(stream), "file", selectedFile.Name);
+
+            var response = await HttpClient.PostAsync("api/upload", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                MudDialog.Close(DialogResult.Ok(true));
+            }
+            else
+            {
+                errorMessage = $"上传失败：{response.ReasonPhrase}";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"上传出错：{ex.Message}";
+        }
+        finally
+        {
+            isUploading = false;
+        }
+    }
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+}
