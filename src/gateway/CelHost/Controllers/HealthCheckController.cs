@@ -7,6 +7,7 @@ using Si.Utilites;
 
 namespace CelHost.Controllers
 {
+    [ApiController]
     public class HealthCheckController : DefaultController
     {
         private readonly IHealthCheckServiceImpl _healthCheckService;

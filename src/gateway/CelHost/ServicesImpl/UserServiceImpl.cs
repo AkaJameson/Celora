@@ -5,6 +5,7 @@ using CelHost.Services;
 using CelHost.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Si.Utilites.Extensions;
 using Si.Utilites.OperateResult;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -149,14 +150,14 @@ namespace CelHost.ServicesImpl
             var result = await AddUser(license.Account, license.UserName, license.Password);
             if (!result.result)
             {
-                return OperateResult.Failed(result.msg);
+                return OperateResult.Failed(result.msg.ToString());
             }
             else
             {
                 return OperateResult.Successed(result.msg);
             }
         }
-        private async Task<(bool result, string msg)> AddUser(string account, string userName, string password)
+        private async Task<(bool result, object msg)> AddUser(string account, string userName, string password)
         {
             var result = StableAesCrypto.GenerateKeyAndIV();
             var user = new User()
@@ -173,8 +174,12 @@ namespace CelHost.ServicesImpl
             }
             await _dbContext.Set<User>().AddAsync(user);
             await _dbContext.SaveChangesAsync();
-            return (true, "添加成功");
-
+            return (true, new
+            {
+                Account = account,
+                userName = userName,
+                password = password
+            });
         }
 
     }

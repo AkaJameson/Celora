@@ -7,6 +7,7 @@ using Si.Utilites.OperateResult;
 
 namespace CelHost.Controllers
 {
+    [ApiController]
     public class UserController:DefaultController
     {
         private readonly IUserService _userService;

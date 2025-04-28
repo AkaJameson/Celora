@@ -29,6 +29,8 @@
     private IBrowserFile selectedFile;
     private bool isUploading;
     private string errorMessage;
+    [Inject]
+    private IDialogService DialogService { get; set; }
 
     private async Task HandleFileSelected(InputFileChangeEventArgs e)
     {
@@ -51,10 +53,11 @@
             var stream = selectedFile.OpenReadStream(maxAllowedSize: 10 * 1024 * 1024); // 10MB limit
             content.Add(new StreamContent(stream), "file", selectedFile.Name);
 
-            var response = await HttpClient.PostAsync("api/upload", content);
+            var response = await HttpClient.PostAsync("api/User/InitUser", content);
 
             if (response.IsSuccessStatusCode)
             {
+                New
                 MudDialog.Close(DialogResult.Ok(true));
             }
             else

@@ -7,6 +7,7 @@ using Si.Utilites;
 
 namespace CelHost.Controllers
 {
+    [ApiController]
     public class NodeController : DefaultController
     {
         private readonly INodeServiceImpl _nodeService;

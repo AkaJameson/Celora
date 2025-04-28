@@ -7,6 +7,7 @@ using Si.Utilites;
 
 namespace CelHost.Controllers
 {
+    [ApiController]
     public class GatewayController : DefaultController
     {
         private readonly IGatewayServiceImpl _gatewayService;

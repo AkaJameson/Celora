@@ -16,13 +16,14 @@ namespace CelHost.Controllers
         {
             _blocklistService = blocklistService;
         }
+        [Authorize]
         [HttpPost("/Block")]
         public async Task<OperateResult> BlockIpAsync([FromBody] BlockModel blockModel)
         {
             await _blocklistService.BlockAsync(blockModel.Ip, blockModel.Reason);
             return OperateResult.Successed();
         }
-
+        [Authorize]
         [HttpPost("/UnBlock")]
         public async Task<OperateResult> UnBlockIpAsync([FromBody] BlockModel blockModel)
         {

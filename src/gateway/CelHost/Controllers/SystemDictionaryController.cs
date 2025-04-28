@@ -7,6 +7,7 @@ using Si.Utilites;
 
 namespace CelHost.Controllers
 {
+    [ApiController]
     public class SystemDictionaryController : DefaultController
     {
         private readonly ISystemDictionaryServiceImpl _systemDictionaryService;

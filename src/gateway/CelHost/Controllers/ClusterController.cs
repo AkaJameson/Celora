@@ -7,6 +7,7 @@ using Si.Utilites;
 
 namespace CelHost.Controllers
 {
+    [ApiController]
     public class ClusterController : DefaultController
     {
         private readonly IClusterServiceImpl _clusterService;
