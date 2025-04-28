@@ -1,4 +1,5 @@
-﻿@using MudBlazor
+﻿@using CelHost.Fronter.Apis
+@using MudBlazor
 @inject HttpClient HttpClient
 @inject ISnackbar Snackbar
 
@@ -31,6 +32,8 @@
     private string errorMessage;
     [Inject]
     private IDialogService DialogService { get; set; }
+    [Inject]
+    private UserApiServices ApiServices { get; set; }
 
     private async Task HandleFileSelected(InputFileChangeEventArgs e)
     {
@@ -49,20 +52,27 @@
         isUploading = true;
         try
         {
-            var content = new MultipartFormDataContent();
-            var stream = selectedFile.OpenReadStream(maxAllowedSize: 10 * 1024 * 1024); // 10MB limit
-            content.Add(new StreamContent(stream), "file", selectedFile.Name);
-
-            var response = await HttpClient.PostAsync("api/User/InitUser", content);
-
-            if (response.IsSuccessStatusCode)
+            var response = await ApiServices.InitUser(selectedFile);
+            if (response == null && response.Code != 200)
             {
-                New
-                MudDialog.Close(DialogResult.Ok(true));
+                await DialogService.ShowMessageBox(new MessageBoxOptions
+                    {
+                        Title = "上传失败",
+                        Message = "上传授权文件失败，请检查文件格式或联系管理员。",
+                        YesText = "确定",
+                        NoText = "取消",
+                    });
             }
             else
             {
-                errorMessage = $"上传失败：{response.ReasonPhrase}";
+                await DialogService.ShowMessageBox(new MessageBoxOptions
+                    {
+                        Title = "上传成功",
+                        Message = "授权文件上传成功，请等待管理员审核。",
+                        YesText = "确定",
+                        NoText = "取消",
+                    });
+                MudDialog.Close(DialogResult.Ok(true));
             }
         }
         catch (Exception ex)

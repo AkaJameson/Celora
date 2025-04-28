@@ -28,7 +28,7 @@
 		<PackageReference Include="Si.EntityFramework.AutoMigration" Version="1.0.2" />
 		<PackageReference Include="Si.EntityFramework.Extension" Version="1.0.1" />
 		<PackageReference Include="Si.Logging" Version="1.0.0" />
-		<PackageReference Include="Si.Utilites" Version="1.0.1" />
+		<PackageReference Include="Si.Utilites" Version="1.0.2" />
 		<PackageReference Include="Yarp.ReverseProxy" Version="2.3.0" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />

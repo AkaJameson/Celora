@@ -48,6 +48,15 @@
                 Succeeded = true
             };
         }
+        public static OperateResult Successed(string message)
+        {
+            return new OperateResult
+            {
+                Code = 200,
+                Message = message,
+                Succeeded = true
+            };
+        }
         public static async Task<OperateResult> WrapAsync(Func<Task<string>> operation)
         {
             try
