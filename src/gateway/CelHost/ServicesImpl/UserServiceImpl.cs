@@ -35,12 +35,19 @@ namespace CelHost.ServicesImpl
         /// <returns></returns>
         public async Task<OperateResult> Login(LoginModel loginModel)
         {
-            loginModel.Account = SHA256Helper.Encrypt(loginModel.Account);
-            loginModel.Password = SHA256Helper.Encrypt(loginModel.Password);
-            var user = await _dbContext.Set<User>().FirstOrDefaultAsync(u => u.Account == loginModel.Account && u.Password == loginModel.Password);
+            var user = await _dbContext.Set<User>().FirstOrDefaultAsync(u=>u.Hash == SHA256Helper.Encrypt(loginModel.Account));
             if (user == null)
             {
-                return OperateResult.Failed("用户名或密码错误");
+                return OperateResult.Failed("用户不存在");
+            }
+            loginModel.Password = StableAesCrypto.Encrypt(loginModel.Password, user.Key, user.IV);
+            if(loginModel.Password != user.Password)
+            {
+                return OperateResult.Failed("密码错误");
+            }
+            if (user.IsLock)
+            {
+                return OperateResult.Failed("用户已被锁定");
             }
             var claims = new List<Claim>
             {
@@ -160,18 +167,20 @@ namespace CelHost.ServicesImpl
         private async Task<(bool result, string msg)> AddUser(string account, string userName, string password)
         {
             var result = StableAesCrypto.GenerateKeyAndIV();
+            var hash = SHA256Helper.Encrypt(account);
+            if (_dbContext.Set<User>().Any(p => p.Hash == hash))
+            {
+                return (false, "存在相同账户名称");
+            }
             var user = new User()
             {
                 Account = StableAesCrypto.Encrypt(account, result.Key, result.IV),
                 UserName = StableAesCrypto.Encrypt(userName, result.Key, result.IV),
                 Password = StableAesCrypto.Encrypt(password, result.Key, result.IV),
                 Key = result.Key,
-                IV = result.IV
+                IV = result.IV,
+                Hash = hash
             };
-            if (_dbContext.Set<User>().Any(p => p.UserName == userName))
-            {
-                return (false, "存在相同账户名称");
-            }
             await _dbContext.Set<User>().AddAsync(user);
             await _dbContext.SaveChangesAsync();
             return (true, "添加成功");

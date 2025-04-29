@@ -19,7 +19,6 @@ namespace CelHost.Utils
             }
             return rst.ToString();
         }
-
         private static byte[] GetKeyByteArray(string strKey)
         {
             UTF8Encoding Asc = new UTF8Encoding();

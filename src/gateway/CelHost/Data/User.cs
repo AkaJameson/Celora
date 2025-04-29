@@ -27,6 +27,8 @@ namespace CelHost.Data
         [Required]
         public string Key { get; set; }
         [Required]
-        public string IV { get;set; }
+        public string IV { get; set; }
+        [Required]
+        public string Hash { get; set; }
     }
 }

@@ -1,0 +1,44 @@
+﻿@inherits LayoutComponentBase
+@using MudBlazor
+<MudLayout>
+    <MudAppBar Elevation="1" Fixed="false">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" OnClick="@ToggleDrawer" />
+        <MudText Typo="Typo.h6">网关仪表板</MudText>
+        <MudSpacer />
+        <MudIconButton Icon="@Icons.Material.Filled.Logout" Color="Color.Inherit" OnClick="@Logout" />
+    </MudAppBar>
+    <MudDrawer Open="@_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2" Width="250px">
+        <MudNavMenu>
+            <MudNavLink Href="/dashboard" Icon="@Icons.Material.Filled.Dashboard">仪表板</MudNavLink>
+            <MudNavLink Href="/dashboard/settings" Icon="@Icons.Material.Filled.Settings">设置</MudNavLink>
+            <MudNavLink Href="/dashboard/profile" Icon="@Icons.Material.Filled.Person">个人资料</MudNavLink>
+        </MudNavMenu>
+    </MudDrawer>
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="py-4">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    private bool _drawerOpen = true;
+
+    private void ToggleDrawer()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+
+    private async Task Logout()
+    {
+        // 可选：调用后端登出 API
+        await _httpClient.PostAsync("api/logout", null);
+        NavigationManager.NavigateTo("/login");
+    }
+
+    [Inject]
+    private NavigationManager NavigationManager { get; set; }
+
+    [Inject]
+    private HttpClient _httpClient { get; set; }
+}

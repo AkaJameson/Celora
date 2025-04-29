@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LicenseMaker", "LicenseMake
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CelHost.Fronter", "CelHost.Fronter\CelHost.Fronter.csproj", "{80181035-C623-4709-84B7-75081FBCE1A6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CelHost.Models", "CelHost.Models\CelHost.Models.csproj", "{3AB42452-66E4-4AFD-A35C-12EC849BC4B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{80181035-C623-4709-84B7-75081FBCE1A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80181035-C623-4709-84B7-75081FBCE1A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80181035-C623-4709-84B7-75081FBCE1A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AB42452-66E4-4AFD-A35C-12EC849BC4B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AB42452-66E4-4AFD-A35C-12EC849BC4B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AB42452-66E4-4AFD-A35C-12EC849BC4B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AB42452-66E4-4AFD-A35C-12EC849BC4B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

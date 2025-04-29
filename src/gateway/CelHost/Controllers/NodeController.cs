@@ -21,6 +21,10 @@ namespace CelHost.Controllers
         [Authorize]
         public async Task<OperateResult> AddClusterNode([FromBody] NodeAddModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return OperateResult.Failed("参数错误");
+            }
             return await _nodeService.AddClusterNode(model);
         }
 
@@ -28,6 +32,10 @@ namespace CelHost.Controllers
         [Authorize]
         public async Task<OperateResult> DeleteClusterNode(int nodeId)
         {
+            if (!ModelState.IsValid)
+            {
+                return OperateResult.Failed("参数错误");
+            }
             return await _nodeService.DeleteClusterNode(nodeId);
         }
 
@@ -35,6 +43,10 @@ namespace CelHost.Controllers
         [Authorize]
         public async Task<OperateResult> UpdateClusterNode([FromBody] NodeUpdateModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return OperateResult.Failed("参数错误");
+            }
             return await _nodeService.UpdateClusterNode(model);
         }
     }

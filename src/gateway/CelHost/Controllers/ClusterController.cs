@@ -21,6 +21,10 @@ namespace CelHost.Controllers
         [Authorize]
         public async Task<OperateResult> AddCluster([FromBody] ClusterAddModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return OperateResult.Failed("参数错误");
+            }
             return await _clusterService.AddCluster(model);
         }
 
@@ -28,6 +32,10 @@ namespace CelHost.Controllers
         [Authorize]
         public async Task<OperateResult> DeleteCluster(int clusterId)
         {
+            if (!ModelState.IsValid)
+            {
+                return OperateResult.Failed("参数错误");
+            }
             return await _clusterService.DeleteCluster(clusterId);
         }
 
@@ -35,6 +43,10 @@ namespace CelHost.Controllers
         [Authorize]
         public async Task<OperateResult> QueryClusters([FromBody] ClusterQueryModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return OperateResult.Failed("参数错误");
+            }
             return await _clusterService.QueryClusters(model);
         }
 
@@ -42,6 +54,10 @@ namespace CelHost.Controllers
         [Authorize]
         public async Task<OperateResult> RefactorClusters()
         {
+            if (!ModelState.IsValid)
+            {
+                return OperateResult.Failed("参数错误");
+            }
             return await _clusterService.RefactorClusters();
         }
 
@@ -49,6 +65,10 @@ namespace CelHost.Controllers
         [Authorize]
         public async Task<OperateResult> ToggleClusterStatus(int clusterId, [FromBody] bool isActive)
         {
+            if (!ModelState.IsValid)
+            {
+                return OperateResult.Failed("参数错误");
+            }
             return await _clusterService.ToggleClusterStatus(clusterId, isActive);
         }
 
@@ -56,6 +76,10 @@ namespace CelHost.Controllers
         [Authorize]
         public async Task<OperateResult> UpdateCluster([FromBody] ClusterUpdateModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return OperateResult.Failed("参数错误");
+            }
             return await _clusterService.UpdateCluster(model);
         }
     }

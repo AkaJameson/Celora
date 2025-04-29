@@ -21,6 +21,10 @@ namespace CelHost.Controllers
         [Authorize]
         public async Task<OperateResult> AddItem([FromBody] DictAddItemModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return OperateResult.Failed("参数错误");
+            }
             return await _systemDictionaryService.AddItem(model);
         }
 
@@ -28,6 +32,10 @@ namespace CelHost.Controllers
         [Authorize]
         public async Task<OperateResult> AddNewItem([FromBody] DictAddNewItemModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return OperateResult.Failed("参数错误");
+            }
             return await _systemDictionaryService.AddNewItem(model);
         }
 
@@ -35,6 +43,10 @@ namespace CelHost.Controllers
         [Authorize]
         public async Task<OperateResult> DeleteItem([FromBody] DeleteItemModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return OperateResult.Failed("参数错误");
+            }
             return await _systemDictionaryService.DeleteItem(model);
         }
 
@@ -42,6 +54,10 @@ namespace CelHost.Controllers
         [Authorize]
         public async Task<OperateResult> DeleteTypes([FromBody] DeleteTypeModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return OperateResult.Failed("参数错误");
+            }
             return await _systemDictionaryService.DeleteTypes(model);
         }
 
@@ -49,6 +65,10 @@ namespace CelHost.Controllers
         [Authorize]
         public async Task<OperateResult> QueryDictionary([FromBody] QueryDictModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return OperateResult.Failed("参数错误");
+            }
             return await _systemDictionaryService.QueryDictionary(model);
         }
 
@@ -56,6 +76,10 @@ namespace CelHost.Controllers
         [Authorize]
         public async Task<OperateResult> UpdateItem([FromBody] UpdateDictItem model)
         {
+            if (!ModelState.IsValid)
+            {
+                return OperateResult.Failed("参数错误");
+            }
             return await _systemDictionaryService.UpdateItem(model);
         }
     }

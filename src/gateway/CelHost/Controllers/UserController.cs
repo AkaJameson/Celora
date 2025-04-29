@@ -25,6 +25,10 @@ namespace CelHost.Controllers
         [HttpPost]
         public async Task<OperateResult> LoginAsync([FromBody] LoginModel loginModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return OperateResult.Failed("参数错误");
+            }
             return await _userService.Login(loginModel);
         }
 
@@ -37,6 +41,10 @@ namespace CelHost.Controllers
         [Authorize]
         public async Task<OperateResult> ResetPassword([FromBody] ResetPsdModel resetPasswordModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return OperateResult.Failed("参数错误");
+            }
             return await _userService.ResetPassword(resetPasswordModel);
         }
         /// <summary>
@@ -48,6 +56,10 @@ namespace CelHost.Controllers
         [Consumes("multipart/form-data")]
         public async Task<OperateResult> InitUser([FromForm] IFormFile file)
         {
+            if (!ModelState.IsValid)
+            {
+                return OperateResult.Failed("参数错误");
+            }
             return await _userService.InitUser(file);
         }
     }

@@ -21,6 +21,10 @@ namespace CelHost.Controllers
         [Authorize]
         public async Task<OperateResult> AddGateWay([FromBody] CascadeAddModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return OperateResult.Failed("参数错误");
+            }
             return await _gatewayService.AddGateWay(model);
         }
 
@@ -28,6 +32,10 @@ namespace CelHost.Controllers
         [Authorize]
         public async Task<OperateResult> GatewayDetail([FromBody] GatewayDetalModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return OperateResult.Failed("参数错误");
+            }
             return await _gatewayService.GatewayDeltail(model);
         }
 
@@ -35,6 +43,10 @@ namespace CelHost.Controllers
         [Authorize]
         public async Task<OperateResult> QueryGateway([FromBody] CascadeQueryModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return OperateResult.Failed("参数错误");
+            }
             return await _gatewayService.QueryGateway(model);
         }
 
@@ -42,6 +54,10 @@ namespace CelHost.Controllers
         [Authorize]
         public async Task<OperateResult> UpdateGateway([FromBody] CascadeUpdateModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return OperateResult.Failed("参数错误");
+            }
             return await _gatewayService.UpdateGateway(model);
         }
     }

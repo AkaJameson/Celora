@@ -21,6 +21,10 @@ namespace CelHost.Controllers
         [Authorize]
         public async Task<OperateResult> AddHealthPolicy([FromBody] HealthPolicyAddModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return OperateResult.Failed("参数错误");
+            }
             return await _healthCheckService.AddHealthPolicy(model);
         }
 
@@ -28,6 +32,10 @@ namespace CelHost.Controllers
         [Authorize]
         public async Task<OperateResult> DeleteHealthPolicy(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return OperateResult.Failed("参数错误");
+            }
             return await _healthCheckService.DeleteHealthPolicy(id);
         }
 
@@ -35,6 +43,10 @@ namespace CelHost.Controllers
         [Authorize]
         public async Task<OperateResult> QueryHealthPolicy([FromBody] HealthPolicyQueryModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return OperateResult.Failed("参数错误");
+            }
             return await _healthCheckService.QueryHealthPolicy(model);
         }
 
@@ -42,6 +54,10 @@ namespace CelHost.Controllers
         [Authorize]
         public async Task<OperateResult> UpdateHealthPolicy([FromBody] HealthPolicyUpdateModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return OperateResult.Failed("参数错误");
+            }
             return await _healthCheckService.UpdateHealthPolicy(model);
         }
     }

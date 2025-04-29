@@ -16,6 +16,11 @@
 
   <ItemGroup>
     <Folder Include="Apis\Models\Users\" />
+    <Folder Include="wwwroot\新文件夹\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CelHost.Models\CelHost.Models.csproj" />
   </ItemGroup>
 
 </Project>
