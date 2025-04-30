@@ -164,6 +164,13 @@ namespace CelHost.ServicesImpl
                 return OperateResult.Successed(result.msg);
             }
         }
+        /// <summary>
+        /// 添加
+        /// </summary>
+        /// <param name="account"></param>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         private async Task<(bool result, string msg)> AddUser(string account, string userName, string password)
         {
             var result = StableAesCrypto.GenerateKeyAndIV();
@@ -186,5 +193,18 @@ namespace CelHost.ServicesImpl
             return (true, "添加成功");
         }
 
+        /// <summary>
+        /// 注销
+        /// </summary>
+        /// <returns></returns>
+        
+        public async Task<OperateResult> Logout()
+        {
+            if (_httpContextAccessor.HttpContext != null)
+            {
+                _httpContextAccessor.HttpContext.Response.Cookies.Delete("Access-Token");
+            }
+            return OperateResult.Successed();
+        }
     }
 }

@@ -14,6 +14,7 @@
 @code{
     protected override void OnInitialized()
     {
+        var accessToken = await JSRuntime.InvokeAsync<string>("getCookie", "Access-Token");
         NavigationManager.NavigateTo("/login");
     }
 }

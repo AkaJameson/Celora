@@ -8,7 +8,7 @@ using Si.Utilites.OperateResult;
 namespace CelHost.Controllers
 {
     [ApiController]
-    public class UserController:DefaultController
+    public class UserController : DefaultController
     {
         private readonly IUserService _userService;
 
@@ -21,7 +21,7 @@ namespace CelHost.Controllers
         /// </summary>
         /// <param name="loginModel"></param>
         /// <returns></returns>
-       
+
         [HttpPost]
         public async Task<OperateResult> LoginAsync([FromBody] LoginModel loginModel)
         {
@@ -62,5 +62,16 @@ namespace CelHost.Controllers
             }
             return await _userService.InitUser(file);
         }
+        /// <summary>
+        /// 登出
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [Authorize]
+        public async Task<OperateResult> Logout()
+        {
+            return await _userService.Logout();
+        }
+
     }
 }

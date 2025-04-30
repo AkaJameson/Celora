@@ -3,6 +3,7 @@ using CelHost.Models.UserInfoModels;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.WebAssembly.Http;
 using System.Net.Http.Json;
+using System.Security.Principal;
 
 namespace CelHost.Fronter.Apis
 {
@@ -36,6 +37,20 @@ namespace CelHost.Fronter.Apis
             {
                 Content = JsonContent.Create(new LoginModel { Account = account, Password = password })
             };
+            request.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
+            var response = await _httpClient.SendAsync(request);
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<OperateResult>();
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public async Task<OperateResult> Logout()
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, "api/User/Logout");
             request.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
             var response = await _httpClient.SendAsync(request);
             if (response.IsSuccessStatusCode)

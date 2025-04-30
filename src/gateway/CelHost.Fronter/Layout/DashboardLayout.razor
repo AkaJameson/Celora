@@ -1,4 +1,5 @@
 ﻿@inherits LayoutComponentBase
+@using CelHost.Fronter.Apis
 @using MudBlazor
 <MudLayout>
     <MudAppBar Elevation="1" Fixed="false">
@@ -23,6 +24,13 @@
 
 @code {
     private bool _drawerOpen = true;
+    [Inject]
+    private NavigationManager NavigationManager { get; set; }
+    [Inject]
+    private UserApiServices UserApiServices { get; set; }
+    [Inject]
+    private ISnackbar snackbar { get; set; }
+
 
     private void ToggleDrawer()
     {
@@ -31,14 +39,11 @@
 
     private async Task Logout()
     {
-        // 可选：调用后端登出 API
-        await _httpClient.PostAsync("api/logout", null);
+        var result = await UserApiServices.Logout();
+        if(result!=null || result.Code !=200)
+        {
+            snackbar.Add("登出失败", Severity.Error);
+        }
         NavigationManager.NavigateTo("/login");
     }
-
-    [Inject]
-    private NavigationManager NavigationManager { get; set; }
-
-    [Inject]
-    private HttpClient _httpClient { get; set; }
 }
