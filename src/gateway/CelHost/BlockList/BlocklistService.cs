@@ -1,8 +1,8 @@
-﻿using CelHost.Data;
-using CelHost.Database;
+﻿using CelHost.Server.Data;
+using CelHost.Server.Database;
 using Microsoft.EntityFrameworkCore;
 
-namespace CelHost.BlockList
+namespace CelHost.Server.BlockList
 {
     public class BlocklistService : IBlocklistService
     {

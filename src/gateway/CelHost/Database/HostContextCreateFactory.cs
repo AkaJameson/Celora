@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace CelHost.Database
+namespace CelHost.Server.Database
 {
     public class HostContextCreateFactory : IDesignTimeDbContextFactory<HostContext>
     {

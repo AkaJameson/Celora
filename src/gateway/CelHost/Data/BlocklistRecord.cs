@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CelHost.Data
+namespace CelHost.Server.Data
 {
     // 第一步：修改数据库实体
     [Table("BlocklistRecord")]

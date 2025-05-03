@@ -1,8 +1,8 @@
 ﻿using CelHost.Data;
-using CelHost.Proxy.Abstraction;
+using CelHost.Server.Proxy.Abstraction;
 using Yarp.ReverseProxy.Configuration;
 
-namespace CelHost.Proxy
+namespace CelHost.Server.Proxy
 {
     public class ProxyManager : IProxyManager
     {

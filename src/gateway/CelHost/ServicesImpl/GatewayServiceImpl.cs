@@ -1,15 +1,15 @@
-﻿using CelHost.Data;
-using CelHost.Database;
-using CelHost.Models.Gateway;
-using CelHost.Services;
-using CelHost.Utils;
+﻿using CelHost.Models.Gateway;
+using CelHost.Server.Data;
+using CelHost.Server.Database;
+using CelHost.Server.Services;
+using CelHost.Server.Utils;
 using Microsoft.EntityFrameworkCore;
 using Si.EntityFramework.Extension.Extensions;
 using Si.EntityFramework.Extension.UnitofWorks.Abstractions;
 using Si.Utilites.OperateResult;
 using System.Security.Claims;
 
-namespace CelHost.ServicesImpl
+namespace CelHost.Server.ServicesImpl
 {
     public class GatewayServiceImpl : IGatewayServiceImpl
     {
@@ -103,10 +103,10 @@ namespace CelHost.ServicesImpl
             var result = await query.ToPagedListAsync(cascadeQueryModel.PageIndex, cascadeQueryModel.PageSize);
             return OperateResult.Successed(new
             {
-                Total = result.Total,
+                result.Total,
                 Items = result.Items.Select(p => new
                 {
-                    Id = p.Id,
+                    p.Id,
                     p.Name,
                     userName = p.UserName.Mask(),
                     passWord = p.Password.Mask(),

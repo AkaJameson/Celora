@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 
-namespace CelHost.Hubs
+namespace CelHost.Server.Hubs
 {
     public class HealthHub : Hub
     {

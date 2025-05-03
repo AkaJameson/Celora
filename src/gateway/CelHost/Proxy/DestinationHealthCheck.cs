@@ -1,10 +1,10 @@
-﻿using CelHost.Hubs;
+﻿using CelHost.Server.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using System.Collections.Concurrent;
 using Yarp.ReverseProxy;
 using Yarp.ReverseProxy.Model;
 
-namespace CelHost.Proxy
+namespace CelHost.Server.Proxy
 {
     public class DestinationHealthCheck
     {

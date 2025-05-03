@@ -1,16 +1,16 @@
-﻿using CelHost.Data;
-using CelHost.Database;
-using CelHost.Models.ClusterModels;
-using CelHost.Proxy.Abstraction;
-using CelHost.Services;
-using CelHost.Utils;
+﻿using CelHost.Models.ClusterModels;
+using CelHost.Server.Data;
+using CelHost.Server.Database;
+using CelHost.Server.Proxy.Abstraction;
+using CelHost.Server.Services;
+using CelHost.Server.Utils;
 using Microsoft.EntityFrameworkCore;
 using Si.EntityFramework.Extension.Extensions;
 using Si.EntityFramework.Extension.UnitofWorks.Abstractions;
 using Si.Logging;
 using Si.Utilites.OperateResult;
 
-namespace CelHost.ServicesImpl
+namespace CelHost.Server.ServicesImpl
 {
     public class ClusterServiceImpl : IClusterServiceImpl
     {
@@ -171,29 +171,29 @@ namespace CelHost.ServicesImpl
             var result = await query.ToPagedListAsync(clusterQueryModel.PageIndex, clusterQueryModel.PageSize);
             return OperateResult.Successed(new
             {
-                Total = result.Total,
+                result.Total,
                 Items = result.Items.Select(p => new
                 {
-                    Id = p.Id,
+                    p.Id,
                     Name = p.ClusterName,
                     Prefix = p.Path,
                     RateLimitPolicy = p.RateLimitPolicyName,
                     LoadBlancePolicy = p.LoadBalancingPolicy,
-                    IsActive = p.IsActive,
-                    HealthCheck = p.HealthCheck,
+                    p.IsActive,
+                    p.HealthCheck,
                     CheckOption = new
                     {
-                        Name = p.CheckOption.Name,
-                        Interval = p.CheckOption.Interval,
-                        Timeout = p.CheckOption.Timeout,
+                        p.CheckOption.Name,
+                        p.CheckOption.Interval,
+                        p.CheckOption.Timeout,
                         CheckPath = p.CheckOption.ActivePath,
                         CreateTime = p.CheckOption.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss"),
                         UpdateTime = p.CheckOption.UpdatedAt.ToString("yyyy-MM-dd HH:mm:ss"),
                     },
                     Nodes = p.Nodes.Select(p => new
                     {
-                        Address = p.Address,
-                        IsActive = p.IsActive,
+                        p.Address,
+                        p.IsActive,
                     })
                 })
             });

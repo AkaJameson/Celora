@@ -1,10 +1,10 @@
-﻿using CelHost.Database;
-using CelHost.Proxy.Abstraction;
+﻿using CelHost.Server.Database;
+using CelHost.Server.Proxy.Abstraction;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Yarp.ReverseProxy.Configuration;
 
-namespace CelHost.Proxy
+namespace CelHost.Server.Proxy
 {
     public static class ProxyInjection
     {
@@ -19,20 +19,20 @@ namespace CelHost.Proxy
             using var dbContext = new HostContext(dbContextOptions);
             var rateLimitPolicies = dbContext.RateLimitPolicies.ToList();
             var rateLimitPolicyDict = rateLimitPolicies.ToDictionary(k => k.PolicyName, v => v);
-           
-                builder.Services.AddRateLimiter(options =>
+
+            builder.Services.AddRateLimiter(options =>
+            {
+                foreach (var item in rateLimitPolicyDict)
                 {
-                    foreach (var item in rateLimitPolicyDict)
+                    options.AddFixedWindowLimiter(item.Key, config =>
                     {
-                        options.AddFixedWindowLimiter(item.Key, config =>
-                        {
-                            config.PermitLimit = item.Value.PermitLimit;
-                            config.Window = TimeSpan.FromSeconds(item.Value.Window);
-                            config.QueueProcessingOrder = item.Value.QueueProcessingOrder;
-                            config.QueueLimit = item.Value.QueueLimit;
-                        });
-                    }
-                });
+                        config.PermitLimit = item.Value.PermitLimit;
+                        config.Window = TimeSpan.FromSeconds(item.Value.Window);
+                        config.QueueProcessingOrder = item.Value.QueueProcessingOrder;
+                        config.QueueLimit = item.Value.QueueLimit;
+                    });
+                }
+            });
             builder.Services.AddScoped<IProxyLoader, ProxyLoader>();
             builder.Services.AddScoped<IProxyManager, ProxyManager>();
         }

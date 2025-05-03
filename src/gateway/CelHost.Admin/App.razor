@@ -1,0 +1,38 @@
+﻿<BootstrapBlazorRoot>
+    <Router AppAssembly="@typeof(App).Assembly">
+        <Found Context="routeData">
+            <PageTitle>Title</PageTitle>
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(StartLayout)" />
+            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+        </Found>
+        <NotFound>
+            <PageTitle>Not found</PageTitle>
+            <LayoutView Layout="@typeof(StartLayout)">
+                <p> 正在玩命开发中 ...</p>
+            </LayoutView>
+        </NotFound>
+    </Router>
+</BootstrapBlazorRoot>
+@code
+{
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+    [Inject]
+    public IJSRuntime JSRuntime { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        // 检查是否存在登录相关的 cookie（例如 "auth_token"）
+        var hasAuthCookie = await JSRuntime.InvokeAsync<bool>("checkCookie", new object[] { "Access-Token" });
+
+        // 如果没有 cookie，跳转到登录页面
+        if (!hasAuthCookie && NavigationManager.Uri != NavigationManager.ToAbsoluteUri("/login").ToString())
+        {
+            NavigationManager.NavigateTo("/login");
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/dashboard");
+        }
+    }
+
+}

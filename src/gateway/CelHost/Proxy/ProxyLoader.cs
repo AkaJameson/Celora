@@ -1,10 +1,10 @@
-﻿using CelHost.Database;
-using CelHost.Proxy.Abstraction;
+﻿using CelHost.Server.Database;
+using CelHost.Server.Proxy.Abstraction;
 using Microsoft.EntityFrameworkCore;
 using Yarp.ReverseProxy.Configuration;
 using Yarp.ReverseProxy.Health;
 
-namespace CelHost.Proxy
+namespace CelHost.Server.Proxy
 {
     public class ProxyLoader : IProxyLoader
     {

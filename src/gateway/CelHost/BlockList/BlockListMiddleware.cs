@@ -1,6 +1,6 @@
 ﻿using Si.Utilites.OperateResult;
 
-namespace CelHost.BlockList
+namespace CelHost.Server.BlockList
 {
     public class BlockListMiddleware
     {

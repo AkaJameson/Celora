@@ -1,8 +1,7 @@
-﻿
-using CelHost.Proxy;
+﻿using CelHost.Server.Proxy;
 using Si.Logging;
 
-namespace CelHost.Hosts
+namespace CelHost.Server.Hosts
 {
     public class HealthMonitorWorker : BackgroundService
     {

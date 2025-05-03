@@ -1,11 +1,11 @@
-﻿using CelHost.BlockList;
-using CelHost.Models;
+﻿using CelHost.Models;
+using CelHost.Server.BlockList;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Si.Utilites;
 using Si.Utilites.OperateResult;
 
-namespace CelHost.Controllers
+namespace CelHost.Server.Controllers
 {
     [Authorize]
     [ApiController]

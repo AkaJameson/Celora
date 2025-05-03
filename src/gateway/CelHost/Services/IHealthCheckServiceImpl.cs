@@ -1,7 +1,7 @@
 ﻿using CelHost.Models.HealthPolicyModels;
 using Si.Utilites.OperateResult;
 
-namespace CelHost.Services
+namespace CelHost.Server.Services
 {
     public interface IHealthCheckServiceImpl
     {

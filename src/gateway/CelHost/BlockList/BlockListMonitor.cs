@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 
-namespace CelHost.BlockList
+namespace CelHost.Server.BlockList
 {
     public class BlackListMonitor
     {
@@ -12,7 +12,7 @@ namespace CelHost.BlockList
             IConfiguration configuration)
         {
             _blocklistService = blocklistService;
-            _threshold = configuration.GetValue<int>("RateLimiter:BlockThreshold", 5);
+            _threshold = configuration.GetValue("RateLimiter:BlockThreshold", 5);
         }
 
         public async Task RecordViolation(string ip)

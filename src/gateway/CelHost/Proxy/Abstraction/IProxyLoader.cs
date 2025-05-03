@@ -1,6 +1,6 @@
 ﻿using Yarp.ReverseProxy.Configuration;
 
-namespace CelHost.Proxy.Abstraction
+namespace CelHost.Server.Proxy.Abstraction
 {
     public interface IProxyLoader
     {

@@ -1,11 +1,11 @@
 ﻿using CelHost.Models.UserInfoModels;
-using CelHost.Services;
+using CelHost.Server.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Si.Utilites;
 using Si.Utilites.OperateResult;
 
-namespace CelHost.Controllers
+namespace CelHost.Server.Controllers
 {
     [ApiController]
     public class UserController : DefaultController

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CelHost.Data
+namespace CelHost.Server.Data
 {
     [Table("ClusterNode")]
     public class ClusterNode

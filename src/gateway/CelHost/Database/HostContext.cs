@@ -1,8 +1,8 @@
-﻿using CelHost.Data;
+﻿using CelHost.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
-namespace CelHost.Database
+namespace CelHost.Server.Database
 {
     public class HostContext : DbContext
     {

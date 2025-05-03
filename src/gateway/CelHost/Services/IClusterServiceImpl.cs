@@ -1,7 +1,7 @@
 ﻿using CelHost.Models.ClusterModels;
 using Si.Utilites.OperateResult;
 
-namespace CelHost.Services
+namespace CelHost.Server.Services
 {
     public interface IClusterServiceImpl
     {

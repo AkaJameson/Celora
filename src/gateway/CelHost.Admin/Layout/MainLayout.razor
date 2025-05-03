@@ -1,0 +1,18 @@
+﻿@inherits LayoutComponentBase
+@using CelHost.Admin.Models
+<div class="layout-menu-demo">
+    <Layout IsFullSide="true" ShowFooter="true" ShowCollapseBar="true" Menus="@Menus.menuItems">
+        <Header>
+            <div>Header</div>
+        </Header>
+        <Side>
+
+        </Side>
+        <Main>
+            @Body
+        </Main>
+        <Footer>
+            <div>Footer</div>
+        </Footer>
+    </Layout>
+</div>

@@ -1,13 +1,13 @@
-﻿using CelHost.Data;
-using CelHost.Database;
-using CelHost.Models.SystemDictModels;
-using CelHost.Services;
+﻿using CelHost.Models.SystemDictModels;
+using CelHost.Server.Data;
+using CelHost.Server.Database;
+using CelHost.Server.Services;
 using Microsoft.EntityFrameworkCore;
 using Si.EntityFramework.Extension.Extensions;
 using Si.EntityFramework.Extension.UnitofWorks.Abstractions;
 using Si.Utilites.OperateResult;
 
-namespace CelHost.ServicesImpl
+namespace CelHost.Server.ServicesImpl
 {
     public class SystemDictionaryServiceImpl : ISystemDictionaryServiceImpl
     {

@@ -1,4 +1,4 @@
-﻿namespace CelHost.BlockList
+﻿namespace CelHost.Server.BlockList
 {
     public interface IBlocklistService
     {

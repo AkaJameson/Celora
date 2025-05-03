@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace CelHost.Utils
+namespace CelHost.Server.Utils
 {
     public class SHA256Helper
     {

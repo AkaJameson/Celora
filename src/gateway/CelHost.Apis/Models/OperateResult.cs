@@ -1,4 +1,4 @@
-﻿namespace CelHost.Fronter.Apis.Models
+﻿namespace CelHost.Apis.Models
 {
     public class OperateResult
     {

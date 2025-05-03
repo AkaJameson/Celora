@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.RateLimiting;
 
-namespace CelHost.Data
+namespace CelHost.Server.Data
 {
     /// <summary>
     /// 请求限流功能

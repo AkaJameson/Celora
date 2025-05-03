@@ -1,12 +1,12 @@
-﻿using CelHost.Fronter.Apis.Models;
+﻿using CelHost.Apis.Models;
 using CelHost.Models.UserInfoModels;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.WebAssembly.Http;
 using System.Net.Http.Json;
-using System.Security.Principal;
 
-namespace CelHost.Fronter.Apis
+namespace CelHost.Apis
 {
+    [Api]
     public class UserApiServices
     {
         private readonly HttpClient _httpClient;
@@ -31,7 +31,7 @@ namespace CelHost.Fronter.Apis
                 return null;
             }
         }
-        public async Task<OperateResult> Login(string account,string password)
+        public async Task<OperateResult> Login(string account, string password)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, "api/User/Login")
             {

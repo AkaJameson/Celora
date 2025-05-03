@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace CelHost.Utils
+namespace CelHost.Server.Utils
 {
     public static class RegexHelper
     {

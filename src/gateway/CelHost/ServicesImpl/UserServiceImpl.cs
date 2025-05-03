@@ -1,8 +1,8 @@
-﻿using CelHost.Data;
-using CelHost.Database;
-using CelHost.Models.UserInfoModels;
-using CelHost.Services;
-using CelHost.Utils;
+﻿using CelHost.Models.UserInfoModels;
+using CelHost.Server.Data;
+using CelHost.Server.Database;
+using CelHost.Server.Services;
+using CelHost.Server.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Si.Utilites.Extensions;
@@ -12,7 +12,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 
-namespace CelHost.ServicesImpl
+namespace CelHost.Server.ServicesImpl
 {
     /// <summary>
     /// 用户服务实现类
@@ -35,13 +35,13 @@ namespace CelHost.ServicesImpl
         /// <returns></returns>
         public async Task<OperateResult> Login(LoginModel loginModel)
         {
-            var user = await _dbContext.Set<User>().FirstOrDefaultAsync(u=>u.Hash == SHA256Helper.Encrypt(loginModel.Account));
+            var user = await _dbContext.Set<User>().FirstOrDefaultAsync(u => u.Hash == SHA256Helper.Encrypt(loginModel.Account));
             if (user == null)
             {
                 return OperateResult.Failed("用户不存在");
             }
             loginModel.Password = StableAesCrypto.Encrypt(loginModel.Password, user.Key, user.IV);
-            if(loginModel.Password != user.Password)
+            if (loginModel.Password != user.Password)
             {
                 return OperateResult.Failed("密码错误");
             }
@@ -197,7 +197,7 @@ namespace CelHost.ServicesImpl
         /// 注销
         /// </summary>
         /// <returns></returns>
-        
+
         public async Task<OperateResult> Logout()
         {
             if (_httpContextAccessor.HttpContext != null)

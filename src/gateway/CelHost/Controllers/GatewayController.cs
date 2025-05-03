@@ -1,11 +1,11 @@
 ﻿using CelHost.Models.Gateway;
-using CelHost.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Si.Utilites.OperateResult;
 using Si.Utilites;
+using CelHost.Server.Services;
 
-namespace CelHost.Controllers
+namespace CelHost.Server.Controllers
 {
     [ApiController]
     public class GatewayController : DefaultController

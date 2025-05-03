@@ -1,6 +1,6 @@
 ﻿using Yarp.ReverseProxy.Model;
 
-namespace CelHost.Proxy.Dto
+namespace CelHost.Server.Proxy.Dto
 {
     public class DestinationModel
     {
