@@ -2,6 +2,7 @@
 using CelHost.Models.UserInfoModels;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.WebAssembly.Http;
+using System.Net.Http;
 using System.Net.Http.Json;
 
 namespace CelHost.Apis
@@ -10,9 +11,9 @@ namespace CelHost.Apis
     public class UserApiServices
     {
         private readonly HttpClient _httpClient;
-        public UserApiServices(HttpClient httpClient)
+        public UserApiServices(IHttpClientFactory clientFactory)
         {
-            _httpClient = httpClient;
+            _httpClient = clientFactory.CreateClient("client");
         }
 
 
@@ -28,7 +29,7 @@ namespace CelHost.Apis
             }
             else
             {
-                return null;
+                return new OperateResult();
             }
         }
         public async Task<OperateResult> Login(string account, string password)
@@ -37,7 +38,6 @@ namespace CelHost.Apis
             {
                 Content = JsonContent.Create(new LoginModel { Account = account, Password = password })
             };
-            request.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
             var response = await _httpClient.SendAsync(request);
             if (response.IsSuccessStatusCode)
             {
@@ -45,13 +45,12 @@ namespace CelHost.Apis
             }
             else
             {
-                return null;
+                return new OperateResult();
             }
         }
         public async Task<OperateResult> Logout()
         {
             var request = new HttpRequestMessage(HttpMethod.Post, "api/User/Logout");
-            request.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
             var response = await _httpClient.SendAsync(request);
             if (response.IsSuccessStatusCode)
             {
@@ -59,7 +58,21 @@ namespace CelHost.Apis
             }
             else
             {
-                return null;
+                return new OperateResult();
+            }
+        }
+
+        public async Task<OperateResult> CheckLogin()
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, "api/User/CheckLogin");
+            var response = await _httpClient.SendAsync(request);
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<OperateResult>();
+            }
+            else
+            {
+                return new OperateResult();
             }
         }
 

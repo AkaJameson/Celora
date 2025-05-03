@@ -1,18 +1,126 @@
 ﻿@inherits LayoutComponentBase
-@using CelHost.Admin.Models
-<div class="layout-menu-demo">
-    <Layout IsFullSide="true" ShowFooter="true" ShowCollapseBar="true" Menus="@Menus.menuItems">
-        <Header>
-            <div>Header</div>
-        </Header>
-        <Side>
+@using BootstrapBlazor.Components
+@using System.Diagnostics.CodeAnalysis
+@using CelHost.Apis
+<Layout IsFullSide="true" ShowFooter="true" ShowCollapseBar="true" Menus="@MenuItems" IsPage="true">
+    <Header>
+        <div @onclick="OnLogoutClicked" style="margin-left:auto; border-radius:3px;  cursor:pointer; ">
+            <i class="fa-solid fa-right-from-bracket"></i>
+        </div>
 
-        </Side>
-        <Main>
-            @Body
-        </Main>
-        <Footer>
-            <div>Footer</div>
-        </Footer>
-    </Layout>
-</div>
+    </Header>
+    <Side>
+        <div class="layout-banner">
+            <img class="layout-logo" src="/Icon.jpg" />
+            <div class="layout-title">
+                <span>网关管理</span>
+            </div>
+        </div>
+    </Side>
+    <Main>
+        <div style="padding: 10rem 1rem;">@Body</div>
+    </Main>
+</Layout>
+@code {
+    [Inject]
+    [NotNull]
+    private UserApiServices userApiServices { get; set; }
+    [Inject]
+    [NotNull]
+    private NavigationManager navigationManager { get; set; }
+    public List<MenuItem> MenuItems = new List<MenuItem>()
+    {
+        new MenuItem()
+        {
+            Url = "/system",
+            Text = "系统设置",
+            Icon = "fa fa-cog",
+            Items = new List<MenuItem>()
+            {
+                new MenuItem()
+                {
+                    Url = "/system/config",
+                    Text = "系统配置",
+                    Icon = "fa fa-wrench"
+                },
+                new MenuItem()
+                {
+                    Url = "/system/blacklist",
+                    Text = "黑名单管理",
+                    Icon = "fa fa-ban"
+                },
+                new MenuItem()
+                {
+                    Url = "/system/dictionary",
+                    Text = "数据字典",
+                    Icon = "fa fa-book"
+                }
+            }
+        },
+        new MenuItem()
+        {
+            Url = "/service",
+            Text = "服务管理",
+            Icon = "fa fa-server",
+            Items = new List<MenuItem>()
+            {
+                new MenuItem()
+                {
+                    Url = "/service/route",
+                    Text = "路由管理",
+                    Icon = "fa fa-route"
+                },
+                new MenuItem()
+                {
+                    Url = "/service/node",
+                    Text = "节点管理",
+                    Icon = "fa fa-network-wired"
+                }
+            }
+        },
+        new MenuItem()
+        {
+            Url = "/gateway",
+            Text = "网关管理",
+            Icon = "fa fa-exchange-alt",
+            Items = new List<MenuItem>()
+            {
+                new MenuItem()
+                {
+                    Url = "/gateway/view",
+                    Text = "网关查看",
+                    Icon = "fa fa-eye"
+                },
+                new MenuItem()
+                {
+                    Url = "/gateway/add",
+                    Text = "网关添加",
+                    Icon = "fa fa-plus"
+                }
+            }
+        },
+        new MenuItem()
+        {
+            Url = "/log",
+            Text = "日志管理",
+            Icon = "fa fa-file-alt",
+            Items = new List<MenuItem>()
+            {
+                new MenuItem()
+                {
+                    Url = "/log/details",
+                    Text = "日志详情",
+                    Icon = "fa fa-info-circle"
+                }
+            }
+        }
+    };
+    private async Task OnLogoutClicked()
+    {
+        var result = await userApiServices.Logout();
+        if(result.Code == 200)
+        {
+            navigationManager.NavigateTo("/login");
+        }
+    }
+}

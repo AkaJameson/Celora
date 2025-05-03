@@ -1,5 +1,4 @@
-﻿using CelHost.Data;
-using CelHost.Server.Proxy.Abstraction;
+﻿using CelHost.Server.Proxy.Abstraction;
 using Yarp.ReverseProxy.Configuration;
 
 namespace CelHost.Server.Proxy

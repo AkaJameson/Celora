@@ -4,6 +4,7 @@
 @using CelHost.Apis
 @using BootstrapBlazor.Components
 @using System.ComponentModel.DataAnnotations
+@layout StartLayout
 
 <div class="login">
     <div class="login-form">
@@ -89,7 +90,7 @@
             {
                 await MessageService.Show(new MessageOption()
                     {
-                        Content = result?.Message??"未知错误",
+                        Content = result?.Message ?? "未知错误",
                         Icon = "fa - light fa - xmark",
                         Color = Color.Warning
                     });
@@ -99,7 +100,7 @@
         {
             await MessageService.Show(new MessageOption()
                 {
-                    Content ="内部异常",
+                    Content = "内部异常",
                     Icon = "fa - light fa - xmark",
                     Color = Color.Warning
                 });

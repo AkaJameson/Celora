@@ -2,9 +2,9 @@
 {
     public class OperateResult
     {
-        public int Code { get; set; }
-        public string Message { get; set; }
-        public bool Succeeded { get; set; }
+        public int Code { get; set; } = -1;
+        public string Message { get; set; } = "未知错误";
+        public bool Succeeded { get; set; } = false;
     }
 
     public class OperateResult<T> : OperateResult

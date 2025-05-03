@@ -37,6 +37,7 @@ namespace CelHost.Server.Controllers
         /// </summary>
         /// <param name="resetPasswordModel"></param>
         /// <returns></returns>
+        [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         [HttpPost]
         [Authorize]
         public async Task<OperateResult> ResetPassword([FromBody] ResetPsdModel resetPasswordModel)
@@ -71,6 +72,12 @@ namespace CelHost.Server.Controllers
         public async Task<OperateResult> Logout()
         {
             return await _userService.Logout();
+        }
+        [HttpGet]
+        [Authorize]
+        public async Task<OperateResult> CheckLogin()
+        {
+            return OperateResult.Successed();
         }
 
     }

@@ -17,10 +17,4 @@
     <ProjectReference Include="..\CelHost.Apis\CelHost.Apis.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Update="wwwroot\js\checkCookie.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
 </Project>
