@@ -3,6 +3,7 @@ using CelHost.Server.BlockList;
 using CelHost.Server.Database;
 using CelHost.Server.Hosts;
 using CelHost.Server.Hubs;
+using CelHost.Server.Options;
 using CelHost.Server.Proxy;
 using CelHost.Server.Services;
 using CelHost.Server.ServicesImpl;
@@ -53,7 +54,7 @@ try
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen(c =>
     {
-        c.SwaggerDoc("v1",new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Gateway", Version = "v1" });
+        c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Gateway", Version = "v1" });
     });
     var rateLimit = builder.Configuration.GetSection("RateLimiter").Get<RateLimit>();
     builder.Services.AddRateLimiter(options =>
@@ -124,6 +125,7 @@ try
     builder.Services.AddScoped<DestinationHealthCheck>();
     builder.Services.AddUnitofWork();
     builder.Services.AddHttpContextAccessor();
+    builder.Services.Configure<FileServiceOptions>(builder.Configuration.GetSection("FileService"));
     var connectionStr = builder.Configuration.GetConnectionString("DefaultConnection");
     builder.Services.AddDbContext<HostContext>(options =>
     {
@@ -138,6 +140,7 @@ try
     builder.Services.AddScoped<IClusterServiceImpl, ClusterServiceImpl>();
     builder.Services.AddScoped<INodeServiceImpl, NodeServiceImpl>();
     builder.Services.AddScoped<IGatewayServiceImpl, GatewayServiceImpl>();
+    builder.Services.AddSingleton<IFileServiceImpl, FileServiceImpl>();
     #endregion
     var app = builder.Build();
     if (app.Environment.IsDevelopment())

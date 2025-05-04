@@ -48,10 +48,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Dto\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <ProjectReference Include="..\CelHost.Models\CelHost.Models.csproj" />
 	</ItemGroup>
 
