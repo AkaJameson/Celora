@@ -1,7 +1,6 @@
-﻿@inherits LayoutComponentBase
-@using BootstrapBlazor.Components
-@using System.Diagnostics.CodeAnalysis
-@using CelHost.Apis
+﻿@using System.Diagnostics.CodeAnalysis
+@using CelHost.Apis.ApiServices
+@inherits LayoutComponentBase
 <Layout IsFullSide="true" ShowFooter="true" ShowCollapseBar="true" Menus="@MenuItems" IsPage="true">
     <Header>
         <div @onclick="OnLogoutClicked" style="margin-left:auto; border-radius:3px;  cursor:pointer; ">

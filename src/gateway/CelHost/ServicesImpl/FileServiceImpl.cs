@@ -25,7 +25,7 @@ namespace CelHost.Server.ServicesImpl
             return fullPath;
         }
 
-        public List<FileInfoDto> GetFileList(string relativePath = "")
+        public List<FileInfoDto> GetFileList(string relativePath = "", int page = 1, int pageSize = 20)
         {
             var result = new List<FileInfoDto>();
             string targetPath;
@@ -42,10 +42,12 @@ namespace CelHost.Server.ServicesImpl
             if (!Directory.Exists(targetPath))
                 return result;
 
-            foreach (var dir in Directory.GetDirectories(targetPath))
-            {
-                var info = new DirectoryInfo(dir);
-                result.Add(new FileInfoDto
+            page = Math.Max(1, page);
+            pageSize = Math.Max(20, pageSize);
+
+            var directories = Directory.GetDirectories(targetPath)
+                .Select(dir => new DirectoryInfo(dir))
+                .Select(info => new FileInfoDto
                 {
                     Name = info.Name,
                     RelativePath = Path.Combine(relativePath, info.Name).Replace("\\", "/"),
@@ -53,12 +55,10 @@ namespace CelHost.Server.ServicesImpl
                     Size = 0,
                     LastModified = info.LastWriteTime.ToString("yyyy-MM-dd HH:mm:ss")
                 });
-            }
 
-            foreach (var file in Directory.GetFiles(targetPath))
-            {
-                var info = new FileInfo(file);
-                result.Add(new FileInfoDto
+            var files = Directory.GetFiles(targetPath)
+                .Select(file => new FileInfo(file))
+                .Select(info => new FileInfoDto
                 {
                     Name = info.Name,
                     RelativePath = Path.Combine(relativePath, info.Name).Replace("\\", "/"),
@@ -66,7 +66,12 @@ namespace CelHost.Server.ServicesImpl
                     Size = info.Length,
                     LastModified = info.LastWriteTime.ToString("yyyy-MM-dd HH:mm:ss")
                 });
-            }
+
+            result.AddRange(directories.Concat(files)
+                .OrderBy(f => f.IsDirectory ? 0 : 1)
+                .ThenBy(f => f.Name)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize));
 
             return result;
         }

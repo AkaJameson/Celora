@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Http;
 using System.Net.Http;
 using System.Net.Http.Json;
 
-namespace CelHost.Apis
+namespace CelHost.Apis.ApiServices
 {
     [Api]
     public class UserApiServices

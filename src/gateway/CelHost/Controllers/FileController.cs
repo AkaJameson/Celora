@@ -30,7 +30,7 @@ namespace CelHost.Server.Controllers
         {
             try
             {
-                return _fileService.DownloadFile(filePath); 
+                return _fileService.DownloadFile(filePath);
             }
             catch (UnauthorizedAccessException)
             {
@@ -41,4 +41,5 @@ namespace CelHost.Server.Controllers
                 return NotFound("文件不存在");
             }
         }
+    }
 }
