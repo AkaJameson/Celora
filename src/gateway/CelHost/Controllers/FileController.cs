@@ -19,9 +19,9 @@ namespace CelHost.Server.Controllers
         }
 
         [HttpGet]
-        public OperateResult List([FromQuery] string path = "")
+        public OperateResult List([FromQuery] string path = "", [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
         {
-            var result = _fileService.GetFileList(path);
+            var result = _fileService.GetFileList(path, page, pageSize);
             return OperateResult.Successed(result);
         }
 
