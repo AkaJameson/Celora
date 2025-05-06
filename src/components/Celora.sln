@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.EntityFramework.AutoMigr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.EntityFramework.Extension", "Si.EntityFramework.Extension\Si.EntityFramework.Extension.csproj", "{CFA36821-C797-5CF6-A4C7-16C1E43EC739}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.EntityFramework.IdentityServer", "Si.EntityFramework.IdentityServer\Si.EntityFramework.IdentityServer.csproj", "{35991715-D510-4907-B12A-7320EE28CA56}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.Dapper.Sharding", "Si.Dapper.Sharding\Si.Dapper.Sharding.csproj", "{CBC468FC-0EFE-47DE-A435-623106C55E6E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Builder", "Builder", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
@@ -34,6 +32,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.Logging", "Si.Logging\Si
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Si.QuartzService", "Si.QuartzService\Si.QuartzService.csproj", "{D6111FBB-2C1B-4F47-8346-1801D7BFF563}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Si.AccessControl", "Si.AccessControl\Si.AccessControl.csproj", "{998046CF-FB98-4E30-A70D-CDA3D13BC904}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,10 +48,6 @@ Global
 		{CFA36821-C797-5CF6-A4C7-16C1E43EC739}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFA36821-C797-5CF6-A4C7-16C1E43EC739}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CFA36821-C797-5CF6-A4C7-16C1E43EC739}.Release|Any CPU.Build.0 = Release|Any CPU
-		{35991715-D510-4907-B12A-7320EE28CA56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{35991715-D510-4907-B12A-7320EE28CA56}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{35991715-D510-4907-B12A-7320EE28CA56}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{35991715-D510-4907-B12A-7320EE28CA56}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CBC468FC-0EFE-47DE-A435-623106C55E6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CBC468FC-0EFE-47DE-A435-623106C55E6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBC468FC-0EFE-47DE-A435-623106C55E6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -88,6 +84,10 @@ Global
 		{D6111FBB-2C1B-4F47-8346-1801D7BFF563}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6111FBB-2C1B-4F47-8346-1801D7BFF563}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6111FBB-2C1B-4F47-8346-1801D7BFF563}.Release|Any CPU.Build.0 = Release|Any CPU
+		{998046CF-FB98-4E30-A70D-CDA3D13BC904}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{998046CF-FB98-4E30-A70D-CDA3D13BC904}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{998046CF-FB98-4E30-A70D-CDA3D13BC904}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{998046CF-FB98-4E30-A70D-CDA3D13BC904}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
