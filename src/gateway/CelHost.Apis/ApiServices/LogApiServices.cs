@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 
 namespace CelHost.Apis.ApiServices
 {
+    [Api]
     public class LogApiServices
     {
         private readonly HttpClient _httpClient;
@@ -16,9 +17,9 @@ namespace CelHost.Apis.ApiServices
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public async Task<List<FileInfoDto>> GetFileListAsync(string path = "")
+        public async Task<List<FileInfoDto>> GetFileListAsync(string path = "", int pageIndex = 1, int pageSize = 10)
         {
-            string url = $"api/files/list?path={Uri.EscapeDataString(path)}";
+            string url = $"api/files/list?path={Uri.EscapeDataString(path)}&page={pageIndex}&pageSize={pageSize}";
             return await _httpClient.GetFromJsonAsync<List<FileInfoDto>>(url);
         }
         /// <summary>
