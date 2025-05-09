@@ -3,11 +3,11 @@
     "Name": "新建配置文件",
     "Projects": [
       {
-        "Path": "CelHost\\CelHost.csproj",
+        "Path": "CelHost\\CelHost.Server.csproj",
         "Action": "Start"
       },
       {
-        "Path": "CelHost.Fronter\\CelHost.Fronter.csproj",
+        "Path": "CelHost.Admin\\CelHost.Admin.csproj",
         "Action": "Start"
       }
     ]

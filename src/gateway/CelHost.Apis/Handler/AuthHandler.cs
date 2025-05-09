@@ -21,9 +21,9 @@ namespace CelHost.Apis.Handler
             if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized || // 401
                 response.StatusCode == System.Net.HttpStatusCode.Forbidden)     // 403
             {
-                if (_navigationManager.Uri != _navigationManager.ToAbsoluteUri("/login").ToString())
+                if (_navigationManager.Uri != _navigationManager.ToAbsoluteUri("/").ToString())
                 {
-                    _navigationManager.NavigateTo("/login");
+                    _navigationManager.NavigateTo("/");
                 }
             }
 
