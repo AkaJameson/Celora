@@ -1,0 +1,44 @@
+﻿@using System.Diagnostics.CodeAnalysis
+@inherits LayoutComponentBase
+<div class="layout">
+    <div class="layout-sidebar">
+        @Sidebar
+    </div>
+    <div class="layout-main">
+        <div class="layout-header">
+            @Header
+        </div>
+        <div class="layout-content">
+            @Body
+        </div>
+        @if (ShowFooter)
+        {
+            <div class="layout-footer">
+                @Footer
+            </div>
+        }
+    </div>
+</div>
+@code {
+    [Parameter]
+    public bool ShowFooter { get; set; } = false;
+    [Parameter]
+    [NotNull]
+    public RenderFragment Header { get; set; }
+    [Parameter]
+    [NotNull]
+    public RenderFragment Sidebar { get; set; }
+    [Parameter]
+    public RenderFragment Footer { get; set; }
+
+    protected override Task OnParametersSetAsync()
+    {
+        if(ShowFooter == true && Footer == null)
+        {
+            throw new ArgumentNullException(nameof(Footer));
+        }
+        return base.OnParametersSetAsync();
+    }
+
+
+}

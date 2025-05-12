@@ -1,29 +1,28 @@
 ﻿.login {
-    background-image: url("/login_background.png");
+    background-image: url("images/login_background.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     width: 100vw;
     height: 100vh;
     margin: 0;
-    display: flex; 
-    justify-content: flex-end; 
-    align-items: flex-end;
+    position:relative;
 }
 
     .login .login-form {
         border-radius: 10px;
-        background-color: rgba(255,255,255,0.7);
+        background-color: rgba(255,255,255,0.4);
         display: flex;
         flex-direction: column;
         width: 412px;
         height: 527px;
-        margin-left: -45rem; 
-        margin-bottom: 11rem;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         justify-content: center;
         align-content: center;
         padding: 40px 30px;
+        position:absolute;
+        top: 16%;
+        left: 58%;
     }
 
     .login .shortLine {
@@ -38,7 +37,7 @@
     position: fixed;
     right: 20px;
     bottom: 20px;
-    background-color: rgba(0, 123, 255, 0.9);
+    background-color: rgba(0, 123, 255, 0.2);
     color: white;
     padding: 10px 12px;
     border-radius: 25px;

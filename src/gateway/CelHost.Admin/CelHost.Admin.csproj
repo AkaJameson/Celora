@@ -18,8 +18,4 @@
     <ProjectReference Include="..\CelHost.Apis\CelHost.Apis.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Shared\" />
-  </ItemGroup>
-
 </Project>
