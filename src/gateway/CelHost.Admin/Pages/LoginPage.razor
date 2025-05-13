@@ -82,7 +82,7 @@
             var result = await UserApiServices.Login(Model.Account, Model.Password);
             if (result?.Succeeded == true)
             {
-                NavigationManager.NavigateTo("/dashboard");
+                NavigationManager.NavigateTo("/GatewayDetail");
             }
             else
             {

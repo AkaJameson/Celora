@@ -1,0 +1,57 @@
+﻿@using CelHost.Admin.Shared
+@inherits LayoutComponentBase
+@using CelHost.Admin.Shared.Models;
+<CustomLayout ShowFooter="false">
+    <Header>
+        Header
+    </Header>
+    <Main>
+        @Body
+    </Main>
+    <Sidebar>
+        <NevMenu MenuItems="MenuItems"></NevMenu>
+    </Sidebar>
+</CustomLayout>
+
+@code {
+    @code {
+        public List<Shared.Models.MenuItem> MenuItems = new List<Shared.Models.MenuItem>()
+    {
+        new Shared.Models.MenuItem
+        {
+            Name = "Dashboard",
+            Icon = "fa fa-home",
+            IsExpanded = true,
+            SubItems = new List<SubMenuItem>
+            {
+                new SubMenuItem { Name = "Home", Url = "dashboard/home" },
+                new SubMenuItem { Name = "Analytics", Url = "dashboard/analytics" }
+            }
+        },
+        new Shared.Models.MenuItem
+        {
+            Name = "Management",
+            Icon = "fa fa-cogs",
+            IsExpanded = false,
+            SubItems = new List<SubMenuItem>
+            {
+                new SubMenuItem { Name = "Users", Url = "management/users" },
+                new SubMenuItem { Name = "Roles", Url = "management/roles" },
+                new SubMenuItem { Name = "Permissions", Url = "management/permissions" }
+            }
+        },
+        new Shared.Models.MenuItem
+        {
+            Name = "Reports",
+            Icon = "fa fa-chart-bar",
+            IsExpanded = false,
+            SubItems = new List<SubMenuItem>
+            {
+                new SubMenuItem { Name = "Sales", Url = "reports/sales" },
+                new SubMenuItem { Name = "Inventory", Url = "reports/inventory" }
+            }
+        }
+    };
+    }
+
+}

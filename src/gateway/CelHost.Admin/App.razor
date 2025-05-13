@@ -3,7 +3,7 @@
     <Router AppAssembly="@typeof(App).Assembly">
         <Found Context="routeData">
             <PageTitle>Title</PageTitle>
-            <RouteView RouteData="@routeData" DefaultLayout="@typeof(StartLayout)" />
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
             <FocusOnNavigate RouteData="@routeData" Selector="h1" />
         </Found>
         <NotFound>
@@ -28,7 +28,7 @@
         var result = await userApiServices.CheckLogin();
         if(result.Code ==200)
         {
-            NavigationManager.NavigateTo("/dashboard");
+            NavigationManager.NavigateTo("/GateWayDetail");
         }
     }
 

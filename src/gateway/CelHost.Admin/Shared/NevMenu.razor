@@ -1,5 +1,6 @@
 ﻿@using System.Diagnostics.CodeAnalysis
 @inject IJSRuntime JS
+@using Models;
 
 <div class="nav-menu @(IsCollapsed ? "collapsed" : "")">
     <div class="nav-title">
@@ -12,7 +13,10 @@
                 <div class="nav-item-header" @onclick="() => ToggleSubMenu(item)">
                     <i class="@item.Icon"></i>
                     <span class="nav-item-text">@item.Name</span>
-                    <span class="nav-toggle">@(item.IsExpanded ? "▼" : "▶")</span>
+                    @if (item.SubItems != null && item.SubItems.Any())
+                    {
+                        <i class="nav-toggle bi @(item.IsExpanded ? "bi-chevron-left" : "bi-chevron-down")"></i>
+                    }
                 </div>
                 @if (item.IsExpanded && item.SubItems != null)
                 {
@@ -35,18 +39,10 @@
 </div>
 
 @code {
-    public class MenuItem
-    {
-        private string url;
-        public string Url { get { return url; } set { url = value.StartsWith("/") ? value : ($"/{value}"); } }
-        public string Name { get; set; }
-        public string Icon { get; set; } // 使用 FontAwesome 图标类名，如 "fas fa-home"
-        public bool IsExpanded { get; set; } = false;
-        public List<MenuItem> SubItems { get; set; }
-    }
+
 
     [Parameter]
-    public List<MenuItem> MenuItems { get; set; }
+    public List<Models.MenuItem> MenuItems { get; set; }
 
     [Parameter]
     public bool IsCollapsed { get; set; } = false;
@@ -63,7 +59,7 @@
         }
     }
 
-    private void ToggleSubMenu(MenuItem item)
+    private void ToggleSubMenu(Models.MenuItem item)
     {
         item.IsExpanded = !item.IsExpanded;
         StateHasChanged();
