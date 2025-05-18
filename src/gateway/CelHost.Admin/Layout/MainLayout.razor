@@ -1,57 +1,46 @@
 ﻿@using CelHost.Admin.Shared
+@using CelHost.Admin.Shared.Components
 @inherits LayoutComponentBase
-@using CelHost.Admin.Shared.Models;
-<CustomLayout ShowFooter="false">
-    <Header>
-        Header
-    </Header>
-    <Main>
-        @Body
-    </Main>
-    <Sidebar>
-        <NevMenu MenuItems="MenuItems"></NevMenu>
-    </Sidebar>
-</CustomLayout>
+
+<PageBase>
+    <CustomLayout ShowFooter="false">
+        <Header>
+            Header
+        </Header>
+        <Main>
+            @Body
+        </Main>
+        <Sidebar>
+            <CustomNevMenu NavItems="@NavLinks" />
+        </Sidebar>
+    </CustomLayout>
+</PageBase>
 
 @code {
-    @code {
-        public List<Shared.Models.MenuItem> MenuItems = new List<Shared.Models.MenuItem>()
+    private List<CustomNevMenu.NavItem> NavLinks = new()
     {
-        new Shared.Models.MenuItem
+        new()
         {
-            Name = "Dashboard",
-            Icon = "fa fa-home",
+            Title = "仪表盘",
+            Icon = "bi bi-speedometer2",
+            Href = "/dashboard"
+        },
+        new()
+        {
+            Title = "系统管理",
+            Icon = "bi bi-gear",
             IsExpanded = true,
-            SubItems = new List<SubMenuItem>
+            Children = new()
             {
-                new SubMenuItem { Name = "Home", Url = "dashboard/home" },
-                new SubMenuItem { Name = "Analytics", Url = "dashboard/analytics" }
+                new CustomNevMenu.NavItem { Title = "用户管理", Href = "/users", Icon = "bi bi-person" },
+                new CustomNevMenu.NavItem { Title = "角色管理", Href = "/roles", Icon = "bi bi-shield-lock" }
             }
         },
-        new Shared.Models.MenuItem
+        new()
         {
-            Name = "Management",
-            Icon = "fa fa-cogs",
-            IsExpanded = false,
-            SubItems = new List<SubMenuItem>
-            {
-                new SubMenuItem { Name = "Users", Url = "management/users" },
-                new SubMenuItem { Name = "Roles", Url = "management/roles" },
-                new SubMenuItem { Name = "Permissions", Url = "management/permissions" }
-            }
-        },
-        new Shared.Models.MenuItem
-        {
-            Name = "Reports",
-            Icon = "fa fa-chart-bar",
-            IsExpanded = false,
-            SubItems = new List<SubMenuItem>
-            {
-                new SubMenuItem { Name = "Sales", Url = "reports/sales" },
-                new SubMenuItem { Name = "Inventory", Url = "reports/inventory" }
-            }
+            Title = "关于",
+            Icon = "bi bi-info-circle",
+            Href = "/about"
         }
     };
-    }
-
 }

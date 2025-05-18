@@ -1,0 +1,17 @@
+﻿<div id="page-root" tabindex="-1">
+    @ChildContent
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}
+<style>
+    #page-root {
+    }
+
+        #page-root:focus {
+            outline: none;
+        }
+
+</style>

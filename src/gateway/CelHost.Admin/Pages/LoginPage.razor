@@ -1,54 +1,57 @@
 ﻿@page "/"
 @using System.Diagnostics.CodeAnalysis
 @using CelHost.Admin.Components
+@using CelHost.Admin.Shared.Components
 @using CelHost.Apis.ApiServices
 @using System.ComponentModel.DataAnnotations
+@using CelHost.Admin.Shared;
 @layout StartLayout
+<PageTitle>请登录-HostServer</PageTitle>
+<PageBase>
+    <div class="login">
+        <Animate Animation="Animations.FadeIn" Duration="TimeSpan.FromSeconds(1)" style="height: 100%;">
+            <div class="login-form">
+                <div class="text-center mb-4">
+                    <h3 style="font-family: Arial; font-weight: bold;">欢迎登录</h3>
+                    <div class="shortLine my-2"></div>
+                </div>
+                <ValidateForm Model="Model" ShowLabel="false" OnValidSubmit="LoginClick">
+                    <div class="mb-4">
+                        <BootstrapInput @bind-Value="Model.Account"
+                                        PlaceHolder="请输入账号"
+                                        TValue="string"
+                                        IsAutoFocus="true"
+                                        IsSelectAllTextOnFocus="true"
+                                        IsTrim="true"
+                                        IsClearable="true" />
+                    </div>
 
-<div class="login">
-    <Animate Animation="Animations.FadeIn" Duration="TimeSpan.FromSeconds(1)" style="height: 100%;">
-        <div class="login-form">
-            <div class="text-center mb-4">
-                <h3 style="font-family: Arial; font-weight: bold;">欢迎登录</h3>
-                <div class="shortLine my-2"></div>
+                    <div class="mb-4">
+                        <BootstrapInput @bind-Value="Model.Password"
+                                        TValue="string"
+                                        PlaceHolder="请输入密码"
+                                        type="password"
+                                        IsTrim="true"
+                                        IsClearable="true" />
+                    </div>
+
+                    <div class="mb-4">
+                        <Button ButtonType="ButtonType.Submit" Color="Color.Primary" Class="w-100" Size="Size.Large">
+                            登录
+                        </Button>
+                    </div>
+                </ValidateForm>
+                <p class="text-center text-muted" style="font-size: 0.9rem;">
+                    登录即视为同意 <a href="#" class="text-primary">《服务协议》</a>
+                </p>
+                <div class="help-upload-box" @onclick="ShowDialog">
+                    <i class="fa-solid fa-user-plus"></i>
+                    <span class="upload-text">上传授权文件</span>
+                </div>
             </div>
-            <ValidateForm Model="Model" ShowLabel="false" OnValidSubmit="LoginClick">
-                <div class="mb-4">
-                    <BootstrapInput @bind-Value="Model.Account"
-                                    PlaceHolder="请输入账号"
-                                    TValue="string"
-                                    IsAutoFocus="true"
-                                    IsSelectAllTextOnFocus="true"
-                                    IsTrim="true"
-                                    IsClearable="true" />
-                </div>
-
-                <div class="mb-4">
-                    <BootstrapInput @bind-Value="Model.Password"
-                                    TValue="string"
-                                    PlaceHolder="请输入密码"
-                                    type="password"
-                                    IsTrim="true"
-                                    IsClearable="true" />
-                </div>
-
-                <div class="mb-4">
-                    <Button ButtonType="ButtonType.Submit" Color="Color.Primary" Class="w-100" Size="Size.Large">
-                        登录
-                    </Button>
-                </div>
-            </ValidateForm>
-            <p class="text-center text-muted" style="font-size: 0.9rem;">
-                登录即视为同意 <a href="#" class="text-primary">《服务协议》</a>
-            </p>
-            <div class="help-upload-box" @onclick="ShowDialog">
-                <i class="fa-solid fa-user-plus"></i>
-                <span class="upload-text">上传授权文件</span>
-            </div>
-        </div>
-    </Animate>
-</div>
-
+        </Animate>
+    </div>
+</PageBase>
 @code {
     [Inject]
     [NotNull]
@@ -63,6 +66,10 @@
     [Inject]
     [NotNull]
     private MessageService? MessageService { get; set; }
+    [Inject]
+    private ILocalStorageService localStorage { get; set; }
+    [Inject]
+    public UserApiServices userApiServices { get; set; }
 
     private LoginModel Model { get; set; } = new LoginModel();
 
@@ -82,7 +89,9 @@
             var result = await UserApiServices.Login(Model.Account, Model.Password);
             if (result?.Succeeded == true)
             {
-                NavigationManager.NavigateTo("/GatewayDetail");
+                var userName = result.Data.Value<string>("name");
+                localStorage.SetItemAsync("userName", userName);
+                NavigationManager.NavigateTo("/detail");
             }
             else
             {
@@ -116,5 +125,15 @@
             };
 
         await DialogService.ShowModal<AuthDialog>(option);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var result = await userApiServices.CheckLogin();
+        if (result.Code == 200)
+        {
+            await Task.Delay(1000);
+            NavigationManager.NavigateTo("/detail");
+        }
     }
 }

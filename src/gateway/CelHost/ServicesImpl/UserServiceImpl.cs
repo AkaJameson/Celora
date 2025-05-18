@@ -75,7 +75,10 @@ namespace CelHost.Server.ServicesImpl
                 Expires = DateTime.Now.AddMinutes(int.Parse(jwtSettings["ExpiryMinutes"])),
                 SameSite = SameSiteMode.Lax
             });
-            return OperateResult.Successed();
+            return OperateResult.Successed(new
+            {
+                Name = StableAesCrypto.Decrypt(user.UserName, user.Key, user.IV)
+            });
         }
         /// <summary>
         /// 更新

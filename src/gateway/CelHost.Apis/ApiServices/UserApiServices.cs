@@ -2,6 +2,9 @@
 using CelHost.Models.UserInfoModels;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.WebAssembly.Http;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Dynamic;
 using System.Net.Http;
 using System.Net.Http.Json;
 
@@ -32,7 +35,7 @@ namespace CelHost.Apis.ApiServices
                 return new OperateResult();
             }
         }
-        public async Task<OperateResult> Login(string account, string password)
+        public async Task<OperateResult<JObject>> Login(string account, string password)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, "api/User/Login")
             {
@@ -41,11 +44,12 @@ namespace CelHost.Apis.ApiServices
             var response = await _httpClient.SendAsync(request);
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadFromJsonAsync<OperateResult>();
+                var result = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<OperateResult<JObject>>(result);
             }
             else
             {
-                return new OperateResult();
+                return new OperateResult<JObject>();
             }
         }
         public async Task<OperateResult> Logout()

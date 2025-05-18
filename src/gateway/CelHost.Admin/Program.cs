@@ -15,6 +15,7 @@ namespace CelHost.Admin
             builder.Services.AddBootstrapBlazor();
             var apiAddress = builder.Configuration.GetValue<string>("ApiAddress");
             builder.Services.AddTransient<AuthHandler>();
+            builder.Services.AddLocalStorageServices();
             builder.Services.AddAllApis()
                             .AddHttpClient("client")
                             .AddHttpMessageHandler<AuthHandler>()
