@@ -1,11 +1,11 @@
-﻿@using CelHost.Admin.Shared
-@using CelHost.Admin.Shared.Components
+﻿@using CelHost.Admin.Components
 @inherits LayoutComponentBase
 
 <PageBase>
     <CustomLayout ShowFooter="false">
         <Header>
-            Header
+            <div class="header">
+            </div>
         </Header>
         <Main>
             @Body
@@ -43,4 +43,14 @@
             Href = "/about"
         }
     };
+
+
 }
+<style>
+    .header {
+        display: flex;
+        justify-content: space-between;
+        background-color: #1e1e2f;
+        height:5rem;
+    }
+</style>
