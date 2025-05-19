@@ -11,7 +11,11 @@
             @Body
         </Main>
         <Sidebar>
-            <CustomNevMenu NavItems="@NavLinks" />
+            <CustomNevMenu NavItems="@NavLinks">
+                <Title>
+                    CelHost
+                </Title>
+            </CustomNevMenu>
         </Sidebar>
     </CustomLayout>
 </PageBase>
@@ -50,7 +54,12 @@
     .header {
         display: flex;
         justify-content: space-between;
-        background-color: #1e1e2f;
-        height:5rem;
+        height: 3rem;
+        background-color: #b2babb;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+        top: 0;
+        padding:0 1rem;
+        align-items:center;
+
     }
 </style>
