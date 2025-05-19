@@ -60,11 +60,10 @@
     .sidebar-nav {
         width: 14rem;
         height: 100vh;
-        background-color: #f8f9fa;
+        background-color: rgba(255,255,255,0);
         color: #333;
         padding-top: 1rem;
         overflow-y: auto;
-        resize: horizontal;
     }
 
         .sidebar-nav ::-webkit-scrollbar {
@@ -72,7 +71,7 @@
         }
 
         .sidebar-nav .title {
-            margin: 1rem 4rem 1rem;
+            margin:0.5rem 0.5rem 1rem;
             text-align: center;
             font-size: 1.3rem;
         }
@@ -84,21 +83,21 @@
     .nav-item {
         display: flex;
         align-items: center;
-        padding: 0.6rem 1rem;
-        color: #555;
+        padding: 0.4rem;
+        color: #35404f;
         text-decoration: none;
         cursor: pointer;
         transition: all ease-in-out 0.2s;
+        margin:0 0.5rem 1rem;
+        border-radius:0.5rem;
     }
 
         .nav-item:hover {
-            background-color: #e9ecef;
-            color: #212529;
+            background-color: #ffffff;
         }
 
         .nav-item.active {
-            background-color: #dee2e6;
-            color: #000;
+            background-color: #ffffff;
             font-weight: 600;
         }
 
