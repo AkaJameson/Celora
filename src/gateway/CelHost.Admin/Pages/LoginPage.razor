@@ -88,7 +88,9 @@
             if (result?.Succeeded == true)
             {
                 var userName = result.Data.Value<string>("name");
+                var account = result.Data.Value<string>("account");
                 localStorage.SetItemAsync("userName", userName);
+                localStorage.SetItemAsync("account", account);
                 NavigationManager.NavigateTo("/detail");
             }
             else
@@ -128,9 +130,12 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         var result = await userApiServices.CheckLogin();
-        if (result.Code == 200)
+        if (result?.Succeeded == true)
         {
-            await Task.Delay(1000);
+            var userName = result.Data.Value<string>("name");
+            var account = result.Data.Value<string>("account");
+            localStorage.SetItemAsync("userName", userName);
+            localStorage.SetItemAsync("account", account);
             NavigationManager.NavigateTo("/detail");
         }
     }

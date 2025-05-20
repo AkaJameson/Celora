@@ -66,17 +66,18 @@ namespace CelHost.Apis.ApiServices
             }
         }
 
-        public async Task<OperateResult> CheckLogin()
+        public async Task<OperateResult<JObject>> CheckLogin()
         {
             var request = new HttpRequestMessage(HttpMethod.Get, "api/User/CheckLogin");
             var response = await _httpClient.SendAsync(request);
             if (response.IsSuccessStatusCode)
             {
-                return await response.Content.ReadFromJsonAsync<OperateResult>();
+                var result = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<OperateResult<JObject>>(result);
             }
             else
             {
-                return new OperateResult();
+                return new OperateResult<JObject>();
             }
         }
 

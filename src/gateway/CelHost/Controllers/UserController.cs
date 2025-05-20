@@ -77,7 +77,7 @@ namespace CelHost.Server.Controllers
         [Authorize]
         public async Task<OperateResult> CheckLogin()
         {
-            return OperateResult.Successed();
+            return await _userService.CheckLogin();
         }
 
     }

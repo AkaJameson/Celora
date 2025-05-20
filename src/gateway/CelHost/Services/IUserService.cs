@@ -9,5 +9,6 @@ namespace CelHost.Server.Services
         Task<OperateResult> ResetPassword(ResetPsdModel resetPasswordModel);
         Task<OperateResult> InitUser(IFormFile file);
         Task<OperateResult> Logout();
+        Task<OperateResult> CheckLogin();
     }
 }

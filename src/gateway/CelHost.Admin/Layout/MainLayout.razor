@@ -1,11 +1,32 @@
 ﻿@using CelHost.Admin.Components
+@using Microsoft.Extensions.Options
 @inherits LayoutComponentBase
-
 <PageBase>
     <div class="main-layout">
         <CustomLayout ShowFooter="false">
             <Header>
                 <div class="header">
+                    <Logout ImageUrl="/images/Avater.png" DisplayName="@($"欢迎，{UserName}")" UserName="@UserName" class="logout">
+                        <HeaderTemplate>
+                            <div class="d-flex flex-fill align-items-center">
+                                <img alt="avatar" src="/images/Avater.png" style="border-radius: 50%;">
+                                <div class="flex-fill">
+                                    <div class="logout-dn">@($"欢迎，{UserName}")</div>
+                                    <div class="logout-un">@($"当前账号：{Account}")</div>
+                                </div>
+                            </div>
+                        </HeaderTemplate>
+                        <LinkTemplate>
+                            <a href="#">
+                                <i class="fa-solid fa-user"></i><span>个人中心</span>
+                            </a>
+                            <a href="#">
+                                <i class="fa-solid fa-gear"></i><span>设置</span>
+                            </a>
+                            <LogoutLink Url="/logouts" />
+                        </LinkTemplate>
+                    </Logout>
+                    <div style="height: 220px;"></div>
                 </div>
             </Header>
             <Main>
@@ -14,7 +35,7 @@
             <Sidebar>
                 <CustomNevMenu NavItems="@NavLinks">
                     <Title>
-                        <img src="/images/logo.png" alt="图标"/>
+                        <img src="/images/logo.png" alt="图标" />
                         <span style=" margin-left: 0.2rem; font-size: 0.875rem; font-weight: bold; color: #2f3135">数据网关中心</span>
                     </Title>
                 </CustomNevMenu>
@@ -24,6 +45,15 @@
 </PageBase>
 
 @code {
+    [Inject]
+    private ILocalStorageService localStorage { get; set; }
+    private string UserName { get; set; }
+    private string Account { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        UserName = await localStorage.GetItemAsync("userName");
+        Account = await localStorage.GetItemAsync("account");
+    }
     private List<CustomNevMenu.NavItem> NavLinks = new()
     {
         new()
@@ -58,14 +88,19 @@
         display: flex;
         justify-content: space-between;
         height: 3rem;
-        background-color:rgba(255,255,255 0);
+        background-color: rgba(255,255,255 0);
         top: 0;
         padding: 0 1rem;
         align-items: center;
     }
+    .header .logout{
+        margin-left:auto;
+    }
+    .header .logout img{
+        border-radius:80%;
+    }
 
-    .main-layout 
-    {
+    .main-layout {
         box-sizing: content-box;
         padding: 0;
         margin: 0;

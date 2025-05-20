@@ -53,6 +53,7 @@ namespace CelHost.Server.ServicesImpl
             {
                 new Claim(ClaimTypes.Sid, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.UserName),
+                new Claim("Account",user.Account)
 
             };
             var jwtSettings = _configuration.GetSection("JwtSettings");
@@ -77,7 +78,8 @@ namespace CelHost.Server.ServicesImpl
             });
             return OperateResult.Successed(new
             {
-                Name = StableAesCrypto.Decrypt(user.UserName, user.Key, user.IV)
+                Name = StableAesCrypto.Decrypt(user.UserName, user.Key, user.IV),
+                Account = StableAesCrypto.Decrypt(user.Account, user.Key, user.IV)
             });
         }
         /// <summary>
@@ -208,6 +210,24 @@ namespace CelHost.Server.ServicesImpl
                 _httpContextAccessor.HttpContext.Response.Cookies.Delete("Access-Token");
             }
             return OperateResult.Successed();
+        }
+
+        public async Task<OperateResult> CheckLogin()
+        {
+            var claims = _httpContextAccessor.HttpContext.User.Claims;
+            var account = claims.FirstOrDefault(c => c.Type == "Account")?.Value;
+            var user = await _dbContext.Set<User>().FirstOrDefaultAsync(p => account == p.Account);
+            if (user == null || user.IsLock)
+            {
+                _httpContextAccessor.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                _httpContextAccessor.HttpContext.Response.Cookies.Delete("Access-Token");
+                return OperateResult.Failed("未登录或登录已过期");
+            }
+            return OperateResult.Successed(new
+            {
+                Name = StableAesCrypto.Decrypt(user.UserName, user.Key, user.IV),
+                Account = StableAesCrypto.Decrypt(user.Account, user.Key, user.IV)
+            });
         }
     }
 }
