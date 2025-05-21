@@ -11,12 +11,17 @@
     <PackageReference Include="BlazorAnimate" Version="3.0.0" />
     <PackageReference Include="BootstrapBlazor" Version="9.6.0" />
     <PackageReference Include="BootstrapBlazor.BootstrapIcon" Version="9.0.2" />
+    <PackageReference Include="BootstrapBlazor.Dock" Version="8.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.3" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CelHost.Apis\CelHost.Apis.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Shared\" />
   </ItemGroup>
 
 </Project>

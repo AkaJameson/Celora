@@ -91,7 +91,7 @@
                 var account = result.Data.Value<string>("account");
                 localStorage.SetItemAsync("userName", userName);
                 localStorage.SetItemAsync("account", account);
-                NavigationManager.NavigateTo("/detail");
+                NavigationManager.NavigateTo("/dashboard");
             }
             else
             {
@@ -136,7 +136,7 @@
             var account = result.Data.Value<string>("account");
             localStorage.SetItemAsync("userName", userName);
             localStorage.SetItemAsync("account", account);
-            NavigationManager.NavigateTo("/detail");
+            NavigationManager.NavigateTo("/dashboard");
         }
     }
 }

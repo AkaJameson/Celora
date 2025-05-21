@@ -31,6 +31,7 @@
             scrollbar-width: none;
             background-color: #f3f3f5;
             -ms-overflow-style: none;
+            flex:1;
         }
 
             .layout .layout-vmain .layout-content ::-webkit-scrollbar {
