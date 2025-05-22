@@ -1,0 +1,6 @@
+﻿#page-root {
+}
+
+    #page-root:focus {
+        outline: none;
+    }
