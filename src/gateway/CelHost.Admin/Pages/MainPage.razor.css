@@ -33,7 +33,7 @@
             margin: auto 0.4rem;
         }
 
-        .header .toolbar img {
+        ::deep .header .toolbar img {
             border-radius: 80%;
         }
 

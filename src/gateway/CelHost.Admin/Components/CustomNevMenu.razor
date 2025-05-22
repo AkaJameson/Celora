@@ -15,25 +15,14 @@
             <div class="nav-children @(item.IsExpanded ? "expanded" : "collapsed")">
                 @foreach (var child in item.Children ?? Enumerable.Empty<NavItem>())
                 {
-                    <NavLink class="nav-item child" href="@child.Href" Match="NavLinkMatch.All">
+                    <div class="nav-item child @(IsActive(child.Href) ? "active" : "")"
+                         @onclick="() => NavigateTo(child.Href)">
                         <i class="@child.Icon"></i>
                         <span>@child.Title</span>
-                    </NavLink>
+                    </div>
                 }
             </div>
 
         </div>
     }
-    <div class="nev-drawer">
-    </div>
-
 </div>
-
-
-@code {
-  
-}
-<style>
-
-
-</style>
