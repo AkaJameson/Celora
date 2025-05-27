@@ -1,5 +1,7 @@
 ﻿@using CelHost.Admin.Components
+@using CelHost.Admin.Components.TabView
 @using Microsoft.Extensions.Options
+@inject ITabService TabService
 @page "/dashboard"
 <PageBase>
     <div class="main-layout">
@@ -34,6 +36,7 @@
                 </div>
             </Header>
             <Main>
+                <DynamicComponent Type="ITabService"></DynamicComponent>
             </Main>
             <Sidebar>
                 <CustomNevMenu NavItems="@NavLinks">
@@ -46,6 +49,3 @@
         </CustomLayout>
     </div>
 </PageBase>
-<style scope>
-
-</style>
