@@ -10,7 +10,8 @@ namespace CelHost.Server.Data
         /// </summary>
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int PkId { get; set; }
+        public int Id { get; set; }
+        public int? ParentId { get; set; }
         /// <summary>
         /// 类型编码
         /// </summary>
@@ -19,22 +20,6 @@ namespace CelHost.Server.Data
         /// 类型名称
         /// </summary>
         public string typeName { get; set; }
-        /// <summary>
-        /// 属性编码
-        /// </summary>
-        public string itemCode { get; set; }
-        /// <summary>
-        /// 属性名称
-        /// </summary>
-        public string itemName { get; set; }
-        /// <summary>
-        /// 属性值
-        /// </summary>
-        public string itemValue { get; set; }
-        /// <summary>
-        /// 属性描述
-        /// </summary>
-        public string? itemDesc { get; set; }
         /// <summary>
         /// 备注
         /// </summary>

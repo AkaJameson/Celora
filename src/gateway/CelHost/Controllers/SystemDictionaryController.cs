@@ -10,77 +10,71 @@ namespace CelHost.Server.Controllers
     [ApiController]
     public class SystemDictionaryController : DefaultController
     {
-        private readonly ISystemDictionaryServiceImpl _systemDictionaryService;
+        private readonly ISystemDictionaryService _systemDictionaryService;
 
-        public SystemDictionaryController(ISystemDictionaryServiceImpl systemDictionaryService)
+        public SystemDictionaryController(ISystemDictionaryService systemDictionaryService)
         {
             _systemDictionaryService = systemDictionaryService;
         }
-
+        /// <summary>
+        /// 添加
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost("item")]
         [Authorize]
-        public async Task<OperateResult> AddItem([FromBody] DictAddItemModel model)
+        public async Task<OperateResult> AddItem([FromBody] DictAdd model)
         {
             if (!ModelState.IsValid)
             {
                 return OperateResult.Failed("参数错误");
             }
-            return await _systemDictionaryService.AddItem(model);
+            return await _systemDictionaryService.AddItemToDictionary(model);
         }
-
-        [HttpPost("new-item")]
-        [Authorize]
-        public async Task<OperateResult> AddNewItem([FromBody] DictAddNewItemModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return OperateResult.Failed("参数错误");
-            }
-            return await _systemDictionaryService.AddNewItem(model);
-        }
-
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
-        public async Task<OperateResult> DeleteItem([FromBody] DeleteItemModel model)
+        public async Task<OperateResult> DeleteItem([FromBody] DeleteDict model)
         {
             if (!ModelState.IsValid)
             {
                 return OperateResult.Failed("参数错误");
             }
-            return await _systemDictionaryService.DeleteItem(model);
+            return await _systemDictionaryService.DeleteDataDictionary(model);
         }
-
-        [HttpPost]
-        [Authorize]
-        public async Task<OperateResult> DeleteTypes([FromBody] DeleteTypeModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return OperateResult.Failed("参数错误");
-            }
-            return await _systemDictionaryService.DeleteTypes(model);
-        }
-
+        /// <summary>
+        /// 查询
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost("query")]
         [Authorize]
-        public async Task<OperateResult> QueryDictionary([FromBody] QueryDictModel model)
+        public async Task<OperateResult> QueryDictionary([FromBody] DictQuery model)
         {
             if (!ModelState.IsValid)
             {
                 return OperateResult.Failed("参数错误");
             }
-            return await _systemDictionaryService.QueryDictionary(model);
+            return await _systemDictionaryService.QueryDataDictionary(model);
         }
-
+        /// <summary>
+        /// 更新
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
-        public async Task<OperateResult> UpdateItem([FromBody] UpdateDictItem model)
+        public async Task<OperateResult> UpdateItem([FromBody] DictUpdate model)
         {
             if (!ModelState.IsValid)
             {
                 return OperateResult.Failed("参数错误");
             }
-            return await _systemDictionaryService.UpdateItem(model);
+            return await _systemDictionaryService.UpdateDataDictionary(model);
         }
     }
 }

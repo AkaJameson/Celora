@@ -3,7 +3,7 @@
     <Router AppAssembly="@typeof(App).Assembly">
         <Found Context="routeData">
             <PageTitle>Title</PageTitle>
-            <RouteView RouteData="@routeData" DefaultLayout="@typeof(StartLayout)" />
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
             <FocusOnNavigate RouteData="@routeData" Selector="#page-root" />
         </Found>
         <NotFound>

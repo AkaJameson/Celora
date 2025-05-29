@@ -51,7 +51,7 @@ namespace CelHost.Server.Database
             modelBuilder.Entity<BlocklistRecord>().HasIndex(p => p.BlockIp).IsUnique().HasFilter(null).HasDatabaseName("Host_Block_Ip");
             modelBuilder.Entity<SystemDict>(entity =>
             {
-                entity.HasIndex(p => new { p.typeCode, p.itemCode }).IsUnique();
+                entity.HasIndex(p => new { p.typeCode, p.typeName }).IsUnique();
             });
 
         }

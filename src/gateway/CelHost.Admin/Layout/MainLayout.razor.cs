@@ -3,9 +3,9 @@ using CelHost.Admin.Components;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace CelHost.Admin.Pages
+namespace CelHost.Admin.Layout
 {
-    public partial class MainPage
+    public partial class MainLayout
     {
         [Inject]
         private ILocalStorageService localStorage { get; set; }
@@ -14,7 +14,6 @@ namespace CelHost.Admin.Pages
         private string UserName { get; set; }
         private string Account { get; set; }
         private bool isfullScreen { get; set; } = false;
-        private DockView tabMenu { get; set; }
 
         private void Toggle()
         {
