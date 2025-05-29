@@ -40,7 +40,7 @@ namespace CelHost.Admin.Layout
             IsExpanded = true,
             Children = new()
             {
-                new CustomNevMenu.NavItem { Title = "用户管理", Href = "/users", Icon = "bi bi-person" },
+                new CustomNevMenu.NavItem { Title = "用户管理", Href = "/System/Dictionary", Icon = "bi bi-person" },
                 new CustomNevMenu.NavItem { Title = "角色管理", Href = "/roles", Icon = "bi bi-shield-lock" }
             }
         },
