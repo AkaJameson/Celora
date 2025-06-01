@@ -18,7 +18,7 @@ namespace CelHost.Apis.ApiServices
         /// </summary>
         /// <param name="query"></param>
         /// <returns></returns>
-        public async Task<OperateResult> GetDataDictionary(DictQuery query)
+        public async Task<OperateResult<SystemDictDto>> GetDataDictionary(DictQuery query)
         {
             var httpMessage = new HttpRequestMessage(HttpMethod.Post, "/api/SystemDictionary/query")
             {
@@ -28,11 +28,11 @@ namespace CelHost.Apis.ApiServices
             if (response.IsSuccessStatusCode)
             {
                 var result = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<OperateResult<JObject>>(result);
+                return JsonConvert.DeserializeObject<OperateResult<SystemDictDto>>(result);
             }
             else
             {
-                return new OperateResult<JObject>();
+                return new OperateResult<SystemDictDto>();
             }
         }
         /// <summary>

@@ -1,4 +1,4 @@
-﻿namespace CelHost.Server.Dto
+﻿namespace CelHost.Apis.Models
 {
     public class SystemDictDto
     {
