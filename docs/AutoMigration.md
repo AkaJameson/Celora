@@ -42,16 +42,59 @@ app.Run();
 或者在控制台应用程序中：
 
 ```csharp
-using Si.EntityFramework.AutoMigration;
+   public static class DbContextExtensions
+   {
+       public static void AddAutoMigrationProvider(this IServiceCollection services)
+       {
+           services.AddScoped<MigrationExecuter>();
+           services.AddScoped<MigrationStepProcessor>();
+       }
+       /// <summary>
+       /// 同步检查并更新数据库表结构
+       /// </summary>
+       /// <param name="context">数据库上下文</param>
+       /// <param name="options">迁移选项</param>
+       internal static void AutoMigration(this DbContext context, IServiceProvider sp, AutoMigrationOptions options = null)
+       {
+           AutoMigrationAsync(context, sp, options).GetAwaiter().GetResult();
+       }
 
-// 创建DbContext
-using (var context = new YourDbContext())
-{
-    // 自动迁移
-    context.AutoMigration();
-    
-    // 使用数据库...
-}
+       /// <summary>
+       /// 异步检查并更新数据库表结构
+       /// </summary>
+       /// <param name="context">数据库上下文</param>
+       /// <param name="options">迁移选项</param>
+       internal static async Task AutoMigrationAsync(this DbContext context, IServiceProvider sp, AutoMigrationOptions options = null)
+       {
+           options = options ?? new AutoMigrationOptions();
+           var executer = sp.GetRequiredService<MigrationExecuter>();
+           await executer.Migrate(context, options);
+       }
+
+       public static async Task AutoMigrationAsync<T>(this WebApplication app, AutoMigrationOptions options = null) where T : DbContext
+       {
+           using var scope = app.Services.CreateScope();
+           var context = scope.ServiceProvider.GetRequiredService<T>();
+           if (context == null)
+           {
+               throw new ArgumentNullException(nameof(context));
+           }
+           if (context == null)
+           {
+               throw new ArgumentNullException(nameof(context));
+           }
+           await AutoMigrationAsync(context, scope.ServiceProvider, options);
+       }
+       public static void AutoMigration<T>(this WebApplication app, AutoMigrationOptions options = null) where T : DbContext
+       {
+           using var scope = app.Services.CreateScope();
+           var context = scope.ServiceProvider.GetRequiredService<T>();
+           if (context == null)
+           {
+               throw new ArgumentNullException(nameof(context));
+           }
+           AutoMigration(context, scope.ServiceProvider, options);
+       }
 ```
 
 ### 高级配置
@@ -118,9 +161,9 @@ await dbContext.AutoMigrationAsync(new AutoMigrationOptions
 ## 支持的数据库
 
 - SQL Server
-- SQLite（计划支持）
-- MySQL/MariaDB（计划支持）
-- PostgreSQL（计划支持）
+- SQLite
+- MySQL/MariaDB
+- PostgreSQL
 
 ## 许可证
 
