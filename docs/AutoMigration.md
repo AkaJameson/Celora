@@ -97,41 +97,6 @@ app.Run();
        }
 ```
 
-### 高级配置
-
-你可以通过选项配置迁移行为：
-
-```csharp
-using Si.EntityFramework.AutoMigration;
-
-dbContext.AutoMigration(new AutoMigrationOptions
-{
-    ThrowOnError = true,             // 出错时抛出异常
-    DetailedErrors = true,           // 显示详细错误信息
-    TrackHistory = true,             // 跟踪迁移历史
-    AllowDropColumn = false,         // 不允许删除列
-    AllowDropTable = false,          // 不允许删除表
-    ScriptOnly = false,              // 不仅生成脚本而且执行它们
-    ValidateConnection = true,       // 验证数据库连接
-    HistoryTableName = "__AutoMigrationHistory" // 自定义历史表名
-});
-```
-
-### 异步用法
-
-```csharp
-using Si.EntityFramework.AutoMigration;
-
-// 异步方法中使用
-await dbContext.AutoMigrationAsync();
-
-// 或使用配置
-await dbContext.AutoMigrationAsync(new AutoMigrationOptions
-{
-    // 配置...
-});
-```
-
 ## 工作原理
 
 1. 通过`DbContext`的模型元数据获取定义的实体及其属性
